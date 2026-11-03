@@ -16,13 +16,13 @@ export default function OnboardingPage() {
 
   // Form State - Pre-filled with realistic sample for rapid testing
   const [formData, setFormData] = useState({
-    student_name: "Alex Rivera",
-    department: "Computer Science & Engineering",
+    student_name: "Alex Roy",
+    department: "B.Tech Computer Science & Engineering, JIS University",
     year: "3rd Year",
-    interests: "Artificial Intelligence, Creative UI Design, Open Source, Hackathons",
-    skills: "Python, TypeScript, React, System Architecture, Leadership",
+    interests: "Artificial Intelligence, Cloud Systems, Hackathons, Web3, Creative Coding",
+    skills: "Python, TypeScript, React, Next.js, AWS Bedrock, System Design",
     free_time: "5–6 hours per week, mostly evenings",
-    goal: "Build a high-impact campus tech project and secure a machine learning internship",
+    goal: "Build a high-impact campus tech project at JIS University and win inter-college hackathons",
     tone: "Confident" as ToneType,
   });
 

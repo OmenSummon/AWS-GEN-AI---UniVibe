@@ -375,4 +375,203 @@ export interface EventCategoryInfo {
   icon: string;
 }
 
+// ========================
+// ROLE & ORGANIZER ARCHITECTURE TYPES
+// ========================
+
+export type UserRole = 'student' | 'organizer';
+
+export interface OrganizerProfile {
+  id: string;
+  name: string;
+  organization_name: string;
+  department: string;
+  email: string;
+  phone: string;
+  role_title: string;
+  avatar_url?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type EventLifecycleStatus =
+  | 'Draft'
+  | 'In Planning'
+  | 'Pending Review'
+  | 'Approved'
+  | 'Published'
+  | 'Completed'
+  | 'Rejected'
+  | 'Cancelled';
+
+export type EventWizardCategory =
+  | 'Hackathon'
+  | 'Technical Fest'
+  | 'Workshop'
+  | 'Seminar'
+  | 'Conference'
+  | 'Cultural Fest'
+  | 'Sports'
+  | 'Gaming'
+  | 'Photography'
+  | 'Music'
+  | 'Entrepreneurship'
+  | 'Other';
+
+export interface EventBasicsData {
+  event_name: string;
+  event_description: string;
+  event_category: EventWizardCategory;
+  event_organizer?: string;
+  event_format: 'Online' | 'Offline' | 'Hybrid';
+}
+
+export interface AudienceReachData {
+  expected_participants: number;
+  target_audience: string;
+  participation_type: 'Individual' | 'Team-Based' | 'Open Registration' | 'Invitation-Based' | 'Mixed';
+  geographical_reach:
+    | 'College-Level'
+    | 'University-Level'
+    | 'Inter-College'
+    | 'District-Level'
+    | 'State-Level'
+    | 'National-Level'
+    | 'International-Level';
+}
+
+export interface TimelineData {
+  proposed_event_date: string;
+  event_duration: string;
+  preparation_start_date: string;
+  registration_deadline: string;
+  date_flexibility: 'Fixed' | 'Flexible' | 'Yet to Be Decided';
+}
+
+export interface ResourcesLogisticsData {
+  budget_financial_availability: string;
+  financial_constraints_expectations: string;
+  venue_location_details: string;
+  infrastructure_equipment_availability: string;
+  team_composition_manpower: string;
+  external_support_assistance: string;
+}
+
+export interface StrategicObjectivesData {
+  primary_event_objective: string;
+  secondary_objectives?: string;
+  event_theme?: string;
+  expected_outcomes?: string;
+  key_deliverables?: string;
+  success_criteria?: string;
+  institutional_alignment?: string;
+  social_educational_impact?: string;
+}
+
+export interface RegistrationEligibilityData {
+  registration_method:
+    | 'Online Form'
+    | 'UniVibe Registration'
+    | 'Email'
+    | 'Offline Registration'
+    | 'External Registration Link'
+    | 'Other';
+  registration_window: string;
+  participant_eligibility: string;
+  eligibility_restrictions?: string;
+  participation_mode: 'Individual' | 'Team' | 'Both';
+  team_size_range?: string;
+  registration_fee: string | number;
+  selection_process:
+    | 'First Come, First Served'
+    | 'Screening'
+    | 'Interview'
+    | 'Audition'
+    | 'Merit-Based'
+    | 'Random Selection'
+    | 'Invitation'
+    | 'No Selection Process';
+  max_registration_capacity: number;
+  waitlist_availability: 'Yes' | 'No' | 'To Be Decided';
+  certificate_document_requirements?: string;
+}
+
+export interface SectionAiOutputs {
+  summarized_event_details?: string;
+  audience_summarization?: string;
+  date_finalization?: {
+    analysis: string;
+    flags: string[];
+    recommendations: string;
+  };
+  other_information_summarization?: {
+    budget_summary: string;
+    financial_constraints: string;
+    venue_logistics: string;
+    infrastructure: string;
+    manpower: string;
+    external_support: string;
+  };
+  objective_intelligence_report?: {
+    primary_objectives: string;
+    secondary_objectives: string;
+    vague_objectives_identified: string[];
+    measurable_improvements: string[];
+    proposed_kpis: string[];
+    ai_proposed_targets: string[];
+    committee_approved_targets: string[];
+    theme_mismatches_flagged: string[];
+    improvement_recommendations: string[];
+  };
+  registration_intelligence_report?: {
+    date_validations: string[];
+    capacity_vs_expected_analysis: string;
+    eligibility_policy: string;
+    missing_information: string[];
+    student_onboarding_steps: string[];
+    contradictions_flagged: string[];
+  };
+}
+
+export interface FinalEventIntelligenceReport {
+  id: string;
+  event_id: string;
+  event_overview: string;
+  audience_and_reach: string;
+  timeline: string;
+  resources_and_logistics: string;
+  strategic_objectives: string;
+  kpis_and_expected_outcomes: string;
+  registration_policy: string;
+  missing_information: string[];
+  potential_risks: string[];
+  ai_recommendations: string[];
+  event_readiness_assessment: {
+    readiness_score: number; // 0 to 100
+    verdict: string;
+    critical_action_items: string[];
+  };
+  section_summaries: SectionAiOutputs;
+  generated_at: string;
+}
+
+export interface OrganizerEvent {
+  id: string;
+  organizer_id: string;
+  basics: EventBasicsData;
+  audience: AudienceReachData;
+  timeline: TimelineData;
+  logistics: ResourcesLogisticsData;
+  objectives: StrategicObjectivesData;
+  registration: RegistrationEligibilityData;
+  section_ai_outputs: SectionAiOutputs;
+  final_report?: FinalEventIntelligenceReport;
+  status: EventLifecycleStatus;
+  current_wizard_section?: number;
+  public_event_id?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+
 

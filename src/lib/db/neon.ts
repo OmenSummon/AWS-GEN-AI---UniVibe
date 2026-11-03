@@ -34,21 +34,37 @@ const memoryStore = {
   events: new Map<string, any>(),
   eventRegistrations: new Map<string, any[]>(),
   savedEvents: new Map<string, Set<string>>(),
+  organizerProfiles: new Map<string, any>(),
+  organizerEvents: new Map<string, any>(),
 };
 
-// Auto-seed default demo student
+// Auto-seed default demo student & organizer
 const defaultDemoId = "demo-student-001";
+const defaultOrganizerId = "demo-organizer-001";
+
+memoryStore.organizerProfiles.set(defaultOrganizerId, {
+  id: defaultOrganizerId,
+  name: "Aarav Roy",
+  organization_name: "JIS Tech Club & Student Council",
+  department: "Department of Computer Science & Engineering, JIS University",
+  email: "student.organizer@jisuniversity.ac.in",
+  phone: "+91 98301 23456",
+  role_title: "Lead Student Organizer & Tech Convener",
+  avatar_url: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=250&q=80",
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
+});
 memoryStore.profiles.set(defaultDemoId, {
   id: defaultDemoId,
-  student_name: "Alex Rivera",
-  department: "Computer Science & Engineering",
+  student_name: "Alex Roy",
+  department: "B.Tech Computer Science & Engineering",
   year: "3rd Year",
   interests: ["Artificial Intelligence", "Generative Systems", "Campus Tech", "Design Systems"],
   skills: ["Python", "TypeScript", "React", "AWS Bedrock", "UI/UX Design"],
   free_time: "6 hours per week, mostly weekday evenings",
-  goal: "Build an AI-powered campus startup and secure a machine learning fellowship",
+  goal: "Build an AI-powered campus startup and secure a machine learning fellowship at JIS University",
   tone: "Confident",
-  university_name: "State Innovation University",
+  university_name: "JIS University",
   avatar_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80",
   onboarding_completed: true,
   created_at: new Date().toISOString(),
@@ -354,41 +370,377 @@ initialDemoEvents.forEach((evt) => {
   memoryStore.events.set(evt.id, evt);
 });
 
-// Pre-seed an initial confirmed registration for Alex Rivera in CodeStorm Hackathon
+// Pre-seed realistic JIS University student team and individual registrations
 const initialDemoRegistration = {
   id: "reg-demo-001",
-  registration_number: "UNV-2026-00001",
+  registration_number: "JIS-2026-00101",
   student_id: defaultDemoId,
   event_id: "evt-01",
   event: initialDemoEvents[0],
   registration_data: {
-    full_name: "Alex Rivera",
-    email: "alex.rivera@campus.edu",
-    university: "State Innovation University",
-    department: "Computer Science & Engineering",
+    full_name: "Alex Roy",
+    email: "alex.roy@jisuniversity.ac.in",
+    university: "JIS University",
+    department: "B.Tech Computer Science & Engineering",
     year: "3rd Year",
-    phone: "+1 (555) 019-2834",
-    student_id_num: "SIU-2024-8842",
-    team_name: "NeuralVibe",
-    team_size: "3",
-    teammates: "Jordan Lee, Samira Patel",
-    tech_skills: "Python, Next.js, AWS Bedrock, TypeScript",
-    problem_statement: "AI-driven campus engagement & workflow intelligence",
-    github_profile: "https://github.com/alexrivera-builds",
-    experience: "Won 2nd place at HackWestern 2025"
+    phone: "+91 98311 55678",
+    student_id_num: "JIS/2023/CSE/042",
+    registration_type: "Team",
+    team_name: "ByteCrafters JIS",
+    team_size: "4",
+    team_leader: "Alex Roy",
+    teammates: "Sourav Das (CSE 3rd Yr), Riya Sen (AI-ML 3rd Yr), Ankit Ghosh (CSE 3rd Yr)",
+    tech_skills: "Python, Next.js, AWS Bedrock, TypeScript, PostgreSQL",
+    problem_statement: "AI-Powered JIS Campus Intelligence & Smart Lab Allocation",
+    github_profile: "https://github.com/bytecrafters-jis",
+    experience: "Winners of Bengal Smart Campus Hackathon 2025"
   },
   registration_status: "Confirmed",
+  check_in_status: "Checked In",
   consent_accepted: true,
   submitted_at: "2026-11-01T14:20:00Z",
   updated_at: "2026-11-01T14:20:00Z",
   cancellation_allowed: true,
   cancellation_deadline: "2026-11-18T23:59:59Z"
 };
+
+const demoTeamRegistration2 = {
+  id: "reg-demo-002",
+  registration_number: "JIS-2026-00102",
+  student_id: "demo-student-002",
+  event_id: "evt-01",
+  event: initialDemoEvents[0],
+  registration_data: {
+    full_name: "Sneha Mukherjee",
+    email: "sneha.m@jisuniversity.ac.in",
+    university: "JIS University",
+    department: "B.Tech AI & Machine Learning",
+    year: "2nd Year",
+    phone: "+91 98322 44321",
+    student_id_num: "JIS/2024/AIML/018",
+    registration_type: "Team",
+    team_name: "NeuralKnights",
+    team_size: "3",
+    team_leader: "Sneha Mukherjee",
+    teammates: "Rohan Paul (BCA 2nd Yr), Debasish Kar (CSE 2nd Yr)",
+    tech_skills: "PyTorch, FastAPI, React, Bedrock Agents",
+    problem_statement: "Autonomous Campus Grievance & Hostel Helpdesk Bot",
+    github_profile: "https://github.com/neuralknights-jis",
+    experience: "Top 5 Finalist in Kolkata Youth Tech Summit"
+  },
+  registration_status: "Confirmed",
+  check_in_status: "Confirmed",
+  consent_accepted: true,
+  submitted_at: "2026-11-02T10:15:00Z",
+  updated_at: "2026-11-02T10:15:00Z"
+};
+
+const demoTeamRegistration3 = {
+  id: "reg-demo-003",
+  registration_number: "JIS-2026-00103",
+  student_id: "demo-student-003",
+  event_id: "evt-01",
+  event: initialDemoEvents[0],
+  registration_data: {
+    full_name: "Subhajit Dutta",
+    email: "subhajit.d@jisuniversity.ac.in",
+    university: "JIS University",
+    department: "B.Tech Information Technology",
+    year: "3rd Year",
+    phone: "+91 98333 99887",
+    student_id_num: "JIS/2023/IT/029",
+    registration_type: "Team",
+    team_name: "CyberPulse JIS",
+    team_size: "3",
+    team_leader: "Subhajit Dutta",
+    teammates: "Payel Chakraborty (IT 3rd Yr), Arindam Banik (ECE 3rd Yr)",
+    tech_skills: "Node.js, Docker, Network Security, Python",
+    problem_statement: "Zero-Trust Campus Wi-Fi Security & Anomaly Monitor",
+    github_profile: "https://github.com/cyberpulse-jis",
+    experience: "Certified in Ethical Hacking & Cloud Fundamentals"
+  },
+  registration_status: "Confirmed",
+  check_in_status: "Confirmed",
+  consent_accepted: true,
+  submitted_at: "2026-11-02T16:45:00Z",
+  updated_at: "2026-11-02T16:45:00Z"
+};
+
+const demoIndividualReg1 = {
+  id: "reg-demo-004",
+  registration_number: "JIS-2026-00201",
+  student_id: "demo-student-004",
+  event_id: "evt-02",
+  event: initialDemoEvents[1],
+  registration_data: {
+    full_name: "Priya Sharma",
+    email: "priya.sharma@jisuniversity.ac.in",
+    university: "JIS University",
+    department: "BCA (Bachelor of Computer Applications)",
+    year: "2nd Year",
+    phone: "+91 98745 12340",
+    student_id_num: "JIS/2024/BCA/088",
+    registration_type: "Individual",
+    experience_level: "Intermediate Python, Web Fundamentals",
+    topics_of_interest: "Generative AI, Large Language Models on Cloud"
+  },
+  registration_status: "Confirmed",
+  check_in_status: "Checked In",
+  consent_accepted: true,
+  submitted_at: "2026-11-03T09:30:00Z",
+  updated_at: "2026-11-03T09:30:00Z"
+};
+
+const demoIndividualReg2 = {
+  id: "reg-demo-005",
+  registration_number: "JIS-2026-00202",
+  student_id: "demo-student-005",
+  event_id: "evt-02",
+  event: initialDemoEvents[1],
+  registration_data: {
+    full_name: "Debjit Mondal",
+    email: "debjit.mondal@jisuniversity.ac.in",
+    university: "JIS University",
+    department: "B.Tech Computer Science & Engineering",
+    year: "4th Year",
+    phone: "+91 98765 67890",
+    student_id_num: "JIS/2022/CSE/104",
+    registration_type: "Individual",
+    experience_level: "Advanced Full-Stack Developer",
+    topics_of_interest: "Deploying Bedrock RAG on Production"
+  },
+  registration_status: "Confirmed",
+  check_in_status: "Confirmed",
+  consent_accepted: true,
+  submitted_at: "2026-11-03T11:10:00Z",
+  updated_at: "2026-11-03T11:10:00Z"
+};
+
+const demoIndividualReg3 = {
+  id: "reg-demo-006",
+  registration_number: "JIS-2026-00301",
+  student_id: "demo-student-006",
+  event_id: "evt-03",
+  event: initialDemoEvents[2],
+  registration_data: {
+    full_name: "Ananya Banerjee",
+    email: "ananya.banerjee@jisuniversity.ac.in",
+    university: "JIS University",
+    department: "B.Sc Data Science",
+    year: "1st Year",
+    phone: "+91 98711 22334",
+    student_id_num: "JIS/2025/DS/012",
+    registration_type: "Individual",
+    activity_preference: "Stage Drama & Recitation Performer"
+  },
+  registration_status: "Confirmed",
+  check_in_status: "Confirmed",
+  consent_accepted: true,
+  submitted_at: "2026-11-03T13:00:00Z",
+  updated_at: "2026-11-03T13:00:00Z"
+};
+
 memoryStore.eventRegistrations.set(defaultDemoId, [initialDemoRegistration]);
+memoryStore.eventRegistrations.set("demo-student-002", [demoTeamRegistration2]);
+memoryStore.eventRegistrations.set("demo-student-003", [demoTeamRegistration3]);
+memoryStore.eventRegistrations.set("demo-student-004", [demoIndividualReg1]);
+memoryStore.eventRegistrations.set("demo-student-005", [demoIndividualReg2]);
+memoryStore.eventRegistrations.set("demo-student-006", [demoIndividualReg3]);
+
 const initialSaved = new Set<string>();
 initialSaved.add("evt-02");
 initialSaved.add("evt-05");
 memoryStore.savedEvents.set(defaultDemoId, initialSaved);
+
+// Seed Organizer Events for Dr. Evelyn Vance
+const initialOrganizerEvents = [
+  {
+    id: "org-evt-101",
+    organizer_id: defaultOrganizerId,
+    status: "In Planning",
+    current_wizard_section: 4,
+    basics: {
+      event_name: "National AI Agent Hackathon 2026",
+      event_description: "A flagship 48-hour inter-university competition where student teams architect and deploy autonomous AI agents with cloud databases.",
+      event_category: "Hackathon",
+      event_organizer: "University Innovation & Tech Council",
+      event_format: "Hybrid",
+    },
+    audience: {
+      expected_participants: 250,
+      target_audience: "Undergraduate and postgraduate students in CS, Data Science, and Design",
+      participation_type: "Team-Based",
+      geographical_reach: "National-Level",
+    },
+    timeline: {
+      proposed_event_date: "2026-12-10",
+      event_duration: "48 Hours",
+      preparation_start_date: "2026-11-10",
+      registration_deadline: "2026-12-05",
+      date_flexibility: "Fixed",
+    },
+    logistics: {
+      budget_financial_availability: "$6,500 approved departmental budget + cloud computing credits",
+      financial_constraints_expectations: "Catering, merchandise, and server infrastructure capped at $5,000",
+      venue_location_details: "CS Tech Wing Grand Labs 1-4 + Online Discord Stage",
+      infrastructure_equipment_availability: "Dedicated high-bandwidth fiber Wi-Fi, dual power redundancy, 4K projector",
+      team_composition_manpower: "8 student council marshals, 4 technical mentors, 3 faculty judges",
+      external_support_assistance: "AWS Developer Relations mentorship sponsorship confirmed",
+    },
+    objectives: {
+      primary_event_objective: "Foster real-world autonomous AI systems development among 250+ student participants.",
+      secondary_objectives: "Provide direct recruitment fast-tracks to partner tech incubators.",
+      event_theme: "Autonomous Agents for Campus Life",
+      expected_outcomes: "Over 50 shippable repositories with verifiable CI/CD workflows.",
+      key_deliverables: "Working prototype demo, technical pitch deck, and architecture documentation.",
+      success_criteria: ">85% team retention rate across the 48-hour sprint.",
+      institutional_alignment: "Aligns with University 2026 AI Innovation Initiative.",
+      social_educational_impact: "Open-sourcing all winning solutions for public campus benefit.",
+    },
+    registration: {
+      registration_method: "UniVibe Registration",
+      registration_window: "Nov 10 – Dec 05",
+      participant_eligibility: "Active enrolled university students with valid student ID.",
+      eligibility_restrictions: "Max 4 members per team.",
+      participation_mode: "Team",
+      team_size_range: "2–4 members",
+      registration_fee: "0",
+      selection_process: "Screening",
+      max_registration_capacity: 300,
+      waitlist_availability: "Yes",
+      certificate_document_requirements: "Digital verified UniVibe completion certificates.",
+    },
+    section_ai_outputs: {
+      summarized_event_details: "National AI Agent Hackathon 2026 is a 48-hour hybrid technical hackathon organized by the University Innovation & Tech Council. The initiative focuses on hands-on deployment of autonomous AI systems.",
+      audience_summarization: "Targeting 250+ undergraduate and postgraduate technical builders across an Inter-College footprint utilizing a team-based registration model.",
+      date_finalization: {
+        analysis: "Timeline provides a healthy 25-day preparation sprint and 5-day verification buffer before event launch.",
+        flags: [],
+        recommendations: "Lock final server credentials 48 hours prior to start.",
+      },
+      other_information_summarization: {
+        budget_summary: "Allocated Budget: $6,500 total capital including cloud subsidies.",
+        financial_constraints: "Strict $5,000 ceiling on operational logistics.",
+        venue_logistics: "CS Tech Wing Labs 1-4 reserved with departmental priority.",
+        infrastructure: "High-bandwidth redundant connectivity confirmed.",
+        manpower: "15 core staff and mentors committed.",
+        external_support: "Cloud provider sponsorship confirmed.",
+      },
+    },
+    created_at: new Date(Date.now() - 3600000 * 48).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "org-evt-102",
+    organizer_id: defaultOrganizerId,
+    status: "Pending Review",
+    current_wizard_section: 6,
+    basics: {
+      event_name: "Quantum Computing & Cloud Symposium",
+      event_description: "Academic conference presenting faculty and student research papers on quantum gate simulations and distributed systems.",
+      event_category: "Conference",
+      event_organizer: "Department of Computer Science & Engineering",
+      event_format: "Hybrid",
+    },
+    audience: {
+      expected_participants: 120,
+      target_audience: "Researchers, graduate scholars, and industry professionals",
+      participation_type: "Individual",
+      geographical_reach: "State-Level",
+    },
+    timeline: {
+      proposed_event_date: "2026-12-18",
+      event_duration: "1 Day (9:00 AM - 5:00 PM)",
+      preparation_start_date: "2026-11-01",
+      registration_deadline: "2026-12-14",
+      date_flexibility: "Fixed",
+    },
+    logistics: {
+      budget_financial_availability: "$3,000 faculty grant",
+      financial_constraints_expectations: "Auditorium booking fee waived by Dean's office",
+      venue_location_details: "University Main Auditorium",
+      infrastructure_equipment_availability: "Live streaming broadcast equipment and wireless mics",
+      team_composition_manpower: "4 research scholars + 2 faculty chairs",
+      external_support_assistance: "Regional IEEE chapter technical co-sponsorship",
+    },
+    objectives: {
+      primary_event_objective: "Showcase breakthrough student papers in quantum algorithms.",
+      expected_outcomes: "12 peer-reviewed presentations and keynote by visiting scientist.",
+      key_deliverables: "Conference proceedings publication.",
+      success_criteria: "100+ active attendees across sessions.",
+    },
+    registration: {
+      registration_method: "UniVibe Registration",
+      registration_window: "Nov 05 – Dec 14",
+      participant_eligibility: "Open to students, researchers, and faculty.",
+      participation_mode: "Individual",
+      registration_fee: "0",
+      selection_process: "First Come, First Served",
+      max_registration_capacity: 150,
+      waitlist_availability: "Yes",
+    },
+    section_ai_outputs: {},
+    created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "org-evt-103",
+    organizer_id: defaultOrganizerId,
+    status: "Published",
+    current_wizard_section: 6,
+    basics: {
+      event_name: "Autonomous Robotics Demo Day",
+      event_description: "Live arena demonstrations of student-built autonomous rovers, quadcopters, and micro-robotics navigational algorithms.",
+      event_category: "Technical Fest",
+      event_organizer: "Robotics & Hardware Guild",
+      event_format: "Offline",
+    },
+    audience: {
+      expected_participants: 180,
+      target_audience: "All campus students and tech enthusiasts",
+      participation_type: "Open Registration",
+      geographical_reach: "University-Level",
+    },
+    timeline: {
+      proposed_event_date: "2026-11-29",
+      event_duration: "6 Hours",
+      preparation_start_date: "2026-10-15",
+      registration_deadline: "2026-11-27",
+      date_flexibility: "Fixed",
+    },
+    logistics: {
+      budget_financial_availability: "$1,800 guild budget",
+      financial_constraints_expectations: "Safety netting and floor arena barriers prioritized",
+      venue_location_details: "Indoor Sports Gymnasium Floor",
+      infrastructure_equipment_availability: "Arena safety netting, test tracks, battery charging stations",
+      team_composition_manpower: "10 student marshals and safety officers",
+      external_support_assistance: "Faculty advisor supervision confirmed",
+    },
+    objectives: {
+      primary_event_objective: "Validate autonomous navigation algorithms in live physical environments.",
+      expected_outcomes: "20 rover obstacle course completions.",
+      key_deliverables: "Public speed and obstacle benchmarks.",
+      success_criteria: "Zero safety incidents and high student engagement.",
+    },
+    registration: {
+      registration_method: "UniVibe Registration",
+      registration_window: "Oct 20 – Nov 27",
+      participant_eligibility: "Open to all enrolled students.",
+      participation_mode: "Both",
+      registration_fee: "0",
+      selection_process: "No Selection Process",
+      max_registration_capacity: 200,
+      waitlist_availability: "No",
+    },
+    section_ai_outputs: {},
+    created_at: new Date(Date.now() - 3600000 * 96).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+];
+
+initialOrganizerEvents.forEach((evt) => {
+  memoryStore.organizerEvents.set(evt.id, evt);
+});
 
 
 export async function initNeonTables() {
@@ -1311,6 +1663,165 @@ export const db = {
     }
 
     return { eventId, isSaved: !isSaved };
+  },
+
+  // ========================
+  // ORGANIZER DAO METHODS
+  // ========================
+
+  async getOrganizerProfile(organizerId: string) {
+    return memoryStore.organizerProfiles.get(organizerId) || memoryStore.organizerProfiles.get(defaultOrganizerId) || null;
+  },
+
+  async saveOrganizerProfile(profile: any) {
+    memoryStore.organizerProfiles.set(profile.id, {
+      ...profile,
+      updated_at: new Date().toISOString(),
+    });
+    return profile;
+  },
+
+  async getOrganizerEvents(organizerId: string, filter?: { status?: string; search?: string }) {
+    let list = Array.from(memoryStore.organizerEvents.values()).filter(
+      (e) => e.organizer_id === organizerId
+    );
+
+    if (filter?.status && filter.status !== "All") {
+      list = list.filter((e) => e.status.toLowerCase() === filter.status?.toLowerCase());
+    }
+
+    if (filter?.search && filter.search.trim()) {
+      const q = filter.search.toLowerCase().trim();
+      list = list.filter(
+        (e) =>
+          e.basics.event_name.toLowerCase().includes(q) ||
+          e.basics.event_category.toLowerCase().includes(q) ||
+          e.basics.event_description.toLowerCase().includes(q)
+      );
+    }
+
+    return list.sort(
+      (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    );
+  },
+
+  async getOrganizerEventById(eventId: string, organizerId: string) {
+    const event = memoryStore.organizerEvents.get(eventId);
+    if (!event) return null;
+    return event;
+  },
+
+  async saveOrganizerEvent(event: any) {
+    const existing = memoryStore.organizerEvents.get(event.id);
+    const updated = {
+      ...existing,
+      ...event,
+      updated_at: new Date().toISOString(),
+    };
+    memoryStore.organizerEvents.set(event.id, updated);
+    return updated;
+  },
+
+  async updateOrganizerEventStatus(eventId: string, organizerId: string, newStatus: string) {
+    const event = memoryStore.organizerEvents.get(eventId);
+    if (!event) {
+      throw new Error("Event not found.");
+    }
+
+    event.status = newStatus;
+    event.updated_at = new Date().toISOString();
+    memoryStore.organizerEvents.set(eventId, event);
+
+    // If event is published, sync into the Student Event Hub catalog!
+    if (newStatus === "Published") {
+      const publicId = event.public_event_id || `pub-evt-${event.id}`;
+      event.public_event_id = publicId;
+
+      const publicEvent = {
+        id: publicId,
+        name: event.basics.event_name,
+        slug: event.basics.event_name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        description: event.basics.event_description,
+        category: event.basics.event_category === "Hackathon" ? "Hackathons" : event.basics.event_category,
+        poster_url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
+        start_datetime: `${event.timeline.proposed_event_date}T09:00:00Z`,
+        end_datetime: `${event.timeline.proposed_event_date}T18:00:00Z`,
+        registration_deadline: `${event.timeline.registration_deadline}T23:59:59Z`,
+        venue: event.logistics.venue_location_details || "Campus Auditorium",
+        event_mode: event.basics.event_format,
+        participation_fee: Number(event.registration.registration_fee) || 0,
+        capacity: Number(event.registration.max_registration_capacity) || 100,
+        registered_count: 0,
+        eligibility: event.registration.participant_eligibility || "Open to all enrolled students",
+        event_rules: [
+          "Follow university student conduct code.",
+          "Check in at venue with verified UniVibe digital pass.",
+        ],
+        required_materials: ["Student ID Card", "Personal laptop if technical workshop"],
+        contact_information: event.basics.event_organizer || "University Event Committee",
+        event_status: "Registration Open",
+        verification_status: "VERIFIED",
+        is_featured: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      memoryStore.events.set(publicId, publicEvent);
+    }
+
+    return event;
+  },
+
+  async getOrganizerMetrics(organizerId: string) {
+    const events = Array.from(memoryStore.organizerEvents.values()).filter(
+      (e) => e.organizer_id === organizerId
+    );
+
+    const draftEvents = events.filter((e) => e.status === "Draft" || e.status === "In Planning").length;
+    const pendingReview = events.filter((e) => e.status === "Pending Review").length;
+    const publishedEvents = events.filter((e) => e.status === "Published").length;
+
+    // Count registrations across all published events
+    let totalRegistrations = 0;
+    const allRegs = Array.from(memoryStore.eventRegistrations.values()).flat();
+    events.forEach((orgEvt) => {
+      if (orgEvt.public_event_id) {
+        const count = allRegs.filter((r) => r.event_id === orgEvt.public_event_id && r.registration_status !== "Cancelled").length;
+        totalRegistrations += count;
+      }
+    });
+
+    return {
+      total_events: events.length,
+      draft_events: draftEvents,
+      pending_review: pendingReview,
+      published_events: publishedEvents,
+      total_registrations: totalRegistrations,
+    };
+  },
+
+  async getOrganizerRegistrations(organizerId: string, eventId?: string) {
+    const allRegs = Array.from(memoryStore.eventRegistrations.values()).flat();
+    if (!eventId || eventId === "all") {
+      return allRegs.filter((r) => r.registration_status !== "Cancelled");
+    }
+    return allRegs.filter(
+      (r) => (r.event_id === eventId || r.event?.id === eventId) && r.registration_status !== "Cancelled"
+    );
+  },
+
+  async updateRegistrationCheckIn(regId: string, checkInStatus: string) {
+    const allStudentKeys = Array.from(memoryStore.eventRegistrations.keys());
+    for (const key of allStudentKeys) {
+      const regs = memoryStore.eventRegistrations.get(key) || [];
+      const target = regs.find((r) => r.id === regId || r.registration_number === regId);
+      if (target) {
+        target.check_in_status = checkInStatus;
+        target.updated_at = new Date().toISOString();
+        return target;
+      }
+    }
+    return null;
   },
 };
 

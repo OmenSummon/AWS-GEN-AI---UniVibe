@@ -1,289 +1,400 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Sparkles,
-  ArrowRight,
-  Compass,
-  Zap,
-  Map,
-  Send,
+  GraduationCap,
   Calendar,
-  MessageSquare,
-  ShieldCheck,
+  ArrowRight,
   CheckCircle2,
-  TrendingUp,
-  Cpu,
-  Layers,
-  Database,
-  ExternalLink
+  Lock,
+  User,
+  KeyRound,
+  ShieldAlert,
+  Loader2,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  Building
 } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function LandingPage() {
-  const aiCapabilities = [
-    {
-      title: "UniVibe Profile",
-      desc: "Archetype discovery, 6 campus intelligence scores, hidden strengths, and personalized level-up mission.",
-      icon: Cpu,
-      tag: "Module A",
-    },
-    {
-      title: "Match AI",
-      desc: "5 ranked opportunity recommendations cross-referenced with verified university databases and high-signal criteria.",
-      icon: Compass,
-      tag: "Module B",
-    },
-    {
-      title: "Gap Analyzer",
-      desc: "Uncovers student blind spots, missing industry skills, cross-field synergies, and bold ambitious moves.",
-      icon: Zap,
-      tag: "Module C",
-    },
-    {
-      title: "Journey AI",
-      desc: "Actionable 4-phase roadmap (7 days, 30 days, 3 months, academic year) with persistent milestone checkboxes.",
-      icon: Map,
-      tag: "Module D",
-    },
-    {
-      title: "Outreach Copilot",
-      desc: "Context-aware emails, WhatsApp texts, and DMs grounded in your confirmed skills and selected tone.",
-      icon: Send,
-      tag: "Module E",
-    },
-    {
-      title: "Event Hub",
-      desc: "Discover exciting campus events, register with adaptive forms, generate digital passes, and manage your registrations.",
-      icon: Calendar,
-      tag: "Event Hub",
-    },
-  ];
+export default function EntryGatePage() {
+  const router = useRouter();
+
+  // State
+  const [showOrganizerModal, setShowOrganizerModal] = useState(false);
+  const [studentLoading, setStudentLoading] = useState(false);
+  const [organizerLoading, setOrganizerLoading] = useState(false);
+
+  // Organizer Credentials (JIS University Student Organizer)
+  const [orgUsername, setOrgUsername] = useState("student.organizer@jisuniversity.ac.in");
+  const [orgPassword, setOrgPassword] = useState("admin123");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  // Handle Student Selection -> Register & Open Student Relative Page
+  const handleStudentContinue = async () => {
+    setStudentLoading(true);
+    try {
+      await fetch("/api/auth/role", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role: "student" }),
+      });
+      router.push("/onboarding");
+    } catch {
+      router.push("/onboarding");
+    }
+  };
+
+  // Direct Student Dashboard shortcut
+  const handleStudentDirectDashboard = async () => {
+    setStudentLoading(true);
+    try {
+      await fetch("/api/auth/role", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role: "student" }),
+      });
+      router.push("/dashboard");
+    } catch {
+      router.push("/dashboard");
+    }
+  };
+
+  // Handle Organizer Login -> Verify Credentials & Open Organizer Suite
+  const handleOrganizerLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setOrganizerLoading(true);
+    setLoginError(null);
+
+    try {
+      const res = await fetch("/api/auth/role", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          role: "organizer",
+          username: orgUsername,
+          password: orgPassword,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setLoginError(data.error || "Invalid organizer credentials.");
+        setOrganizerLoading(false);
+        return;
+      }
+
+      router.push(data.redirectUrl || "/organizer/dashboard");
+    } catch (err: any) {
+      setLoginError("Failed to authenticate student organizer. Please try again.");
+      setOrganizerLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-midnight-950 text-lavender-100 selection:bg-violet selection:text-white relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-gradient-to-b from-violet/20 via-violet-glow/10 to-transparent rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute top-96 -left-32 w-96 h-96 bg-purple-900/15 rounded-full blur-[120px] pointer-events-none -z-10" />
+    <div className="min-h-screen bg-[#110726] text-white flex flex-col justify-between relative overflow-hidden selection:bg-[#6c35de] selection:text-white">
+      {/* Background Graphic Illustration - Campus Sunset & Glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-40 bg-cover bg-center"
+        style={{
+          backgroundImage: "radial-gradient(circle at 50% 20%, rgba(138, 75, 255, 0.35) 0%, rgba(55, 18, 110, 0.4) 40%, rgba(17, 7, 38, 0.95) 85%)",
+        }}
+      />
+      <div className="absolute top-0 right-0 w-[600px] h-[400px] bg-gradient-to-bl from-fuchsia-600/20 via-purple-700/15 to-transparent blur-[140px] pointer-events-none" />
+      <div className="absolute -bottom-20 left-10 w-[500px] h-[500px] bg-indigo-600/15 blur-[130px] pointer-events-none" />
 
-      {/* Navigation Header */}
-      <header className="border-b border-white/5 backdrop-blur-md sticky top-0 z-50 bg-midnight-950/70">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-violet via-violet-light to-lavender-300 flex items-center justify-center shadow-lg shadow-violet/25">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-lavender-100 to-violet-light bg-clip-text text-transparent">
-              UniVibe
-            </span>
-            <Badge variant="default" className="text-[10px] hidden sm:inline-flex">
-              Student Intelligence
-            </Badge>
-          </Link>
-
-          <nav className="hidden md:flex items-center gap-8 text-sm text-lavender-300/80">
-            <a href="#features" className="hover:text-white transition-colors">Capabilities</a>
-            <a href="#workflow" className="hover:text-white transition-colors">AI Workflow</a>
-            <a href="#intelligence" className="hover:text-white transition-colors">Campus Intelligence</a>
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <Link href="/dashboard">
-              <Button variant="ghost" size="sm" className="hidden sm:inline-flex text-xs">
-                Student Login
-              </Button>
-            </Link>
-            <Link href="/onboarding">
-              <Button size="sm" className="text-xs shadow-md shadow-violet/20">
-                Get Started
-                <ArrowRight className="w-3.5 h-3.5 ml-1" />
-              </Button>
-            </Link>
+      {/* Top Navbar */}
+      <header className="relative z-20 max-w-7xl mx-auto w-full px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#6c35de] via-[#8a4bfa] to-[#b182ff] flex items-center justify-center shadow-lg shadow-purple-900/40">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
+          <span className="font-extrabold text-2xl tracking-tight text-white">
+            UniVibe
+          </span>
+        </div>
+
+        <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs text-lavender-200">
+          <Building className="w-3.5 h-3.5 text-purple-300" />
+          <span>JIS University &bull; Kolkata</span>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="pt-24 pb-20 px-6 max-w-5xl mx-auto text-center relative">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet/10 border border-violet/25 text-xs text-lavender-300 mb-8 animate-fade-in">
-          <Sparkles className="w-3.5 h-3.5 text-violet-light" />
-          <span>Powered by AWS Bedrock &amp; Neon Serverless DB</span>
-          <span className="w-1 h-1 rounded-full bg-violet-light" />
-          <span className="text-emerald-400 font-medium">Student-Only Platform</span>
+      {/* Main Hero & Dual Role Selection */}
+      <main className="relative z-20 max-w-6xl mx-auto w-full px-6 py-6 flex-1 flex flex-col justify-center">
+        {/* Center Pill & Headlines */}
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#3d1d73]/70 backdrop-blur-md border border-[#8a4bfa]/40 text-[#c8a6ff] text-xs font-semibold mb-4 shadow-sm"
+          >
+            <span>AI-Powered Campus Engagement</span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-3"
+          >
+            Welcome to UniVibe
+          </motion.h1>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="text-lg sm:text-xl font-bold text-white/90 mb-2"
+          >
+            One Campus. Endless Possibilities.
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lavender-300/80 text-sm md:text-base max-w-xl mx-auto"
+          >
+            Choose your experience and unlock your campus potential.
+          </motion.p>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1] mb-6">
-          Your Campus Life,{" "}
-          <span className="bg-gradient-to-r from-violet-light via-lavender-200 to-white bg-clip-text text-transparent">
-            Powered by Intelligence.
-          </span>
-        </h1>
+        {/* Dual Cards Matching Mockup */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto w-full">
+          {/* CARD 1: STUDENT */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.25 }}
+            className="relative rounded-3xl p-7 bg-[#211244]/80 border border-white/10 hover:border-purple-400/40 backdrop-blur-xl transition-all duration-300 shadow-2xl shadow-purple-950/60 flex flex-col justify-between overflow-hidden group"
+          >
+            {/* Top decorative gradient glow */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-purple-500/15 to-transparent rounded-tr-3xl pointer-events-none" />
 
-        <p className="text-lg sm:text-xl text-lavender-300/90 max-w-3xl mx-auto font-normal leading-relaxed mb-10">
-          UniVibe transforms your skills, interests, and ambitions into personalized opportunities, meaningful connections, and a roadmap for your future.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/onboarding" className="w-full sm:w-auto">
-            <Button size="lg" className="w-full sm:w-auto text-base px-8 py-3.5 shadow-xl shadow-violet/25">
-              Get Started
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
-          <Link href="/dashboard" className="w-full sm:w-auto">
-            <Button variant="secondary" size="lg" className="w-full sm:w-auto text-base px-8 py-3.5">
-              Explore UniVibe
-            </Button>
-          </Link>
-        </div>
-
-        {/* Hero Preview Card */}
-        <div className="mt-16 p-2 rounded-2xl bg-gradient-to-b from-violet/30 via-violet/5 to-transparent border border-violet/25 shadow-2xl shadow-violet/10">
-          <div className="rounded-xl bg-midnight-900/90 backdrop-blur-xl p-6 sm:p-8 text-left border border-white/5">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b border-white/10">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                  <span className="text-xs font-semibold uppercase text-lavender-400 tracking-wider">
-                    Student Archetype Discovered
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold text-white mt-1">
-                  The Full-Spectrum Creative Technologist
-                </h3>
-                <p className="text-sm text-lavender-300">
-                  Bridging deep technical algorithms with user-centric interface aesthetics.
-                </p>
+            <div>
+              {/* Icon badge */}
+              <div className="w-12 h-12 rounded-2xl bg-[#6c35de] flex items-center justify-center mb-5 shadow-lg shadow-purple-700/30">
+                <GraduationCap className="w-6 h-6 text-white" />
               </div>
-              <div className="flex gap-2">
-                <Badge variant="verified">Verified Campus Data</Badge>
-                <Badge variant="default">6 Intelligence Scores</Badge>
+
+              <h3 className="text-2xl font-bold text-white mb-2.5">
+                Student
+              </h3>
+
+              <p className="text-lavender-300/90 text-sm leading-relaxed mb-6">
+                Discover opportunities, explore campus events, build your skills, and create your personalized growth journey.
+              </p>
+
+              {/* Character Illustration Banner */}
+              <div className="relative w-full h-44 rounded-2xl bg-gradient-to-b from-[#2e185c]/60 to-[#1b0d38]/80 border border-white/5 flex items-center justify-center overflow-hidden mb-6 group-hover:border-purple-400/20 transition-colors">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+                  alt="Student with laptop"
+                  className="w-28 h-28 object-cover rounded-full border-4 border-[#6c35de]/50 shadow-xl shadow-purple-950/80"
+                />
+                <div className="absolute bottom-2.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[11px] text-white font-medium flex items-center gap-1.5">
+                  <Sparkles className="w-3 h-3 text-[#b182ff]" />
+                  <span>JIS University Student Portal</span>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-6">
-              {[
-                { factor: "Technical", val: "94/100" },
-                { factor: "Creativity", val: "89/100" },
-                { factor: "Leadership", val: "82/100" },
-                { factor: "Networking", val: "78/100" },
-                { factor: "Innovation", val: "96/100" },
-                { factor: "Engagement", val: "85/100" },
-              ].map((s) => (
-                <div key={s.factor} className="p-3 rounded-xl bg-midnight-800/80 border border-violet/15 text-center">
-                  <div className="text-[11px] text-lavender-400 font-medium">{s.factor}</div>
-                  <div className="text-lg font-bold text-white mt-0.5">{s.val}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Showcase Grid */}
-      <section id="features" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/5">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <Badge variant="default" className="mb-3">
-            PartyRock AI Modules
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Comprehensive Campus Intelligence
-          </h2>
-          <p className="text-lavender-300 mt-3 text-base">
-            Every module works together through shared student profile data so you never have to re-enter your information.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {aiCapabilities.map((cap) => {
-            const Icon = cap.icon;
-            return (
-              <div
-                key={cap.title}
-                className="p-6 rounded-2xl bg-midnight-850/60 border border-violet/15 hover:border-violet/40 transition-all duration-300 glass-card-hover flex flex-col justify-between"
+            <div className="space-y-2.5">
+              <button
+                onClick={handleStudentContinue}
+                disabled={studentLoading}
+                className="w-full py-3.5 px-6 rounded-2xl bg-[#6c35de] hover:bg-[#7b41ee] active:bg-[#5f2ccd] text-white font-bold text-sm shadow-lg shadow-purple-900/50 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-violet/15 border border-violet/30 flex items-center justify-center text-violet-light">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-[11px] font-mono font-semibold text-lavender-400 bg-white/5 px-2.5 py-1 rounded-md">
-                      {cap.tag}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{cap.title}</h3>
-                  <p className="text-sm text-lavender-300/80 leading-relaxed">{cap.desc}</p>
+                {studentLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    <span>Continue as Student</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={handleStudentDirectDashboard}
+                disabled={studentLoading}
+                className="w-full py-1.5 text-xs text-lavender-400 hover:text-white transition-colors text-center cursor-pointer"
+              >
+                Already have a profile? Enter Dashboard &rarr;
+              </button>
+            </div>
+          </motion.div>
+
+          {/* CARD 2: EVENT ORGANIZER */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="relative rounded-3xl p-7 bg-[#211244]/80 border border-white/10 hover:border-purple-400/40 backdrop-blur-xl transition-all duration-300 shadow-2xl shadow-purple-950/60 flex flex-col justify-between overflow-hidden group"
+          >
+            {/* Top decorative gradient glow */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-purple-500/15 to-transparent rounded-tr-3xl pointer-events-none" />
+
+            <div>
+              {/* Icon badge */}
+              <div className="w-12 h-12 rounded-2xl bg-[#6c35de] flex items-center justify-center mb-5 shadow-lg shadow-purple-700/30">
+                <Calendar className="w-6 h-6 text-white" />
+              </div>
+
+              <h3 className="text-2xl font-bold text-white mb-2.5">
+                Event Organizer
+              </h3>
+
+              <p className="text-lavender-300/90 text-sm leading-relaxed mb-6">
+                Plan campus events, analyze event objectives, organize resources, and build comprehensive event proposals using AI.
+              </p>
+
+              {/* Character Illustration Banner */}
+              <div className="relative w-full h-44 rounded-2xl bg-gradient-to-b from-[#2e185c]/60 to-[#1b0d38]/80 border border-white/5 flex items-center justify-center overflow-hidden mb-6 group-hover:border-purple-400/20 transition-colors">
+                <img
+                  src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80"
+                  alt="Student Organizer Lead"
+                  className="w-28 h-28 object-cover rounded-full border-4 border-[#6c35de]/50 shadow-xl shadow-purple-950/80"
+                />
+                <div className="absolute bottom-2.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[11px] text-white font-medium flex items-center gap-1.5">
+                  <Sparkles className="w-3 h-3 text-[#b182ff]" />
+                  <span>Student Council &bull; JIS Tech Club</span>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* How UniVibe Works (Dependency Graph) */}
-      <section id="workflow" className="py-24 px-6 max-w-5xl mx-auto border-t border-white/5 text-center">
-        <Badge variant="default" className="mb-3">Linear &amp; Transparent Pipeline</Badge>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-          How UniVibe Works
-        </h2>
-        <p className="text-lavender-300 max-w-2xl mx-auto text-sm sm:text-base mb-12">
-          Your profile flows through an integrated AI dependency chain, grounding every recommendation in verified opportunities.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 relative">
-          {[
-            { step: "01", name: "Student Inputs", desc: "Skills, interests, free time, goal, and tone recorded once." },
-            { step: "02", name: "Profile & Matches", desc: "AI computes archetype, 6 scores, and 5 ranked opportunities." },
-            { step: "03", name: "Gaps & Journey", desc: "Reveals blind spots and maps a 4-phase milestone roadmap." },
-            { step: "04", name: "Concierge & Outreach", desc: "Contextual assistant and copy-ready outreach messages." },
-          ].map((item, idx) => (
-            <div key={item.step} className="p-5 rounded-2xl bg-midnight-850/80 border border-violet/20 text-left">
-              <span className="text-xs font-mono font-bold text-violet-light">{item.step}</span>
-              <h4 className="text-base font-bold text-white mt-1 mb-2">{item.name}</h4>
-              <p className="text-xs text-lavender-300 leading-relaxed">{item.desc}</p>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* Call to Action */}
-      <section className="py-20 px-6 max-w-4xl mx-auto text-center">
-        <div className="p-10 rounded-3xl bg-gradient-to-b from-violet/25 via-midnight-850 to-midnight-900 border border-violet/30 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-violet/20 rounded-full blur-3xl pointer-events-none" />
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
-            Discover Your Potential. Build Your Future.
-          </h2>
-          <p className="text-lavender-300 max-w-xl mx-auto text-sm sm:text-base mb-8">
-            Complete your onboarding once and unlock your personalized student intelligence engine today.
-          </p>
-          <Link href="/onboarding">
-            <Button size="lg" className="px-8 py-3.5 shadow-xl shadow-violet/30">
-              Complete Student Onboarding
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
+            <div>
+              <button
+                onClick={() => setShowOrganizerModal(true)}
+                className="w-full py-3.5 px-6 rounded-2xl bg-[#6c35de] hover:bg-[#7b41ee] active:bg-[#5f2ccd] text-white font-bold text-sm shadow-lg shadow-purple-900/50 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Continue as Organizer</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
         </div>
-      </section>
+      </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-12 px-6 text-center text-xs text-lavender-400">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-violet-light" />
-            <span className="font-bold text-white">UniVibe</span>
-            <span>— Student Intelligence Engine</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/dashboard/settings" className="hover:text-white transition-colors">Database Config</Link>
-            <Link href="/dashboard" className="hover:text-white transition-colors">Student Portal</Link>
-          </div>
-        </div>
+      <footer className="relative z-20 max-w-7xl mx-auto w-full px-6 py-6 text-center text-xs text-lavender-400/70 border-t border-white/5">
+        UniVibe &bull; JIS University (Kolkata, India) &bull; Student Intelligence Engine
       </footer>
+
+      {/* Organizer Login Modal */}
+      <AnimatePresence>
+        {showOrganizerModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-md rounded-3xl p-7 bg-[#211244] border border-white/15 shadow-2xl shadow-purple-950/90 text-white"
+            >
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#6c35de] flex items-center justify-center text-white">
+                    <Calendar className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg text-white">Student Organizer Sign-In</h4>
+                    <p className="text-xs text-lavender-300">JIS Tech Club &amp; Student Council</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowOrganizerModal(false)}
+                  className="text-lavender-400 hover:text-white text-lg p-1"
+                >
+                  &times;
+                </button>
+              </div>
+
+              {loginError && (
+                <div className="mb-4 p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+                  <ShieldAlert className="w-4 h-4 shrink-0" />
+                  <span>{loginError}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleOrganizerLogin} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-lavender-300 mb-1">
+                    Student Organizer Email / Username
+                  </label>
+                  <div className="relative">
+                    <User className="w-4 h-4 text-lavender-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={orgUsername}
+                      onChange={(e) => setOrgUsername(e.target.value)}
+                      placeholder="student.organizer@jisuniversity.ac.in"
+                      className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-[#150a2b] border border-white/10 text-white text-xs focus:outline-none focus:border-[#8a4bfa]"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-lavender-300 mb-1">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <Lock className="w-4 h-4 text-lavender-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={orgPassword}
+                      onChange={(e) => setOrgPassword(e.target.value)}
+                      placeholder="Password"
+                      className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-[#150a2b] border border-white/10 text-white text-xs focus:outline-none focus:border-[#8a4bfa]"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-lavender-400 hover:text-white"
+                    >
+                      {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                  <div className="text-[11px] text-lavender-400 mt-1">
+                    Demo password: <span className="text-purple-300 font-mono">admin123</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex items-center justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setShowOrganizerModal(false)}
+                    className="px-4 py-2.5 rounded-xl text-xs font-semibold text-lavender-300 hover:text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={organizerLoading}
+                    className="px-5 py-2.5 rounded-xl bg-[#6c35de] hover:bg-[#7b41ee] text-white font-bold text-xs shadow-lg shadow-purple-900/50 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  >
+                    {organizerLoading ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <KeyRound className="w-3.5 h-3.5" />
+                        <span>Sign In &amp; Open Suite</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
