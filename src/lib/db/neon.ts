@@ -765,7 +765,7 @@ export const db = {
         const rows = await sql`SELECT * FROM ai_profiles WHERE user_id = ${userId} ORDER BY created_at DESC LIMIT 1;`;
         if (rows[0]) {
           const r = rows[0];
-          const safeParse = (v, def) => {
+          const safeParse = (v: any, def: any) => {
             if (!v) return def;
             if (typeof v === 'string') {
               try { return JSON.parse(v); } catch (e) { return def; }

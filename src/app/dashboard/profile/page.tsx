@@ -149,7 +149,7 @@ export default function ProfilePage() {
 
             {/* Progress Bars & Score Explanations */}
             <div className="lg:col-span-7 space-y-4">
-              {aiProfile?.score_explanations?.map((item) => (
+              {aiProfile?.score_explanations?.map((item: any) => (
                 <div key={item.factor} className="p-4 rounded-2xl bg-[#242323] border border-[#444343] shadow-xs">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold text-[#FEFEFE]">{item.factor}</span>
@@ -219,7 +219,7 @@ export default function ProfilePage() {
             </p>
 
             <div className="space-y-4 mt-2">
-              {aiProfile?.hidden_strengths?.map((hs, idx) => (
+              {aiProfile?.hidden_strengths?.map((hs: any, idx: number) => (
                 <div key={idx} className="p-4 rounded-2xl bg-[#242323] border border-[#444343] space-y-2 shadow-xs">
                   <h4 className="text-sm font-bold text-[#FEFEFE]">{hs.strength}</h4>
                   <p className="text-xs text-[#D4D4D4] leading-relaxed">
@@ -246,7 +246,7 @@ export default function ProfilePage() {
             </p>
 
             <div className="space-y-4 mt-2">
-              {aiProfile?.growth_opportunities?.map((go, idx) => (
+              {aiProfile?.growth_opportunities?.map((go: any, idx: number) => (
                 <div key={idx} className="p-4 rounded-2xl bg-[#242323] border border-[#444343] space-y-2 shadow-xs">
                   <h4 className="text-sm font-bold text-[#FEFEFE]">{go.area}</h4>
                   <p className="text-xs text-[#D4D4D4] leading-relaxed">

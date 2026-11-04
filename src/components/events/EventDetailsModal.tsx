@@ -24,7 +24,7 @@ interface EventDetailsModalProps {
   event: CampusEvent | null;
   onClose: () => void;
   onRegister: (event: CampusEvent) => void;
-  onToggleSave: (eventId: string) => void;
+  onToggleSave?: (eventId: string) => void;
 }
 
 export function EventDetailsModal({
@@ -59,7 +59,7 @@ export function EventDetailsModal({
           {/* Close & Save Buttons */}
           <div className="absolute top-4 right-4 flex items-center gap-2">
             <button
-              onClick={() => onToggleSave(event.id)}
+              onClick={() => onToggleSave?.(event.id)}
               className="p-2 rounded-full bg-[#2C2B2B]/90 backdrop-blur-md border border-[#444343] hover:border-[#446B8D] text-[#FEFEFE] transition-colors cursor-pointer"
               title="Save Event"
             >

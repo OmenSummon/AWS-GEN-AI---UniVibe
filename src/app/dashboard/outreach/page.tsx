@@ -248,7 +248,7 @@ function OutreachContent() {
                   <Button
                     size="sm"
                     variant="primary"
-                    onClick={() => copyToClipboard(outreach.short_dm, "dm")}
+                    onClick={() => copyToClipboard(outreach.short_dm || outreach.social_dm || "", "dm")}
                     className="text-xs shadow-sm"
                   >
                     {copiedKey === "dm" ? (
@@ -264,7 +264,7 @@ function OutreachContent() {
                 </div>
 
                 <div className="p-6 rounded-2xl bg-[#242323] border border-[#444343] font-mono text-xs text-[#FEFEFE] whitespace-pre-line leading-relaxed shadow-inner">
-                  {outreach.short_dm}
+                  {outreach.short_dm || outreach.social_dm}
                 </div>
               </div>
             )}
@@ -277,7 +277,7 @@ function OutreachContent() {
                   <Button
                     size="sm"
                     variant="primary"
-                    onClick={() => copyToClipboard(outreach.follow_up_ping, "followup")}
+                    onClick={() => copyToClipboard(outreach.follow_up_ping || outreach.followup_message || "", "followup")}
                     className="text-xs shadow-sm"
                   >
                     {copiedKey === "followup" ? (
@@ -293,7 +293,7 @@ function OutreachContent() {
                 </div>
 
                 <div className="p-6 rounded-2xl bg-[#242323] border border-[#444343] font-mono text-xs text-[#FEFEFE] whitespace-pre-line leading-relaxed shadow-inner">
-                  {outreach.follow_up_ping}
+                  {outreach.follow_up_ping || outreach.followup_message}
                 </div>
               </div>
             )}
@@ -305,7 +305,7 @@ function OutreachContent() {
                 3 Tactical AI Advice Points for this Opportunity
               </span>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-                {outreach.success_tips?.map((tip, idx) => (
+                {outreach.success_tips?.map((tip: string, idx: number) => (
                   <div key={idx} className="p-4 rounded-2xl bg-[#242323] border border-[#444343] text-xs text-[#D4D4D4] leading-relaxed shadow-xs">
                     <span className="text-[#E4B74A] font-black">0{idx + 1}. </span>
                     {tip}

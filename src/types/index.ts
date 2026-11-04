@@ -207,6 +207,8 @@ export interface OutreachGenerationResult {
   whatsapp_message: string;
   social_dm: string;
   followup_message: string;
+  short_dm?: string;
+  follow_up_ping?: string;
   success_tips: string[];
   grounding_note: string;
   generated_at: string;
@@ -575,3 +577,23 @@ export interface OrganizerEvent {
 
 
 
+
+export interface ConciergeStructuredResponse {
+  quick_answer: string;
+  personalized_insight: string;
+  what_to_do_next: string;
+  univibe_tip: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  sender: 'user' | 'bot' | 'assistant';
+  content: string;
+  structured_response?: ConciergeStructuredResponse;
+  flagged_unverified?: string[];
+  timestamp?: string;
+  created_at?: string;
+}
+
+export type OutreachCopilotResult = OutreachGenerationResult;
+export type StudentProfileAIResponse = UniVibeProfileResult;
