@@ -1,0 +1,27 @@
+{
+  "name": "univibe-backend",
+  "version": "1.0.0",
+  "description": "Standalone backend API server for UniVibe with Neon DB",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "db:test": "tsx src/scripts/test-connection.ts",
+    "db:migrate": "tsx src/scripts/migrate.ts",
+    "db:sections": "tsx src/scripts/migrate-organizer-tables.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^20.17.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

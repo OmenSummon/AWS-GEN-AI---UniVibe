@@ -19,6 +19,12 @@ export function getSessionUserId(req?: Request): string {
     const url = new URL(req.url);
     const roleParam = url.searchParams.get("role");
     const cookieHeader = req.headers.get("cookie") || "";
+    
+    const userIdMatch = cookieHeader.match(/univibe_user_id=([^;]+)/);
+    if (userIdMatch && userIdMatch[1]) {
+      return decodeURIComponent(userIdMatch[1].trim());
+    }
+
     if (roleParam === "organizer" || cookieHeader.includes("univibe_role=organizer")) {
       return DEFAULT_ORGANIZER_ID;
     }

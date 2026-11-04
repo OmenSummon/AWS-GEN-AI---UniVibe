@@ -219,3 +219,130 @@ export async function aggregateFinalPlan(
 
     return OrganizerAiService.generateFinalReport(eventPayload as any);
 }
+
+
+// ── Progress & Completion Calculation ──────────────────────────
+// Calculates overall percentage (0 - 100%) and per-section status
+// for any event state (either live UI state or database row).
+export function calculateEventProgress(data: any): {
+  overallPercentage: number;
+  completedCount: number;
+  sections: Array<{
+    num: number;
+    title: string;
+    complete: boolean;
+    score: number;
+  }>;
+} {
+  if (!data) {
+    return {
+      overallPercentage: 0,
+      completedCount: 0,
+      sections: WORKFLOW_SECTIONS.map(s => ({
+        num: s.num,
+        title: s.title,
+        complete: false,
+        score: 0,
+      })),
+    };
+  }
+
+  const safeParse = (v: any) => {
+    if (!v) return {};
+    if (typeof v === "string") {
+      try { return JSON.parse(v); } catch { return {}; }
+    }
+    return v;
+  };
+
+  const basics = safeParse(data.summarizedEvent || data.basics);
+  const audience = safeParse(data.audienceSummarization || data.audience);
+  const timeline = safeParse(data.dateFinalization || data.timeline);
+  const logistics = safeParse(data.otherInformation || data.logistics);
+  const objectives = safeParse(data.eventObjective || data.objectives);
+  const registration = safeParse(data.registrationParticipation || data.registration);
+
+  // Section 1: Event Basics (5 required: name, description, category, organizer, format)
+  const s1Fields = [
+    Boolean(basics.event_name?.trim()),
+    Boolean(basics.event_description?.trim()),
+    Boolean(basics.event_category?.trim()),
+    Boolean(basics.event_organizer?.trim()),
+    Boolean(basics.event_format?.trim()),
+  ];
+  const s1Score = s1Fields.filter(Boolean).length / 5;
+
+  // Section 2: Audience & Reach (4 required: expected_participants > 0, target_audience, participation_type, geographical_reach)
+  const s2Fields = [
+    Boolean(Number(audience.expected_participants) > 0),
+    Boolean(audience.target_audience?.trim()),
+    Boolean(audience.participation_type?.trim()),
+    Boolean(audience.geographical_reach?.trim()),
+  ];
+  const s2Score = s2Fields.filter(Boolean).length / 4;
+
+  // Section 3: Timeline (5 required: proposed_event_date, registration_deadline, preparation_start_date, date_flexibility, event_duration)
+  const s3Fields = [
+    Boolean(timeline.proposed_event_date?.trim()),
+    Boolean(timeline.registration_deadline?.trim()),
+    Boolean(timeline.preparation_start_date?.trim()),
+    Boolean(timeline.date_flexibility?.trim()),
+    Boolean(timeline.event_duration?.trim()),
+  ];
+  const s3Score = s3Fields.filter(Boolean).length / 5;
+
+  // Section 4: Resources & Logistics (5 required: budget, constraints, venue, equipment, team)
+  const s4Fields = [
+    Boolean(logistics.budget_financial_availability?.trim()),
+    Boolean(logistics.financial_constraints_expectations?.trim()),
+    Boolean(logistics.venue_location_details?.trim()),
+    Boolean(logistics.infrastructure_equipment_availability?.trim()),
+    Boolean(logistics.team_composition_manpower?.trim()),
+  ];
+  const s4Score = s4Fields.filter(Boolean).length / 5;
+
+  // Section 5: Strategic Objectives (8 fields)
+  const s5Fields = [
+    Boolean(objectives.primary_event_objective?.trim()),
+    Boolean(objectives.secondary_objectives?.trim()),
+    Boolean(objectives.event_theme?.trim()),
+    Boolean(objectives.expected_outcomes?.trim()),
+    Boolean(objectives.key_deliverables?.trim()),
+    Boolean(objectives.success_criteria?.trim()),
+    Boolean(objectives.institutional_alignment?.trim()),
+    Boolean(objectives.social_educational_impact?.trim()),
+  ];
+  const s5Score = s5Fields.filter(Boolean).length / 8;
+
+  // Section 6: Registration & Eligibility (8 fields)
+  const s6Fields = [
+    Boolean(registration.registration_method?.trim()),
+    Boolean(registration.registration_window?.trim()),
+    Boolean(registration.participant_eligibility?.trim()),
+    Boolean(registration.participation_mode?.trim()),
+    Boolean(registration.registration_fee !== undefined && String(registration.registration_fee).trim() !== ""),
+    Boolean(registration.selection_process?.trim()),
+    Boolean(Number(registration.max_registration_capacity) > 0),
+    Boolean(registration.waitlist_availability?.trim()),
+  ];
+  const s6Score = s6Fields.filter(Boolean).length / 8;
+
+  const sectionScores = [
+    { num: 1, title: "Event Basics", score: s1Score, complete: s1Score >= 0.8 },
+    { num: 2, title: "Audience & Reach", score: s2Score, complete: s2Score >= 0.75 },
+    { num: 3, title: "Timeline", score: s3Score, complete: s3Score >= 0.8 },
+    { num: 4, title: "Resources & Logistics", score: s4Score, complete: s4Score >= 0.8 },
+    { num: 5, title: "Strategic Objectives", score: s5Score, complete: s5Score >= 0.75 },
+    { num: 6, title: "Registration & Eligibility", score: s6Score, complete: s6Score >= 0.75 },
+  ];
+
+  const totalScore = sectionScores.reduce((acc, s) => acc + s.score, 0);
+  const overallPercentage = Math.min(100, Math.round((totalScore / 6) * 100));
+  const completedCount = sectionScores.filter(s => s.complete).length;
+
+  return {
+    overallPercentage,
+    completedCount,
+    sections: sectionScores,
+  };
+}

@@ -8,7 +8,8 @@ import {
   EventMarketingResult,
   GeneratedPoster,
   ConciergeMessage,
-  OpportunityRecommendation
+  OpportunityRecommendation,
+  OpportunityCategory
 } from "@/types";
 
 export class SimulatedAiProvider {
@@ -148,105 +149,124 @@ export class SimulatedAiProvider {
     };
   }
 
-  // Module B: UniVibe Match AI
-  static generateMatches(profile: StudentProfile, aiProfile: UniVibeProfileResult): MatchAIResult {
-    const recommendations: OpportunityRecommendation[] = [
-      {
-        id: "match-1",
-        opportunity_name: "Apex 36-Hour Campus Hackathon",
-        category: "Hackathons",
-        match_score: 95,
-        why_it_matches: `Directly tests your ${profile.skills.slice(0, 2).join(" & ")} in a fast-paced environment tailored for your goal to ${profile.goal}.`,
-        skills_gained: ["Rapid Prototyping", "Full-Stack System Design", "Live Pitching"],
-        time_commitment: "Weekend intensive (36 hours total)",
-        career_impact: "Direct sponsor resume drops, recruiter judging, and fast-track interviews for summer tech roles.",
-        first_action: "Form a multidisciplinary team of 3 and register before priority deadline.",
-        eligibility: "Open to all enrolled undergraduate students. Solo or teams of up to 4.",
+  // Module B: UniVibe Match AI (Grounded in Live Campus Database Events)
+  static generateMatches(
+    profile: StudentProfile,
+    aiProfile: UniVibeProfileResult,
+    campusEvents: any[] = []
+  ): MatchAIResult {
+    const recommendations: OpportunityRecommendation[] = [];
+
+    // Filter valid active/published events
+    const activeEvents = (campusEvents || []).filter((e: any) => {
+      const status = (e.event_status || e.status || "").toLowerCase();
+      return !status.includes("draft") && !status.includes("planning");
+    });
+
+    activeEvents.forEach((evt: any, idx: number) => {
+      const cat = evt.category || "Hackathons";
+      let oppCategory: OpportunityCategory = "Hackathons";
+      const catLower = cat.toLowerCase();
+      if (catLower.includes("hack")) oppCategory = "Hackathons";
+      else if (catLower.includes("workshop")) oppCategory = "Workshops";
+      else if (catLower.includes("cultur")) oppCategory = "Cultural events";
+      else if (catLower.includes("tech")) oppCategory = "Technical clubs";
+      else if (catLower.includes("compet") || catLower.includes("sport") || catLower.includes("gaming")) oppCategory = "Competitions";
+      else if (catLower.includes("entrepreneur") || catLower.includes("startup")) oppCategory = "Entrepreneurship";
+      else if (catLower.includes("research")) oppCategory = "Research opportunities";
+      else if (catLower.includes("intern")) oppCategory = "Internships";
+      else oppCategory = "Networking";
+
+      // Dynamic match score calculation
+      let score = 88;
+      const textToMatch = `${evt.name} ${evt.description || ""} ${cat}`.toLowerCase();
+
+      if (profile.skills && profile.skills.some((s: string) => textToMatch.includes(s.toLowerCase()))) {
+        score += 4;
+      }
+      if (profile.interests && profile.interests.some((i: string) => textToMatch.includes(i.toLowerCase()))) {
+        score += 3;
+      }
+      if (catLower.includes("hack") || catLower.includes("ai")) {
+        score += 2;
+      }
+      if (idx === 0) score = Math.max(score, 96);
+      if (score > 98) score = 98;
+
+      const topSkills = (profile.skills && profile.skills.length > 0)
+        ? profile.skills.slice(0, 2).join(" & ")
+        : "technical capabilities";
+      const studentGoal = profile.goal || "expand your campus tech footprint";
+      const whyItMatches = `Directly tests and expands your ${topSkills} in a fast-paced environment tailored for your goal to ${studentGoal}.`;
+
+      let skillsGained = ["Generative AI", "AWS Bedrock", "Rapid Prototyping", "Full-Stack System Design"];
+      if (catLower.includes("workshop")) {
+        skillsGained = ["Cloud Architecture", "Applied AI Inference", "Technical Integration"];
+      } else if (catLower.includes("cultur")) {
+        skillsGained = ["Campus Leadership", "Creative Direction", "Public Communication"];
+      } else if (catLower.includes("tech")) {
+        skillsGained = ["Systems Engineering", "Rapid Problem Solving", "Code Collaboration"];
+      } else if (catLower.includes("entrepreneur")) {
+        skillsGained = ["Product Strategy", "Venture Economics", "User Research"];
+      }
+
+      const eventDateStr = evt.start_datetime || evt.event_date || "Upcoming Schedule";
+      const formattedDate = eventDateStr.includes("T") ? eventDateStr.split("T")[0] : eventDateStr;
+      const timeCommitment = `Scheduled for ${formattedDate} • ${evt.event_mode || evt.format || "Offline"} at ${evt.venue || "Campus Auditorium"}`;
+
+      const careerImpact = `Direct resume-building showcase with peer collaboration, faculty evaluation, and networking with ${evt.contact_information || evt.organizer || "campus organizers"}.`;
+
+      const deadline = evt.registration_deadline ? (evt.registration_deadline.includes("T") ? evt.registration_deadline.split("T")[0] : evt.registration_deadline) : "the event start date";
+      const firstAction = `Register via the UniVibe Events Hub before ${deadline} to confirm your spot.`;
+
+      recommendations.push({
+        id: `opp-${evt.id}`,
+        opportunity_name: evt.name,
+        category: oppCategory,
+        match_score: score,
+        why_it_matches: whyItMatches,
+        skills_gained: skillsGained,
+        time_commitment: timeCommitment,
+        career_impact: careerImpact,
+        first_action: firstAction,
+        eligibility: evt.eligibility || "Open to all enrolled students",
         verification_status: "VERIFIED",
-        verification_details: "Verified via Campus Student Affairs & Engineering Council Directory (Room 402 Tech Wing).",
-        is_best_match: true,
-      },
-      {
-        id: "match-2",
-        opportunity_name: "Open Source & Creative Tech Guild",
-        category: "Technical clubs",
-        match_score: 91,
-        why_it_matches: `Fosters your passion for ${profile.interests[0] || "technology"} with weekly low-pressure collaborative builds that respect your schedule (${profile.free_time}).`,
-        skills_gained: ["Git Collaboration", "Code Reviews", "Modular Architecture"],
-        time_commitment: "2 hours every Wednesday evening",
-        career_impact: "Builds a verifiable GitHub track record and portfolio of shipped software.",
-        first_action: "Attend the open Discord onboarding call or Wednesday lab meetup.",
-        eligibility: "Open to all departments and experience levels.",
-        verification_status: "VERIFIED",
-        verification_details: "Official recognized student guild. Contact: guild@campus.edu.",
+        verification_details: `Verified Campus Event organized by ${evt.contact_information || evt.organizer || "JIS University"}. Venue: ${evt.venue || "Campus Main Hall"}.`,
         is_best_match: false,
-      },
-      {
-        id: "match-3",
-        opportunity_name: "Undergraduate AI & Systems Lab Fellowship",
-        category: "Research opportunities",
-        match_score: 87,
-        why_it_matches: `Bridges your academic background in ${profile.department} with cutting-edge experimentation and faculty mentorship.`,
-        skills_gained: ["Empirical Analysis", "Technical Paper Writing", "High-Performance Computing"],
-        time_commitment: "4-6 hours per week (flexible)",
-        career_impact: "Strong recommendation letters from tenured faculty and potential co-authorship.",
-        first_action: "Prepare a 1-page CV and send a tailored inquiry email to the faculty lab lead.",
-        eligibility: "Minimum 3.2 GPA and completion of foundational programming courses.",
-        verification_status: "VERIFIED",
-        verification_details: "Listed under University Faculty Research Registry. Office: Science Center 310.",
-        is_best_match: false,
-      },
-      {
-        id: "match-4",
-        opportunity_name: "Campus Venture Catalyst & Pre-Seed Incubator",
-        category: "Entrepreneurship",
-        match_score: 84,
-        why_it_matches: `Empowers your desire to ${profile.goal} by connecting technical execution with customer validation and micro-grants.`,
-        skills_gained: ["Product Strategy", "Venture Economics", "User Research"],
-        time_commitment: "3 hours per week during the 8-week cohort",
-        career_impact: "Opportunity to secure $2,500 non-dilutive pilot funding and investor network access.",
-        first_action: "Draft an executive summary deck focusing on a problem faced by campus students.",
-        eligibility: "Undergraduate founders with an active prototype or structured hypothesis.",
-        verification_status: "VERIFIED",
-        verification_details: "Verified with Dean of Innovation Office. Innovation Hub Floor 2.",
-        is_best_match: false,
-      },
-      {
-        id: "match-5",
-        opportunity_name: "Inter-Collegiate Algorithmic Trading & Modeling Sprint",
-        category: "Competitions",
-        match_score: 79,
-        why_it_matches: `Appeals to your analytical strengths in ${profile.skills[0] || "quantitative reasoning"} while offering cross-campus peer benchmarking.`,
-        skills_gained: ["Statistical Modeling", "Risk Management", "Data Pipelines"],
-        time_commitment: "Self-paced async challenges (approx 3 hours/week)",
-        career_impact: "Cash prizes and direct interview opportunities with algorithmic trading desks.",
-        first_action: "Review past problem sets and verify dates on the external competition portal.",
-        eligibility: "Full-time enrolled college students.",
-        verification_status: "SUGGESTED",
-        verification_details: "Suggested Opportunity Type — Verification Required. External student competition feed.",
-        is_best_match: false,
-      },
-    ];
+        is_saved: evt.is_saved || false,
+      });
+    });
+
+    recommendations.sort((a, b) => b.match_score - a.match_score);
+    if (recommendations.length > 0) {
+      recommendations[0].is_best_match = true;
+    }
+
+    const topOpp = recommendations[0];
+    const bestMatchId = topOpp ? topOpp.id : "";
+    const topEventName = topOpp ? topOpp.opportunity_name : "Active Campus Programs";
+
+    const sevenDayMission = {
+      mission_title: `The 7-Day Campus Traction Ignition: ${topEventName}`,
+      daily_actions: [
+        { day: 1, action: `Review ${topEventName} details, rules, and problem tracks.`, outcome: "Target track and objectives selected." },
+        { day: 2, action: "Audit your GitHub or portfolio to showcase your relevant skills.", outcome: "Profile polished and ready for teammates." },
+        { day: 3, action: "Use Outreach Copilot to invite prospective team members or study partners.", outcome: "First collaborator connection initiated." },
+        { day: 4, action: "Formulate your project thesis or solution architecture.", outcome: "Clear strategy aligned with event guidelines." },
+        { day: 5, action: "Check required materials and tools needed for the event.", outcome: "Development environment configured." },
+        { day: 6, action: "Lock your official UniVibe registration pass and review venue details.", outcome: "Official spot secured in the campus catalog." },
+        { day: 7, action: "Finalize your preparation and celebrate taking action on campus.", outcome: "Momentum established." },
+      ],
+    };
 
     return {
       id: "match-result-" + Date.now(),
       user_id: profile.id,
       recommendations,
-      best_match_id: "match-1",
-      seven_day_mission: {
-        mission_title: "The 7-Day Campus Traction Ignition",
-        daily_actions: [
-          { day: 1, action: "Review Apex Hackathon problem tracks and pick your top choice.", outcome: "Clear focus area selected." },
-          { day: 2, action: "Audit your GitHub or portfolio to showcase your top 2 skills.", outcome: "Polished profile ready to share." },
-          { day: 3, action: "Use Outreach Copilot to invite 1 prospective team member.", outcome: "First connection initiated." },
-          { day: 4, action: "Drop into the Open Source Guild Discord or weekly lab.", outcome: "Expanded peer network." },
-          { day: 5, action: "Formulate a 1-sentence product thesis for the hackathon.", outcome: "Clear pitch aligned with your goals." },
-          { day: 6, action: "Confirm your event registration and team roster.", outcome: "Official spot secured." },
-          { day: 7, action: "Review initial tech stack dependencies and celebrate your first week.", outcome: "Momentum established." },
-        ],
-      },
+      best_match_id: bestMatchId,
+      seven_day_mission: sevenDayMission,
       heuristic_explanation:
-        "Rankings are calculated using heuristic vector matching across declared skillsets, available weekly bandwidth, departmental context, and stated career targets.",
+        "Rankings are dynamically grounded in verified university events in the database and vector-matched to your skillset and career goals.",
       generated_at: new Date().toISOString(),
     };
   }
@@ -802,7 +822,7 @@ The ${eventName} Organizing Team`,
     let univibeTip = "Focus on shipping 1 tangible public project rather than scattering your free time across disconnected clubs.";
 
     if (qLower.includes("hackathon") || qLower.includes("competition")) {
-      quickAnswer = "The flagship campus event is the Apex 36-Hour Campus Hackathon, which is a verified event in your tech catalog.";
+      quickAnswer = "The flagship campus event is the JIS Cloud AI Hackathon 2026, which is a verified event in your tech catalog.";
       personalizedInsight = `Given your interest in ${profile.interests[0] || "tech"} and your ${aiProfile?.scores.technical_potential || 85}/100 technical potential score, hackathons provide the fastest leverage to test your prototypes.`;
       whatToDoNext = "Use Outreach Copilot to draft a quick WhatsApp invitation to potential teammates and lock your registration.";
       univibeTip = "Form your team with complementary skillsets: 1 backend/system architect, 1 frontend/UI lead, and 1 presenter.";

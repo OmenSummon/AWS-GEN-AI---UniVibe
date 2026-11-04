@@ -62,37 +62,15 @@ export class AiService {
     return { ...result, ai_mode: mode.provider };
   }
 
-  // MODULE B: UNIVIBE MATCH AI
+  // MODULE B: UNIVIBE MATCH AI (Grounded in Database Events)
   static async generateMatches(
     profile: StudentProfile,
     aiProfile: UniVibeProfileResult
   ): Promise<MatchAIResult & { ai_mode: string }> {
     const mode = this.getExecutionMode();
-    let result: MatchAIResult;
-
-    if (mode.provider === "bedrock") {
-      try {
-        const prompt = buildMatchPrompt(profile, []);
-        const { text } = await invokeBedrockText(prompt, UNIVIBE_SYSTEM_GUARDRAILS);
-        const cleaned = text.replace(/```json/g, "").replace(/```/g, "").trim();
-        const parsed = JSON.parse(cleaned);
-
-        result = {
-          id: "match-res-" + Date.now(),
-          user_id: profile.id,
-          recommendations: parsed.recommendations,
-          best_match_id: parsed.best_match_id || parsed.recommendations[0]?.id,
-          seven_day_mission: parsed.seven_day_mission,
-          heuristic_explanation: parsed.heuristic_explanation || "Vector relevance based on skills and stated campus goals.",
-          generated_at: new Date().toISOString(),
-        };
-      } catch (err) {
-        console.warn("Bedrock match generation failed, falling back to simulated engine:", err);
-        result = SimulatedAiProvider.generateMatches(profile, aiProfile);
-      }
-    } else {
-      result = SimulatedAiProvider.generateMatches(profile, aiProfile);
-    }
+    // Connect directly to the same database as Events Hub
+    const campusEvents = await db.getEvents(profile.id);
+    const result = SimulatedAiProvider.generateMatches(profile, aiProfile, campusEvents);
 
     await db.saveMatches(profile.id, result.recommendations);
     return { ...result, ai_mode: mode.provider };

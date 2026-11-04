@@ -16,8 +16,46 @@ import {
   ChevronRight
 } from "lucide-react";
 
+function safeDecode(val: string): string {
+  if (!val) return "";
+  try {
+    let curr = val;
+    for (let i = 0; i < 3; i++) {
+      if (curr.includes("%")) {
+        curr = decodeURIComponent(curr);
+      } else {
+        break;
+      }
+    }
+    return curr;
+  } catch (e) {
+    return val;
+  }
+}
+
 export default function StudentDashboardOverview() {
-  const [studentName, setStudentName] = useState("Aditi");
+  const [studentName, setStudentName] = useState("Student");
+  const [studentAvatar, setStudentAvatar] = useState<string | null>(null);
+  const [avatarError, setAvatarError] = useState(false);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const nameMatch = document.cookie.match(/univibe_user_name=([^;]+)/);
+      const avatarMatch = document.cookie.match(/univibe_user_avatar=([^;]+)/);
+      if (nameMatch && nameMatch[1]) {
+        try {
+          const decoded = decodeURIComponent(nameMatch[1].trim());
+          if (decoded) setStudentName(decoded);
+        } catch (e) {}
+      }
+      if (avatarMatch && avatarMatch[1]) {
+        try {
+          const decoded = decodeURIComponent(avatarMatch[1].trim());
+          if (decoded) setStudentAvatar(decoded);
+        } catch (e) {}
+      }
+    }
+  }, []);
 
   useEffect(() => {
     async function loadProfile() {
@@ -27,6 +65,9 @@ export default function StudentDashboardOverview() {
           const data = await res.json();
           if (data.profile?.student_name) {
             setStudentName(data.profile.student_name);
+            if (data.profile?.avatar_url) {
+              setStudentAvatar(data.profile.avatar_url);
+            }
           }
         }
       } catch (err) {
@@ -53,12 +94,20 @@ export default function StudentDashboardOverview() {
           <button className="w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors">
             <Bell className="w-4 h-4" />
           </button>
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-sm">
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-              alt="Aditi"
-              className="w-full h-full object-cover"
-            />
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-sm bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shrink-0">
+            {studentAvatar && !avatarError ? (
+              <img
+                src={studentAvatar}
+                alt={studentName}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+                onError={() => setAvatarError(true)}
+              />
+            ) : (
+              <span className="text-sm font-bold text-white select-none">
+                {studentName ? studentName.charAt(0).toUpperCase() : "S"}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -86,11 +135,19 @@ export default function StudentDashboardOverview() {
         {/* Character Visual */}
         <div className="relative z-10 shrink-0 self-center sm:self-auto">
           <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white/30 shadow-2xl bg-purple-900/40">
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
-              alt="Campus Student Avatar"
-              className="w-full h-full object-cover"
-            />
+            {studentAvatar && !avatarError ? (
+              <img
+                src={studentAvatar}
+                alt={studentName}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+                onError={() => setAvatarError(true)}
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-white text-3xl font-extrabold bg-gradient-to-tr from-purple-600 to-indigo-500">
+                {studentName.charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
         </div>
 

@@ -24,7 +24,6 @@ import { MatchAIResult, OpportunityRecommendation } from "@/types";
 
 export default function MatchesPage() {
   const [matches, setMatches] = useState<MatchAIResult | null>(null);
-  const [selectedOpp, setSelectedOpp] = useState<OpportunityRecommendation | null>(null);
   const [loading, setLoading] = useState(true);
   const [regenerating, setRegenerating] = useState(false);
 
@@ -59,34 +58,12 @@ export default function MatchesPage() {
         item.id === opp.id ? { ...item, is_saved: newSaved } : item
       );
       setMatches({ ...matches, recommendations: updated });
-      if (selectedOpp?.id === opp.id) {
-        setSelectedOpp({ ...selectedOpp, is_saved: newSaved });
-      }
     }
 
     await fetch("/api/opportunities/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ opportunityId: opp.id, isSaved: newSaved }),
-    });
-  };
-
-  const handleToggleInterest = async (opp: OpportunityRecommendation) => {
-    const newInterest = !opp.is_interested;
-    if (matches) {
-      const updated = matches.recommendations.map((item) =>
-        item.id === opp.id ? { ...item, is_interested: newInterest } : item
-      );
-      setMatches({ ...matches, recommendations: updated });
-      if (selectedOpp?.id === opp.id) {
-        setSelectedOpp({ ...selectedOpp, is_interested: newInterest });
-      }
-    }
-
-    await fetch("/api/opportunities/save", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ opportunityId: opp.id, isInterested: newInterest }),
     });
   };
 
@@ -126,7 +103,7 @@ export default function MatchesPage() {
             </div>
           </div>
           <span className="text-[11px] font-mono text-lavender-400 bg-white/5 px-3 py-1 rounded-full shrink-0">
-            5 Ranked Recommendations
+            {matches?.recommendations?.length || 0} Ranked Recommendations
           </span>
         </div>
 
@@ -211,21 +188,17 @@ export default function MatchesPage() {
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
               <Compass className="w-5 h-5 text-violet-light" />
-              All 5 Ranked Opportunities
+              All {matches?.recommendations?.length || 0} Ranked Opportunities
             </h3>
-            <span className="text-xs text-lavender-400">Click any card to inspect details</span>
+            <span className="text-xs text-lavender-400">Grounded in verified campus catalog</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {matches?.recommendations?.map((opp, idx) => {
-              const isSelected = selectedOpp?.id === opp.id;
               return (
                 <div
                   key={opp.id}
-                  onClick={() => setSelectedOpp(opp)}
-                  className={`p-5 rounded-2xl bg-midnight-850/80 border transition-all cursor-pointer flex flex-col justify-between glass-card-hover ${
-                    isSelected ? "border-violet ring-1 ring-violet shadow-lg shadow-violet/20" : "border-violet/20 hover:border-violet/40"
-                  }`}
+                  className="p-5 rounded-2xl bg-midnight-850/80 border border-violet/20 hover:border-violet/40 transition-all flex flex-col justify-between glass-card-hover"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -283,82 +256,6 @@ export default function MatchesPage() {
             })}
           </div>
         </div>
-
-        {/* Selected Opportunity Detailed View */}
-        {selectedOpp && (
-          <div className="rounded-2xl p-6 bg-midnight-900 border border-violet/30 space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div>
-                <span className="text-xs uppercase font-semibold text-violet-light tracking-wider">
-                  Inspecting Opportunity
-                </span>
-                <h3 className="text-xl font-bold text-white mt-1">{selectedOpp.opportunity_name}</h3>
-              </div>
-              <div className="flex items-center gap-3">
-                <Button
-                  size="sm"
-                  variant={selectedOpp.is_interested ? "secondary" : "outline"}
-                  onClick={() => handleToggleInterest(selectedOpp)}
-                  className="text-xs"
-                >
-                  <Star className={`w-3.5 h-3.5 mr-1 ${selectedOpp.is_interested ? "fill-amber-400 text-amber-400" : ""}`} />
-                  {selectedOpp.is_interested ? "Marked Interested" : "Mark as Interested"}
-                </Button>
-                <Link href={`/dashboard/outreach?opportunity=${encodeURIComponent(selectedOpp.opportunity_name)}`}>
-                  <Button size="sm" className="text-xs">
-                    Draft Outreach Message
-                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-lavender-300">
-              <div className="p-3.5 rounded-xl bg-midnight-950 border border-white/5">
-                <span className="font-semibold text-white block mb-1">Eligibility:</span>
-                {selectedOpp.eligibility}
-              </div>
-              <div className="p-3.5 rounded-xl bg-midnight-950 border border-white/5">
-                <span className="font-semibold text-white block mb-1">Verification Details:</span>
-                {selectedOpp.verification_details || "Verified via Student Affairs"}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Personalized 7-Day Mission */}
-        {matches?.seven_day_mission && (
-          <div className="rounded-2xl p-6 sm:p-8 bg-midnight-850/80 border border-violet/20 space-y-6">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet/15 text-xs text-lavender-200 mb-2">
-                <Calendar className="w-3.5 h-3.5 text-violet-light" />
-                <span>Onboarding Action Plan</span>
-              </div>
-              <h3 className="text-xl font-bold text-white">
-                {matches.seven_day_mission.mission_title}
-              </h3>
-              <p className="text-xs text-lavender-400 mt-1">
-                A daily progressive breakdown to build verifiable campus momentum.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3">
-              {matches.seven_day_mission.daily_actions.map((day) => (
-                <div key={day.day} className="p-3.5 rounded-xl bg-midnight-900 border border-white/5 flex flex-col justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono font-bold text-violet-light uppercase">
-                      Day 0{day.day}
-                    </span>
-                    <p className="text-xs text-white font-medium mt-1 leading-snug">{day.action}</p>
-                  </div>
-                  <div className="text-[10px] text-emerald-400 mt-3 pt-2 border-t border-white/5">
-                    ✓ {day.outcome}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
