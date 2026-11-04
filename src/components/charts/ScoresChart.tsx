@@ -17,6 +17,11 @@ interface ScoresChartProps {
 }
 
 export function ScoresChart({ scores }: ScoresChartProps) {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
   const data = [
     { factor: "Technical", score: scores.technical_potential || 85, fullMark: 100 },
     { factor: "Creativity", score: scores.creativity || 80, fullMark: 100 },
@@ -25,6 +30,16 @@ export function ScoresChart({ scores }: ScoresChartProps) {
     { factor: "Innovation", score: scores.innovation || 88, fullMark: 100 },
     { factor: "Campus Engagement", score: scores.campus_engagement || 72, fullMark: 100 },
   ];
+
+  if (!mounted) {
+    return (
+      <div className="w-full h-72 sm:h-80 flex items-center justify-center">
+        <div className="w-32 h-32 rounded-full border border-[#446B8D]/30 flex items-center justify-center text-xs text-[#E4B74A]">
+          Loading chart...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-72 sm:h-80 flex items-center justify-center">

@@ -14,17 +14,43 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Form State - Pre-filled with realistic sample for rapid testing
+  // Form State - Clean initial state, loads authenticated student name
   const [formData, setFormData] = useState({
-    student_name: "Alex Roy",
-    department: "B.Tech Computer Science & Engineering, JIS University",
-    year: "3rd Year",
-    interests: "Artificial Intelligence, Cloud Systems, Hackathons, Web3, Creative Coding",
-    skills: "Python, TypeScript, React, Next.js, AWS Bedrock, System Design",
-    free_time: "5–6 hours per week, mostly evenings",
-    goal: "Build a high-impact campus tech project at JIS University and win inter-college hackathons",
-    tone: "Confident" as ToneType,
+    student_name: "",
+    department: "",
+    year: "",
+    interests: "",
+    skills: "",
+    free_time: "",
+    goal: "",
+    tone: "Friendly" as ToneType,
   });
+
+  React.useEffect(() => {
+    async function loadInitialProfile() {
+      try {
+        const res = await fetch("/api/profile");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.profile) {
+            setFormData({
+              student_name: data.profile.student_name || "",
+              department: data.profile.department || "",
+              year: data.profile.year || "",
+              interests: Array.isArray(data.profile.interests) ? data.profile.interests.join(", ") : "",
+              skills: Array.isArray(data.profile.skills) ? data.profile.skills.join(", ") : "",
+              free_time: data.profile.free_time || "",
+              goal: data.profile.goal || "",
+              tone: (data.profile.tone as ToneType) || "Friendly",
+            });
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load initial student profile:", e);
+      }
+    }
+    loadInitialProfile();
+  }, []);
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

@@ -1,3 +1,4 @@
+import { AiService } from "@/lib/ai/ai-service";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/neon";
 import { getSessionUserId, DEFAULT_STUDENT_ID } from "@/lib/auth/session";
@@ -37,15 +38,15 @@ export async function GET(request: Request) {
         id: userId,
         student_name: cookieName,
         avatar_url: cookieAvatar || (profile ? safeDecode(profile.avatar_url) : null),
-        department: profile?.department || "B.Tech Computer Science & Engineering",
-        year: profile?.year || "3rd Year",
-        interests: profile?.interests || ["Artificial Intelligence", "Campus Tech", "Leadership"],
-        skills: profile?.skills || ["Problem Solving", "Collaboration"],
-        free_time: profile?.free_time || "5-10 hours/week",
-        goal: profile?.goal || "Active campus engagement and tech events",
+        department: profile?.department || "",
+        year: profile?.year || "",
+        interests: profile?.interests || [],
+        skills: profile?.skills || [],
+        free_time: profile?.free_time || "",
+        goal: profile?.goal || "",
         tone: profile?.tone || "Friendly",
         university_name: profile?.university_name || "JIS University",
-        onboarding_completed: true,
+        onboarding_completed: profile?.onboarding_completed ?? false,
       };
     } else if (profile) {
       profile = {
@@ -55,7 +56,38 @@ export async function GET(request: Request) {
       };
     }
 
-    return NextResponse.json({ profile });
+    if (!profile) {
+      profile = {
+        id: userId,
+        student_name: cookieName || "UniVibe Student",
+        avatar_url: cookieAvatar || null,
+        department: "",
+        year: "",
+        interests: [],
+        skills: [],
+        free_time: "",
+        goal: "",
+        tone: "Friendly",
+        university_name: "JIS University",
+        onboarding_completed: false,
+      };
+      try {
+        await db.saveProfile(profile);
+      } catch (e) {
+        console.warn("Could not persist initial profile:", e);
+      }
+    }
+
+    let aiProfile = await db.getAiProfile(userId);
+    if (!aiProfile && profile && profile.onboarding_completed) {
+      try {
+        aiProfile = await AiService.generateProfile(profile);
+      } catch (e) {
+        console.warn("Could not generate AI profile:", e);
+      }
+    }
+
+    return NextResponse.json({ profile, aiProfile });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || "Failed to load profile" }, { status: 500 });
   }

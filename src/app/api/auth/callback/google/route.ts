@@ -111,7 +111,18 @@ export async function GET(request: Request) {
     const userName = safeDecode(rawName);
     const userPicture = safeDecode(googleUser.picture || "");
 
-    // 3. Upsert user in Neon DB
+    // 3. Check existing user in Neon DB
+    let existingProfile = null;
+    try {
+      if (role === "student") {
+        existingProfile = await db.getProfile(userId);
+      }
+    } catch (e) {
+      console.warn("Could not check existing profile:", e);
+    }
+
+    const isFirstTimeStudent = role === "student" && (!existingProfile || !existingProfile.onboarding_completed);
+
     try {
       if (role === "organizer") {
         await db.saveOrganizerProfile({
@@ -125,27 +136,33 @@ export async function GET(request: Request) {
           avatar_url: userPicture,
         });
       } else {
-        await db.saveProfile({
-          id: userId,
-          student_name: userName,
-          department: "B.Tech Computer Science & Engineering",
-          year: "3rd Year",
-          interests: ["Artificial Intelligence", "Campus Tech", "Leadership"],
-          skills: ["Problem Solving", "Collaboration"],
-          free_time: "5-10 hours/week",
-          goal: "Active campus engagement and tech events",
-          tone: "Friendly",
-          university_name: "JIS University",
-          avatar_url: userPicture,
-          onboarding_completed: true,
-        });
+        if (!existingProfile) {
+          // First-time student: save skeleton profile with Google credentials, onboarding_completed: false
+          await db.saveProfile({
+            id: userId,
+            student_name: userName,
+            department: "",
+            year: "",
+            interests: [],
+            skills: [],
+            free_time: "",
+            goal: "",
+            tone: "Friendly",
+            university_name: "JIS University",
+            avatar_url: userPicture,
+            onboarding_completed: false,
+          });
+        }
       }
     } catch (dbErr) {
       console.error("Error saving user to DB during Google sign-in:", dbErr);
     }
 
     // 4. Build redirection response with session cookies
-    const destination = role === "organizer" ? "/organizer/dashboard" : (returnTo || "/dashboard");
+    // First-time students are directed to /onboarding to declare skills & interests
+    const destination = role === "organizer" 
+      ? "/organizer/dashboard" 
+      : (isFirstTimeStudent ? "/onboarding" : (returnTo || "/dashboard"));
     const redirectResponse = NextResponse.redirect(new URL(destination, appUrl));
 
     const cookieOptions = {

@@ -43,6 +43,7 @@ export default function EntryGatePage() {
       const urlError = params.get("error");
       if (urlError) {
         setLoginError(urlError);
+        setAuthModalRole("student");
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
@@ -428,7 +429,7 @@ export default function EntryGatePage() {
               </div>
 
               {/* Method 3: Credentials Form */}
-              <form onSubmit={handleCredentialsLogin} className="space-y-3.5">
+              <form onSubmit={handleCredentialsLogin} className="space-y-3.5" autoComplete="off">
                 <div>
                   <label className="block text-xs font-semibold text-[#D4D4D4] mb-1">
                     {authModalRole === "student" ? "Student Email / Username" : "Student Organizer Email / Username"}
@@ -446,7 +447,7 @@ export default function EntryGatePage() {
                       }
                       className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-xs placeholder:text-[#A8A8A8]/60 focus:outline-none focus:border-[#446B8D]"
                       required
-                      autoComplete="username"
+                      autoComplete="off"
                     />
                   </div>
                 </div>
@@ -468,7 +469,7 @@ export default function EntryGatePage() {
                       }
                       className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-xs placeholder:text-[#A8A8A8]/60 focus:outline-none focus:border-[#446B8D]"
                       required
-                      autoComplete="current-password"
+                      autoComplete="new-password"
                     />
                     <button
                       type="button"

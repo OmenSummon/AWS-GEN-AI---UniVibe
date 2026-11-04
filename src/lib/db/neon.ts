@@ -764,16 +764,29 @@ export const db = {
       try {
         const rows = await sql`SELECT * FROM ai_profiles WHERE user_id = ${userId} ORDER BY created_at DESC LIMIT 1;`;
         if (rows[0]) {
+          const r = rows[0];
+          const safeParse = (v, def) => {
+            if (!v) return def;
+            if (typeof v === 'string') {
+              try { return JSON.parse(v); } catch (e) { return def; }
+            }
+            return v;
+          };
           return {
-            ...rows[0],
+            ...r,
             scores: {
-              technical_potential: rows[0].technical_potential,
-              creativity: rows[0].creativity,
-              leadership: rows[0].leadership,
-              networking: rows[0].networking,
-              innovation: rows[0].innovation,
-              campus_engagement: rows[0].campus_engagement,
+              technical_potential: r.technical_potential ?? 85,
+              creativity: r.creativity ?? 80,
+              leadership: r.leadership ?? 75,
+              networking: r.networking ?? 70,
+              innovation: r.innovation ?? 88,
+              campus_engagement: r.campus_engagement ?? 72,
             },
+            ranked_interests: safeParse(r.ranked_interests, []),
+            hidden_strengths: safeParse(r.hidden_strengths, []),
+            growth_opportunities: safeParse(r.growth_opportunities, []),
+            score_explanations: safeParse(r.score_explanations, []),
+            level_up_mission: safeParse(r.level_up_mission, {}),
           };
         }
       } catch (e) {

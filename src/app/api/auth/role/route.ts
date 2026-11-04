@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { db } from "@/lib/db/neon";
+import { DEFAULT_STUDENT_ID } from "@/lib/auth/session";
 
 export async function POST(request: Request) {
   try {
@@ -11,7 +13,14 @@ export async function POST(request: Request) {
 
     // 1. Social Logins (Google & GitHub)
     if (provider === "google" || provider === "github") {
-      const redirectUrl = role === "organizer" ? "/organizer/dashboard" : "/dashboard";
+      let isFirstTime = false;
+      if (role === "student") {
+        try {
+          const profile = await db.getProfile(DEFAULT_STUDENT_ID);
+          isFirstTime = !profile || !profile.onboarding_completed;
+        } catch (e) {}
+      }
+      const redirectUrl = role === "organizer" ? "/organizer/dashboard" : (isFirstTime ? "/onboarding" : "/dashboard");
 
       const response = NextResponse.json({
         success: true,
@@ -77,7 +86,14 @@ export async function POST(request: Request) {
       }
     }
 
-    const redirectUrl = role === "organizer" ? "/organizer/dashboard" : "/dashboard";
+    let isFirstTime = false;
+    if (role === "student") {
+      try {
+        const profile = await db.getProfile(username || DEFAULT_STUDENT_ID);
+        isFirstTime = !profile || !profile.onboarding_completed;
+      } catch (e) {}
+    }
+    const redirectUrl = role === "organizer" ? "/organizer/dashboard" : (isFirstTime ? "/onboarding" : "/dashboard");
 
     const response = NextResponse.json({
       success: true,

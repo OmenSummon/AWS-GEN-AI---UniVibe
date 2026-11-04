@@ -45,7 +45,26 @@ export default function ProfilePage() {
 
   const handleRegenerate = async () => {
     setRegenerating(true);
-    await loadData();
+    try {
+      const res = await fetch("/api/ai/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: profile?.id }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.aiProfile) {
+          setAiProfile(data.aiProfile);
+        }
+      } else {
+        await loadData();
+      }
+    } catch (e) {
+      console.error("Regenerate failed:", e);
+      await loadData();
+    } finally {
+      setRegenerating(false);
+    }
   };
 
   return (

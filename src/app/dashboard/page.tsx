@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Bell,
   Sparkles,
@@ -34,6 +35,7 @@ function safeDecode(val: string): string {
 }
 
 export default function StudentDashboardOverview() {
+  const router = useRouter();
   const [studentName, setStudentName] = useState("Student");
   const [studentAvatar, setStudentAvatar] = useState<string | null>(null);
   const [avatarError, setAvatarError] = useState(false);
@@ -68,6 +70,9 @@ export default function StudentDashboardOverview() {
             if (data.profile?.avatar_url) {
               setStudentAvatar(data.profile.avatar_url);
             }
+          }
+          if (data.profile && data.profile.onboarding_completed === false) {
+            router.push("/onboarding");
           }
         }
       } catch (err) {
