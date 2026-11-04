@@ -1,87 +1,76 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MessageSquare,
-  Sparkles,
   Send,
-  User,
   Bot,
-  Lightbulb,
+  User,
+  Sparkles,
   CheckCircle2,
+  Lightbulb,
   ArrowRight,
   ShieldCheck,
-  RefreshCw
+  RefreshCw,
+  Clock,
+  Compass,
+  Zap
 } from "lucide-react";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { ConciergeMessage } from "@/types";
-
-const suggestedPrompts = [
-  "What hackathons should I prepare for this semester?",
-  "How can I find a faculty research mentor in my department?",
-  "What are my biggest skill gaps and how do I address them?",
-  "How can I balance a campus build with 5-6 hours per week?",
-];
+import { ConciergeStructuredResponse, ChatMessage } from "@/types";
 
 export default function ConciergePage() {
-  const [messages, setMessages] = useState<ConciergeMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: "initial-welcome",
+      sender: "bot",
+      content: "Hello! I am your UniVibe Campus Concierge.",
+      structured_response: {
+        quick_answer:
+          "Welcome to your context-aware campus advisor. I analyze your confirmed profile, gap analysis, and upcoming events to give you tailored guidance.",
+        personalized_insight:
+          "Based on your profile, you have strong technical aptitude in AI and systems, with immediate opportunities to level up your team collaboration and public hackathon visibility.",
+        what_to_do_next:
+          "Ask me anything about which campus clubs to join, how to prepare for inter-college hackathons, or how to reach out to professors for research opportunities.",
+        univibe_tip:
+          "You can click any of the prompt pills below to test realistic student scenarios.",
+      },
+      timestamp: new Date().toISOString(),
+    },
+  ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const loadHistory = async () => {
-    try {
-      const res = await fetch("/api/concierge/history");
-      const data = await res.json();
-      if (data.messages && data.messages.length > 0) {
-        setMessages(data.messages);
-      } else {
-        // Initial welcoming concierge message
-        setMessages([
-          {
-            id: "msg-welcome",
-            conversation_id: "conv-default",
-            sender: "assistant",
-            content:
-              "Welcome to your Campus Concierge! I have full contextual access to your UniVibe profile, match recommendations, gap analysis, and roadmap. How can I assist your campus growth today?",
-            structured_response: {
-              quick_answer: "I'm your dedicated campus intelligence assistant, calibrated to your specific profile and career goals.",
-              personalized_insight: "I combine your documented skills, available weekly hours, and target ambitions to provide realistic campus strategies.",
-              what_to_do_next: "Ask any question about hackathons, faculty research, club leadership, or skill acquisition.",
-              univibe_tip: "Try asking about how to bridge your top technical skill with a faculty research fellowship.",
-            },
-            created_at: new Date().toISOString(),
-          },
-        ]);
-      }
-    } catch (e) {
-      console.error(e);
-    }
+  const suggestedPrompts = [
+    "What is the best hackathon for me to enter this semester?",
+    "How can I close my leadership skill gap before junior year?",
+    "Draft a formal request to join the JIS Robotics Lab",
+    "What should be my #1 focus this weekend to stay ahead?",
+  ];
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
-    loadHistory();
-  }, []);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom();
   }, [messages]);
 
   const handleSend = async (messageText?: string) => {
     const textToSend = messageText || input;
     if (!textToSend.trim() || loading) return;
 
-    const userMessage: ConciergeMessage = {
-      id: "usr-" + Date.now(),
-      conversation_id: "conv-default",
+    const userMsg: ChatMessage = {
+      id: Date.now().toString(),
       sender: "user",
       content: textToSend,
-      created_at: new Date().toISOString(),
+      timestamp: new Date().toISOString(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMsg]);
     if (!messageText) setInput("");
     setLoading(true);
 
@@ -89,13 +78,22 @@ export default function ConciergePage() {
       const res = await fetch("/api/ai/concierge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: textToSend }),
+        body: JSON.stringify({
+          message: textToSend,
+          history: messages.slice(-4),
+        }),
       });
 
       const data = await res.json();
-      if (data.message) {
-        setMessages((prev) => [...prev, data.message]);
-      }
+      const botMsg: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        sender: "bot",
+        content: data.reply || "Analysis complete.",
+        structured_response: data.structured_response,
+        timestamp: new Date().toISOString(),
+      };
+
+      setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
       console.error(err);
     } finally {
@@ -112,11 +110,11 @@ export default function ConciergePage() {
 
       <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto w-full flex-1 flex flex-col">
         {/* Anti-Hallucination & Verification Notice */}
-        <div className="p-3.5 rounded-xl bg-midnight-900 border border-violet/20 flex items-center justify-between text-xs text-lavender-300">
-          <div className="flex items-center gap-2">
+        <div className="p-4 rounded-2xl bg-[#130d28] border border-purple-500/30 flex items-center justify-between text-xs text-lavender-200 shadow-sm">
+          <div className="flex items-center gap-2.5">
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>
-              <span className="font-semibold text-white">Non-Fabrication Policy: </span>
+              <span className="font-bold text-white">Non-Fabrication Policy: </span>
               All guidance references your active profile data and verified campus knowledge.
             </span>
           </div>
@@ -131,16 +129,16 @@ export default function ConciergePage() {
             <button
               key={idx}
               onClick={() => handleSend(prompt)}
-              className="text-xs px-3 py-1.5 rounded-xl bg-midnight-850/80 border border-violet/15 hover:border-violet/40 text-lavender-300 hover:text-white transition-all text-left flex items-center gap-1.5"
+              className="text-xs px-3.5 py-2 rounded-xl bg-white border border-gray-200 hover:border-purple-300 text-[#150a33] hover:text-[#6c35de] transition-all text-left flex items-center gap-1.5 font-semibold shadow-2xs cursor-pointer"
             >
-              <Sparkles className="w-3 h-3 text-violet-light shrink-0" />
+              <Sparkles className="w-3.5 h-3.5 text-[#6c35de] shrink-0" />
               <span>{prompt}</span>
             </button>
           ))}
         </div>
 
         {/* Messages Stream Container */}
-        <div className="flex-1 min-h-[420px] rounded-2xl bg-midnight-850/60 border border-violet/20 p-4 sm:p-6 overflow-y-auto space-y-6 shadow-xl">
+        <div className="flex-1 min-h-[420px] rounded-3xl bg-[#130d28] border border-purple-500/25 p-5 sm:p-7 overflow-y-auto space-y-6 shadow-2xl">
           {messages.map((msg) => {
             const isUser = msg.sender === "user";
             return (
@@ -149,16 +147,16 @@ export default function ConciergePage() {
                 className={`flex gap-3.5 ${isUser ? "justify-end" : "justify-start"}`}
               >
                 {!isUser && (
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-violet to-violet-light flex items-center justify-center shrink-0 shadow-md shadow-violet/20 mt-1">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#6c35de] to-[#a855f7] flex items-center justify-center shrink-0 shadow-md shadow-purple-900/30 mt-1">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-2xl rounded-2xl p-4 sm:p-5 text-sm ${
+                  className={`max-w-2xl rounded-2xl p-5 text-sm ${
                     isUser
-                      ? "bg-violet text-white shadow-md shadow-violet/20"
-                      : "bg-midnight-900 border border-white/5 text-lavender-200"
+                      ? "bg-[#6c35de] text-white shadow-md shadow-purple-900/30 font-medium"
+                      : "bg-[#0e081f] border border-purple-400/20 text-lavender-100 shadow-sm"
                   }`}
                 >
                   {isUser ? (
@@ -167,50 +165,50 @@ export default function ConciergePage() {
                     <div className="space-y-4">
                       {/* 1. Quick Answer */}
                       <div className="pb-3 border-b border-white/10">
-                        <span className="text-[11px] font-bold text-violet-light uppercase tracking-wider block mb-1">
+                        <span className="text-[10px] font-bold text-purple-300 uppercase tracking-wider block mb-1">
                           1. Quick Answer
                         </span>
-                        <p className="text-white font-medium leading-relaxed">
+                        <p className="text-white font-bold leading-relaxed">
                           {msg.structured_response.quick_answer}
                         </p>
                       </div>
 
                       {/* 2. Personalized Insight */}
                       <div>
-                        <span className="text-[11px] font-bold text-lavender-400 uppercase tracking-wider block mb-1">
+                        <span className="text-[10px] font-bold text-purple-300 uppercase tracking-wider block mb-1">
                           2. Personalized Profile Insight
                         </span>
-                        <p className="text-xs text-lavender-300 leading-relaxed">
+                        <p className="text-xs text-lavender-200 leading-relaxed font-medium">
                           {msg.structured_response.personalized_insight}
                         </p>
                       </div>
 
                       {/* 3. What To Do Next */}
-                      <div className="p-3 rounded-xl bg-midnight-950/80 border border-white/5">
-                        <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block mb-1 flex items-center gap-1">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> 3. What To Do Next
+                      <div className="p-4 rounded-xl bg-[#140e2b] border border-emerald-500/30">
+                        <span className="text-[10px] font-bold text-emerald-300 uppercase tracking-wider block mb-1 flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> 3. What To Do Next
                         </span>
-                        <p className="text-xs text-lavender-200 leading-relaxed">
+                        <p className="text-xs text-emerald-100 leading-relaxed font-medium">
                           {msg.structured_response.what_to_do_next}
                         </p>
                       </div>
 
                       {/* 4. UniVibe Tip */}
-                      <div className="text-xs text-amber-300/90 pt-1 flex items-start gap-1.5">
-                        <Lightbulb className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                      <div className="text-xs text-amber-200/90 pt-1 flex items-start gap-1.5 font-medium">
+                        <Lightbulb className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
                         <span>
-                          <strong className="text-white">UniVibe Tip: </strong>
+                          <strong className="text-amber-300">UniVibe Tip: </strong>
                           {msg.structured_response.univibe_tip}
                         </span>
                       </div>
                     </div>
                   ) : (
-                    <p className="leading-relaxed whitespace-pre-line text-xs">{msg.content}</p>
+                    <p className="leading-relaxed whitespace-pre-line text-xs font-medium">{msg.content}</p>
                   )}
                 </div>
 
                 {isUser && (
-                  <div className="w-8 h-8 rounded-xl bg-midnight-800 border border-violet/30 flex items-center justify-center shrink-0 mt-1 text-xs font-bold text-lavender-200">
+                  <div className="w-9 h-9 rounded-xl bg-[#0e081f] border border-purple-400/30 flex items-center justify-center shrink-0 mt-1 text-xs font-bold text-purple-200 shadow-sm">
                     AR
                   </div>
                 )}
@@ -219,9 +217,9 @@ export default function ConciergePage() {
           })}
 
           {loading && (
-            <div className="flex gap-3.5 justify-start items-center text-xs text-lavender-400">
-              <div className="w-8 h-8 rounded-xl bg-violet/20 border border-violet/30 flex items-center justify-center shrink-0 animate-pulse">
-                <Bot className="w-4 h-4 text-violet-light" />
+            <div className="flex gap-3.5 justify-start items-center text-xs text-purple-300 font-medium">
+              <div className="w-8 h-8 rounded-xl bg-purple-900/60 border border-purple-400/40 flex items-center justify-center shrink-0 animate-pulse">
+                <Bot className="w-4 h-4 text-purple-200" />
               </div>
               <span className="animate-pulse">Concierge is synthesizing your profile &amp; campus data...</span>
             </div>
@@ -236,16 +234,16 @@ export default function ConciergePage() {
             e.preventDefault();
             handleSend();
           }}
-          className="flex items-center gap-2 p-2 rounded-2xl bg-midnight-850 border border-violet/25 shadow-xl"
+          className="flex items-center gap-2 p-2 rounded-2xl bg-[#0e081f] border border-purple-400/30 shadow-xl"
         >
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask your Campus Concierge anything about your opportunities, skills, or next steps..."
-            className="flex-1 px-4 py-3 bg-transparent text-sm text-white focus:outline-none placeholder:text-lavender-400/50"
+            className="flex-1 px-4 py-3 bg-transparent text-sm text-white focus:outline-none placeholder:text-purple-300/60 font-medium"
           />
-          <Button type="submit" disabled={!input.trim() || loading} size="md">
+          <Button type="submit" disabled={!input.trim() || loading} size="md" variant="primary">
             <Send className="w-4 h-4" />
           </Button>
         </form>
@@ -253,4 +251,3 @@ export default function ConciergePage() {
     </div>
   );
 }
-

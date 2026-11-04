@@ -10,20 +10,37 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Theme semantic tokens
+        theme: {
+          bg: "var(--background)",
+          surface: "var(--surface)",
+          "surface-secondary": "var(--surface-secondary)",
+          "surface-muted": "var(--surface-muted)",
+          foreground: "var(--foreground)",
+          "foreground-secondary": "var(--foreground-secondary)",
+          muted: "var(--muted-foreground)",
+          border: "var(--border)",
+          primary: "var(--primary)",
+          "primary-foreground": "var(--primary-foreground)",
+        },
+        // UniVibe Brand Midnight Palette
         midnight: {
           950: "#07050d",
           900: "#0B0813",
           850: "#100c1e",
           800: "#151027",
+          750: "#18122f",
           700: "#1d1736",
           600: "#272047",
         },
+        // UniVibe Brand Violet Palette
         violet: {
           DEFAULT: "#8B5CF6",
           light: "#A78BFA",
           dark: "#7C3AED",
           glow: "#6D28D9",
         },
+        // UniVibe Brand Lavender Palette (High-legibility lightness scales)
         lavender: {
           50: "#FAF8FF",
           100: "#F3EFFF",
@@ -35,7 +52,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-cal)", "system-ui", "sans-serif"],
+        display: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
@@ -55,5 +72,5 @@ const config: Config = {
   },
   plugins: [],
 };
-export default config;
 
+export default config;

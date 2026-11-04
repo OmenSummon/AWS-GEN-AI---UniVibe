@@ -4,32 +4,81 @@
 
 @layer base {
   :root {
-    --background: 260 30% 5%;
-    --foreground: 250 20% 98%;
-    --font-inter: "Inter", sans-serif;
+    /* UniVibe Core Semantic Tokens (Light Shell) */
+    --background: #F8F7FC;
+    --surface: #FFFFFF;
+    --surface-secondary: #F1EEFA;
+    --surface-muted: #F3F4F6;
+    --foreground: #150A33;
+    --foreground-secondary: #475569;
+    --muted-foreground: #645C84;
+
+    --primary: #6C35DE;
+    --primary-hover: #7E4EE0;
+    --primary-foreground: #FFFFFF;
+
+    --border: #E2E8F0;
+    --border-subtle: #F1F5F9;
+
+    --success: #16834A;
+    --success-bg: #E8F8EE;
+    --warning: #A86408;
+    --warning-bg: #FEF7E8;
+    --danger: #C53B48;
+    --danger-bg: #FEECEE;
+    --info: #2563A6;
+    --info-bg: #EEF5FC;
+
+    /* UniVibe Signature Dark Intelligence Card Tokens (Opaque & High-Contrast) */
+    --card-dark-bg: #140E2B;
+    --card-dark-surface: #0D081E;
+    --card-dark-border: rgba(167, 139, 250, 0.28);
+    --card-dark-foreground: #FFFFFF;
+    --card-dark-secondary: #E9E2FE;
+    --card-dark-muted: #DDD6FE;
+    --card-dark-accent: #C4B5FD;
+
+    --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  .dark {
+    --background: #0B0813;
+    --surface: #140E2B;
+    --surface-secondary: #1E163B;
+    --surface-muted: #241B44;
+    --foreground: #FFFFFF;
+    --foreground-secondary: #DDD6FE;
+    --muted-foreground: #A78BFA;
+
+    --primary: #8B5CF6;
+    --primary-hover: #9D74FF;
+    --primary-foreground: #FFFFFF;
+
+    --border: #2D2254;
+    --border-subtle: #1F173D;
   }
 }
 
 body {
-  background-color: #0B0813;
-  color: #F3EFFF;
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
-/* Glassmorphism helpers */
+/* Glassmorphism & Surface Helpers (Opaque backdrops for 100% legibility) */
 .glass-panel {
-  background: rgba(26, 20, 53, 0.65);
+  background: rgba(20, 14, 43, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(167, 139, 250, 0.25);
 }
 
 .glass-panel-subtle {
-  background: rgba(19, 15, 38, 0.6);
+  background: rgba(13, 8, 30, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .glass-card-hover {
@@ -38,8 +87,8 @@ body {
 
 .glass-card-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(139, 92, 246, 0.4);
-  box-shadow: 0 12px 30px -10px rgba(124, 58, 237, 0.25);
+  border-color: rgba(167, 139, 250, 0.45);
+  box-shadow: 0 14px 32px -10px rgba(108, 53, 222, 0.3);
 }
 
 /* Custom scrollbars */
@@ -60,4 +109,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #7C3AED;
 }
-

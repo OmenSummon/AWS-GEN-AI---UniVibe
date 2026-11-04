@@ -78,14 +78,14 @@ export default function StudentDashboardOverview() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="w-full">
       {/* Top Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-[#150a33] tracking-tight flex items-center gap-2">
             Welcome back, {studentName}! 👋
           </h1>
-          <p className="text-sm text-[#645c84] mt-0.5">
+          <p className="text-sm text-[#645c84] mt-1">
             Here's your personalized campus snapshot at JIS University.
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function StudentDashboardOverview() {
       </div>
 
       {/* Hero Banner: Your Campus Potential */}
-      <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#6025d4] via-[#753be6] to-[#9955fa] text-white shadow-xl shadow-purple-900/15 overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#6025d4] via-[#753be6] to-[#9955fa] text-white shadow-xl shadow-purple-900/15 overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6">
         <div className="relative z-10 max-w-lg space-y-3">
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
             Your Campus Potential
@@ -156,7 +156,7 @@ export default function StudentDashboardOverview() {
       </div>
 
       {/* Two Column Grid: Intelligence Scores & Archetype / Mission */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Left Card (2 cols): UniVibe Intelligence Scores with Hexagon Radar */}
         <div className="lg:col-span-2 p-6 rounded-3xl bg-white border border-gray-150 shadow-sm space-y-4">
           <h3 className="text-base font-bold text-[#150a33]">
@@ -313,7 +313,7 @@ export default function StudentDashboardOverview() {
       </div>
 
       {/* Bottom Section: Recommended For You */}
-      <div className="space-y-4 pt-2">
+      <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-bold text-[#150a33]">
             Recommended For You
@@ -327,13 +327,13 @@ export default function StudentDashboardOverview() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1 */}
           <Link
             href="/dashboard/events"
-            className="p-4 rounded-2xl bg-white border border-gray-150 shadow-sm hover:shadow-md hover:border-purple-300 transition-all flex items-center gap-3.5 group"
+            className="p-6 rounded-3xl bg-white border border-gray-150 shadow-sm hover:shadow-md hover:border-purple-300 transition-all flex items-center gap-4 group"
           >
-            <div className="w-14 h-14 rounded-xl bg-purple-900 overflow-hidden shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-purple-900 overflow-hidden shrink-0">
               <img
                 src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=150&q=80"
                 alt="CodeStorm Hackathon"
@@ -344,10 +344,10 @@ export default function StudentDashboardOverview() {
               <h4 className="font-bold text-sm text-[#150a33] truncate group-hover:text-[#6c35de] transition-colors">
                 CodeStorm Hackathon
               </h4>
-              <div className="text-[11px] font-medium text-purple-600">
+              <div className="text-[11px] font-medium text-purple-600 mt-0.5">
                 Hackathon
               </div>
-              <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5 mt-0.5">
+              <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5 mt-1">
                 <span>↗ 96% Match</span>
               </div>
             </div>
@@ -356,9 +356,9 @@ export default function StudentDashboardOverview() {
           {/* Card 2 */}
           <Link
             href="/dashboard/events"
-            className="p-4 rounded-2xl bg-white border border-gray-150 shadow-sm hover:shadow-md hover:border-purple-300 transition-all flex items-center gap-3.5 group"
+            className="p-6 rounded-3xl bg-white border border-gray-150 shadow-sm hover:shadow-md hover:border-purple-300 transition-all flex items-center gap-4 group"
           >
-            <div className="w-14 h-14 rounded-xl bg-indigo-900 overflow-hidden shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-indigo-900 overflow-hidden shrink-0">
               <img
                 src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80"
                 alt="AI Innovation Workshop"
@@ -369,10 +369,10 @@ export default function StudentDashboardOverview() {
               <h4 className="font-bold text-sm text-[#150a33] truncate group-hover:text-[#6c35de] transition-colors">
                 AI Innovation Workshop
               </h4>
-              <div className="text-[11px] font-medium text-purple-600">
+              <div className="text-[11px] font-medium text-purple-600 mt-0.5">
                 Workshop
               </div>
-              <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5 mt-0.5">
+              <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5 mt-1">
                 <span>↗ 92% Match</span>
               </div>
             </div>
@@ -381,9 +381,9 @@ export default function StudentDashboardOverview() {
           {/* Card 3 */}
           <Link
             href="/dashboard/events"
-            className="p-4 rounded-2xl bg-white border border-gray-150 shadow-sm hover:shadow-md hover:border-purple-300 transition-all flex items-center gap-3.5 group"
+            className="p-6 rounded-3xl bg-white border border-gray-150 shadow-sm hover:shadow-md hover:border-purple-300 transition-all flex items-center gap-4 group"
           >
-            <div className="w-14 h-14 rounded-xl bg-fuchsia-900 overflow-hidden shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-fuchsia-900 overflow-hidden shrink-0">
               <img
                 src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=150&q=80"
                 alt="Startup Pitch Arena"
@@ -394,10 +394,10 @@ export default function StudentDashboardOverview() {
               <h4 className="font-bold text-sm text-[#150a33] truncate group-hover:text-[#6c35de] transition-colors">
                 Startup Pitch Arena
               </h4>
-              <div className="text-[11px] font-medium text-purple-600">
+              <div className="text-[11px] font-medium text-purple-600 mt-0.5">
                 Entrepreneurship
               </div>
-              <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5 mt-0.5">
+              <div className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5 mt-1">
                 <span>↗ 89% Match</span>
               </div>
             </div>

@@ -1,50 +1,58 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Settings,
   Database,
   Cpu,
   Shield,
+  Save,
   Trash2,
-  CheckCircle2,
-  AlertTriangle,
-  RefreshCw,
   ExternalLink,
-  Save
+  CheckCircle2,
+  RefreshCw,
+  AlertTriangle,
+  Lock,
+  Sparkles
 } from "lucide-react";
 import { Navbar } from "@/components/navigation/Navbar";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { StudentProfile } from "@/types";
 
 export default function SettingsPage() {
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [dbStatus, setDbStatus] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
   const [testingDb, setTestingDb] = useState(false);
-  const [savedSuccess, setSavedSuccess] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
+  const [savedSuccess, setSavedSuccess] = useState(false);
 
   useEffect(() => {
-    fetch("/api/profile")
-      .then((res) => res.json())
-      .then((data) => setProfile(data.profile));
-
-    // Check DB status on mount
-    fetch("/api/init-db", { method: "POST" })
-      .then((res) => res.json())
-      .then((data) => setDbStatus(data));
+    async function loadSettings() {
+      try {
+        const [dbRes, profRes] = await Promise.all([
+          fetch("/api/init-db"),
+          fetch("/api/profile"),
+        ]);
+        const dbData = await dbRes.json();
+        const profData = await profRes.json();
+        setDbStatus(dbData);
+        setProfile(profData.profile);
+      } catch (err) {
+        console.error("Failed to load settings:", err);
+      }
+    }
+    loadSettings();
   }, []);
 
   const handleTestDb = async () => {
     setTestingDb(true);
     try {
-      const res = await fetch("/api/init-db", { method: "POST" });
+      const res = await fetch("/api/init-db");
       const data = await res.json();
       setDbStatus(data);
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
     } finally {
       setTestingDb(false);
     }
@@ -52,9 +60,7 @@ export default function SettingsPage() {
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!profile) return;
     setSaveLoading(true);
-
     try {
       await fetch("/api/profile", {
         method: "POST",
@@ -85,17 +91,17 @@ export default function SettingsPage() {
 
       <div className="p-6 sm:p-8 space-y-8 max-w-5xl mx-auto w-full">
         {/* Neon Database & Serverless Architecture Card */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-midnight-850/80 border border-violet/20 space-y-4">
+        <div className="rounded-3xl p-6 sm:p-8 bg-[#130d28] border border-purple-500/25 space-y-5 shadow-xl">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet/15 border border-violet/30 flex items-center justify-center text-violet-light">
+              <div className="w-10 h-10 rounded-xl bg-purple-900/60 border border-purple-400/40 flex items-center justify-center text-purple-200">
                 <Database className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <h3 className="text-base font-black text-white flex items-center gap-2">
                   Neon Serverless PostgreSQL
                 </h3>
-                <p className="text-xs text-lavender-400">
+                <p className="text-xs text-lavender-300 font-medium">
                   Cloud serverless database with real migrations and Row Level Security.
                 </p>
               </div>
@@ -108,19 +114,19 @@ export default function SettingsPage() {
               isLoading={testingDb}
               className="text-xs"
             >
-              <RefreshCw className="w-3.5 h-3.5 mr-1 text-violet-light" />
+              <RefreshCw className="w-3.5 h-3.5 mr-1" />
               Verify Connection
             </Button>
           </div>
 
-          <div className="p-4 rounded-xl bg-midnight-900 border border-white/5 space-y-2 text-xs">
+          <div className="p-5 rounded-2xl bg-[#0e081f] border border-purple-400/20 space-y-2.5 text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-lavender-400 font-semibold">Current Storage Provider:</span>
+              <span className="text-purple-300 font-bold">Current Storage Provider:</span>
               <Badge variant={dbStatus?.configured ? "verified" : "warning"}>
                 {dbStatus?.configured ? "Neon Serverless Database Connected" : "Local / Demo Storage Fallback"}
               </Badge>
             </div>
-            <p className="text-lavender-300">
+            <p className="text-lavender-200 leading-relaxed font-medium">
               {dbStatus?.configured
                 ? "All 14 tables (profiles, ai_profiles, opportunities, journeys, milestones, marketing, posters, concierge) are managed via Neon DB."
                 : "No DATABASE_URL set in environment variables. UniVibe is running in high-fidelity Demo Mode with persistent local memory so you can test all features seamlessly."}
@@ -129,29 +135,29 @@ export default function SettingsPage() {
         </div>
 
         {/* AI Provider Architecture Card */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-midnight-850/80 border border-violet/20 space-y-4">
+        <div className="rounded-3xl p-6 sm:p-8 bg-[#130d28] border border-purple-500/25 space-y-5 shadow-xl">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-violet/15 border border-violet/30 flex items-center justify-center text-violet-light">
+            <div className="w-10 h-10 rounded-xl bg-purple-900/60 border border-purple-400/40 flex items-center justify-center text-purple-200">
               <Cpu className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">AI Provider Abstraction</h3>
-              <p className="text-xs text-lavender-400">
+              <h3 className="text-base font-black text-white">AI Provider Abstraction</h3>
+              <p className="text-xs text-lavender-300 font-medium">
                 Configurable Amazon Bedrock text &amp; image models with graceful mock provider fallback.
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-xl bg-midnight-900 border border-white/5">
-              <span className="text-lavender-400 font-semibold block mb-1">Text Generation Engine</span>
-              <span className="font-mono text-white text-[11px] block">
+            <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20">
+              <span className="text-purple-300 font-bold block mb-1">Text Generation Engine</span>
+              <span className="font-mono text-white text-[11px] block font-semibold">
                 anthropic.claude-3-5-sonnet-20240620-v1:0 (via Bedrock) / Simulated
               </span>
             </div>
-            <div className="p-4 rounded-xl bg-midnight-900 border border-white/5">
-              <span className="text-lavender-400 font-semibold block mb-1">Image Generation Engine</span>
-              <span className="font-mono text-white text-[11px] block">
+            <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20">
+              <span className="text-purple-300 font-bold block mb-1">Image Generation Engine</span>
+              <span className="font-mono text-white text-[11px] block font-semibold">
                 bedrock-stability.stable-image-core-v1-1 (PartyRock) / Vector Canvas
               </span>
             </div>
@@ -162,100 +168,100 @@ export default function SettingsPage() {
         {profile && (
           <form
             onSubmit={handleSaveProfile}
-            className="rounded-2xl p-6 sm:p-8 bg-midnight-850/80 border border-violet/20 space-y-6"
+            className="rounded-3xl p-6 sm:p-8 bg-[#130d28] border border-purple-500/25 space-y-6 shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <h3 className="text-base font-bold text-white">Edit Student Profile</h3>
-                <p className="text-xs text-lavender-400">
+                <h3 className="text-base font-black text-white">Edit Student Profile</h3>
+                <p className="text-xs text-lavender-300 font-medium">
                   Update your stated goals and skills. AI insights can be recalculated anytime.
                 </p>
               </div>
-              <Button type="submit" size="sm" isLoading={saveLoading}>
+              <Button type="submit" size="sm" variant="primary" isLoading={saveLoading}>
                 <Save className="w-3.5 h-3.5 mr-1" />
                 Save Changes
               </Button>
             </div>
 
             {savedSuccess && (
-              <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" /> Changes successfully saved to database!
+              <div className="p-3.5 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2 font-bold shadow-xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Changes successfully saved to database!
               </div>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-xs">
               <div>
-                <label className="block font-semibold text-lavender-300 mb-1.5">Student Name</label>
+                <label className="block font-bold text-purple-300 mb-1.5">Student Name</label>
                 <input
                   type="text"
                   value={profile.student_name}
                   onChange={(e) => setProfile({ ...profile, student_name: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-midnight-900 border border-violet/20 text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#0e081f] border border-purple-400/25 text-white focus:outline-none focus:border-purple-400 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-lavender-300 mb-1.5">Department</label>
+                <label className="block font-bold text-purple-300 mb-1.5">Department</label>
                 <input
                   type="text"
                   value={profile.department}
                   onChange={(e) => setProfile({ ...profile, department: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-midnight-900 border border-violet/20 text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#0e081f] border border-purple-400/25 text-white focus:outline-none focus:border-purple-400 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-lavender-300 mb-1.5">Academic Year</label>
+                <label className="block font-bold text-purple-300 mb-1.5">Academic Year</label>
                 <input
                   type="text"
                   value={profile.year}
                   onChange={(e) => setProfile({ ...profile, year: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-midnight-900 border border-violet/20 text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#0e081f] border border-purple-400/25 text-white focus:outline-none focus:border-purple-400 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-lavender-300 mb-1.5">Weekly Availability</label>
+                <label className="block font-bold text-purple-300 mb-1.5">Weekly Availability</label>
                 <input
                   type="text"
                   value={profile.free_time}
                   onChange={(e) => setProfile({ ...profile, free_time: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-midnight-900 border border-violet/20 text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#0e081f] border border-purple-400/25 text-white focus:outline-none focus:border-purple-400 font-medium"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-semibold text-lavender-300 text-xs mb-1.5">Primary Goal</label>
+              <label className="block font-bold text-purple-300 text-xs mb-1.5">Primary Goal</label>
               <input
                 type="text"
                 value={profile.goal}
                 onChange={(e) => setProfile({ ...profile, goal: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-midnight-900 border border-violet/20 text-white text-xs focus:outline-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#0e081f] border border-purple-400/25 text-white text-xs focus:outline-none focus:border-purple-400 font-medium"
               />
             </div>
           </form>
         )}
 
-        {/* Data Privacy & Purge Card (Requirement 15) */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-red-500/5 border border-red-500/20 space-y-4">
+        {/* Data Privacy & Purge Card */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-red-950/25 border border-red-500/30 space-y-4 shadow-xl">
           <div className="flex items-center gap-3">
             <Shield className="w-5 h-5 text-red-400" />
             <div>
-              <h3 className="text-base font-bold text-white">Student Data Privacy &amp; Purge</h3>
-              <p className="text-xs text-lavender-400">
+              <h3 className="text-base font-black text-white">Student Data Privacy &amp; Purge</h3>
+              <p className="text-xs text-red-200 font-medium">
                 You have complete ownership of your generated roadmaps, scores, and messaging history.
               </p>
             </div>
           </div>
 
           <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <Link href="/privacy" className="text-xs text-violet-light hover:underline flex items-center gap-1">
+            <Link href="/privacy" className="text-xs text-purple-300 hover:text-white font-bold flex items-center gap-1">
               Read UniVibe Student Privacy Policy
               <ExternalLink className="w-3 h-3" />
             </Link>
 
-            <Button size="sm" variant="danger" onClick={handleDeleteData} className="text-xs">
+            <Button size="sm" variant="danger" onClick={handleDeleteData} className="text-xs font-bold">
               <Trash2 className="w-3.5 h-3.5 mr-1" />
               Purge All Student Records
             </Button>
@@ -265,4 +271,3 @@ export default function SettingsPage() {
     </div>
   );
 }
-

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   X,
   Sparkles,
@@ -8,7 +8,6 @@ import {
   ArrowLeft,
   CheckCircle2,
   AlertCircle,
-  FileCheck,
   Download,
   Calendar,
   Clock,
@@ -51,13 +50,13 @@ export function DynamicRegistrationModal({
 
   // Common Form Fields
   const [commonData, setCommonData] = useState({
-    full_name: profile?.student_name || "Alex Rivera",
-    email: "alex.rivera@campus.edu",
-    university: profile?.university_name || "State Innovation University",
-    department: profile?.department || "Computer Science & Engineering",
+    full_name: profile?.student_name || "Alex Roy",
+    email: "alex.roy@campus.edu",
+    university: profile?.university_name || "JIS University",
+    department: profile?.department || "B.Tech Computer Science & Engineering",
     year: profile?.year || "3rd Year",
-    phone: "+1 (555) 019-2834",
-    student_id_num: "SIU-2024-8842",
+    phone: "+91 98765 43210",
+    student_id_num: "JIS-2024-8842",
   });
 
   // Dynamic Category Specific Fields
@@ -70,14 +69,14 @@ export function DynamicRegistrationModal({
     team_name: "NeuralVibe",
     team_size: "3",
     teammates: "Jordan Lee, Samira Patel",
-    github_profile: "https://github.com/alexrivera-builds",
+    github_profile: "https://github.com/alexroy-builds",
     problem_statement: "AI-powered campus intelligence and student engagement",
     hackathon_experience: "Competed in 2 campus hackathons",
 
     // Workshop
     current_knowledge: "Foundational concepts and scripting",
     learning_expectations: "Hands-on cloud deployment and production architectural patterns",
-    laptop_available: "Yes (MacOS / Linux)",
+    laptop_available: "Yes (Personal Laptop)",
 
     // Cultural
     performance_category: "Theatrical Drama & Fusion Showcase",
@@ -92,7 +91,7 @@ export function DynamicRegistrationModal({
     gaming_id: "VIBE_Hunter#990",
 
     // Photography
-    camera_type: "DSLR / Mirrorless",
+    camera_type: "DSLR / Mirrorless Camera",
     portfolio_link: "https://instagram.com/alex.snapshots",
 
     // Music
@@ -220,15 +219,15 @@ Powered by UniVibe Student Intelligence Engine
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-2xl my-8 rounded-3xl bg-midnight-900 border border-violet/30 shadow-2xl overflow-hidden text-lavender-100 flex flex-col max-h-[92vh]">
+      <div className="relative w-full max-w-2xl my-8 rounded-3xl bg-[#130d28] border border-purple-500/30 shadow-2xl overflow-hidden text-white flex flex-col max-h-[92vh]">
         {/* Modal Top Header */}
-        <div className="p-6 border-b border-white/10 bg-midnight-950 flex items-center justify-between">
+        <div className="p-6 border-b border-purple-500/20 bg-[#0e081f] flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase font-bold text-violet-light bg-violet/15 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-mono uppercase font-bold text-purple-300 bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded">
                 Step 0{step} of 03
               </span>
-              <span className="text-xs text-lavender-400">• {event.category} Event</span>
+              <span className="text-xs text-purple-200">• {event.category} Event</span>
             </div>
             <h2 className="text-lg font-bold text-white mt-1">
               {step === 1 && `Register for ${event.name}`}
@@ -239,7 +238,7 @@ Powered by UniVibe Student Intelligence Engine
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-midnight-900 border border-white/10 hover:bg-white/10 text-white transition-colors"
+            className="p-2 rounded-full bg-[#1b1238] border border-purple-400/20 hover:bg-white/10 text-white transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -258,105 +257,105 @@ Powered by UniVibe Student Intelligence Engine
           <form onSubmit={handleProceedToReview} className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
             {/* Pre-filled Common Student Fields */}
             <div className="space-y-4">
-              <span className="text-xs font-bold text-violet-light uppercase tracking-wider block flex items-center gap-1.5">
+              <span className="text-xs font-bold text-purple-300 uppercase tracking-wider block flex items-center gap-1.5">
                 <User className="w-3.5 h-3.5" /> 1. Student Academic Details
               </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                 <div>
-                  <label className="block text-lavender-300 font-medium mb-1">Full Name *</label>
+                  <label className="block text-purple-200 font-semibold mb-1">Full Name *</label>
                   <input
                     type="text"
                     required
                     value={commonData.full_name}
                     onChange={(e) => handleCommonChange("full_name", e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none focus:border-violet"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-lavender-300 font-medium mb-1">Student Email *</label>
+                  <label className="block text-purple-200 font-semibold mb-1">Student Email *</label>
                   <input
                     type="email"
                     required
                     value={commonData.email}
                     onChange={(e) => handleCommonChange("email", e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none focus:border-violet"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-lavender-300 font-medium mb-1">University / College *</label>
+                  <label className="block text-purple-200 font-semibold mb-1">University / College *</label>
                   <input
                     type="text"
                     required
                     value={commonData.university}
                     onChange={(e) => handleCommonChange("university", e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none focus:border-violet"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-lavender-300 font-medium mb-1">Department *</label>
+                  <label className="block text-purple-200 font-semibold mb-1">Department *</label>
                   <input
                     type="text"
                     required
                     value={commonData.department}
                     onChange={(e) => handleCommonChange("department", e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none focus:border-violet"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-lavender-300 font-medium mb-1">Academic Year *</label>
+                  <label className="block text-purple-200 font-semibold mb-1">Academic Year *</label>
                   <input
                     type="text"
                     required
                     value={commonData.year}
                     onChange={(e) => handleCommonChange("year", e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none focus:border-violet"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-lavender-300 font-medium mb-1">Phone Number *</label>
+                  <label className="block text-purple-200 font-semibold mb-1">Phone Number *</label>
                   <input
                     type="tel"
                     required
                     value={commonData.phone}
                     onChange={(e) => handleCommonChange("phone", e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none focus:border-violet"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-lavender-300 font-medium text-xs mb-1">Student Roll / ID Number</label>
+                <label className="block text-purple-200 font-semibold text-xs mb-1">Student Roll / ID Number</label>
                 <input
                   type="text"
                   value={commonData.student_id_num}
                   onChange={(e) => handleCommonChange("student_id_num", e.target.value)}
-                  placeholder="e.g. SIU-2024-8842"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white text-xs focus:outline-none focus:border-violet"
+                  placeholder="e.g. JIS-2024-8842"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white text-xs focus:outline-none focus:border-purple-400"
                 />
               </div>
             </div>
 
             {/* DYNAMIC CATEGORY-SPECIFIC FIELDS */}
-            <div className="pt-4 border-t border-white/10 space-y-4">
+            <div className="pt-4 border-t border-purple-500/20 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-violet-light uppercase tracking-wider block flex items-center gap-1.5">
+                <span className="text-xs font-bold text-purple-300 uppercase tracking-wider block flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" /> 2. {event.category} Event Participation Details
                 </span>
-                <span className="text-[10px] text-lavender-400">Adaptive category fields</span>
+                <span className="text-[10px] text-purple-200">Adaptive category fields</span>
               </div>
 
               {/* TECHNICAL & HACKATHONS */}
               {(event.category === "Technical" || event.category === "Hackathons") && (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">
+                      <label className="block text-purple-200 font-semibold mb-1">
                         Programming Language Preference *
                       </label>
                       <input
@@ -365,47 +364,47 @@ Powered by UniVibe Student Intelligence Engine
                         value={categoryData.programming_language}
                         onChange={(e) => handleCategoryChange("programming_language", e.target.value)}
                         placeholder="e.g. Python, TypeScript, C++, Rust"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Technical Skill Level *</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Technical Skill Level *</label>
                       <select
                         value={categoryData.skill_level}
                         onChange={(e) => handleCategoryChange("skill_level", e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       >
-                        <option value="Beginner">Beginner (1st / 2nd year)</option>
-                        <option value="Intermediate">Intermediate (Hands-on experience)</option>
-                        <option value="Advanced">Advanced (Shipped projects &amp; APIs)</option>
+                        <option value="Beginner" className="bg-[#130d28] text-white">Beginner (1st / 2nd year)</option>
+                        <option value="Intermediate" className="bg-[#130d28] text-white">Intermediate (Hands-on experience)</option>
+                        <option value="Advanced" className="bg-[#130d28] text-white">Advanced (Shipped projects &amp; APIs)</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Participation Type</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Participation Type</label>
                       <select
                         value={categoryData.participation_type}
                         onChange={(e) => handleCategoryChange("participation_type", e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       >
-                        <option value="Individual">Individual Participant</option>
-                        <option value="Team">Team Entry</option>
+                        <option value="Individual" className="bg-[#130d28] text-white">Individual Participant</option>
+                        <option value="Team" className="bg-[#130d28] text-white">Team Entry</option>
                       </select>
                     </div>
 
                     {categoryData.participation_type === "Team" && (
                       <div>
-                        <label className="block text-lavender-300 font-medium mb-1">Team Name *</label>
+                        <label className="block text-purple-200 font-semibold mb-1">Team Name *</label>
                         <input
                           type="text"
                           required
                           value={categoryData.team_name}
                           onChange={(e) => handleCategoryChange("team_name", e.target.value)}
                           placeholder="e.g. NeuralVibe"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                         />
                       </div>
                     )}
@@ -414,48 +413,48 @@ Powered by UniVibe Student Intelligence Engine
                   {categoryData.participation_type === "Team" && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-lavender-300 font-medium mb-1">Team Size</label>
+                        <label className="block text-purple-200 font-semibold mb-1">Team Size</label>
                         <input
                           type="number"
                           min={2}
                           max={4}
                           value={categoryData.team_size}
                           onChange={(e) => handleCategoryChange("team_size", e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                         />
                       </div>
                       <div>
-                        <label className="block text-lavender-300 font-medium mb-1">Teammates (Comma separated)</label>
+                        <label className="block text-purple-200 font-semibold mb-1">Teammates (Comma separated)</label>
                         <input
                           type="text"
                           value={categoryData.teammates}
                           onChange={(e) => handleCategoryChange("teammates", e.target.value)}
                           placeholder="e.g. Jordan Lee, Samira Patel"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                         />
                       </div>
                     </div>
                   )}
 
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">Problem Statement / Theme Preference</label>
+                    <label className="block text-purple-200 font-semibold mb-1">Problem Statement / Theme Preference</label>
                     <input
                       type="text"
                       value={categoryData.problem_statement}
                       onChange={(e) => handleCategoryChange("problem_statement", e.target.value)}
                       placeholder="e.g. Generative AI & Cloud Innovation"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">GitHub / Portfolio URL (Optional)</label>
+                    <label className="block text-purple-200 font-semibold mb-1">GitHub / Portfolio URL (Optional)</label>
                     <input
                       type="url"
                       value={categoryData.github_profile}
                       onChange={(e) => handleCategoryChange("github_profile", e.target.value)}
                       placeholder="https://github.com/your-username"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                     />
                   </div>
                 </div>
@@ -463,41 +462,41 @@ Powered by UniVibe Student Intelligence Engine
 
               {/* WORKSHOPS */}
               {event.category === "Workshops" && (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5 text-xs">
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">Current Skill Level *</label>
+                    <label className="block text-purple-200 font-semibold mb-1">Current Skill Level *</label>
                     <select
                       value={categoryData.skill_level}
                       onChange={(e) => handleCategoryChange("skill_level", e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                     >
-                      <option value="Beginner">Beginner (Curious to learn)</option>
-                      <option value="Intermediate">Intermediate (Have built basic apps)</option>
-                      <option value="Advanced">Advanced (Looking for deep dive)</option>
+                      <option value="Beginner" className="bg-[#130d28] text-white">Beginner (Curious to learn)</option>
+                      <option value="Intermediate" className="bg-[#130d28] text-white">Intermediate (Have built basic apps)</option>
+                      <option value="Advanced" className="bg-[#130d28] text-white">Advanced (Looking for deep dive)</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">What are your key learning expectations? *</label>
+                    <label className="block text-purple-200 font-semibold mb-1">What are your key learning expectations? *</label>
                     <textarea
                       rows={2}
                       required
                       value={categoryData.learning_expectations}
                       onChange={(e) => handleCategoryChange("learning_expectations", e.target.value)}
                       placeholder="e.g. Deploying LLMs on cloud and understanding RAG pipelines"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400 resize-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">Laptop Availability *</label>
+                    <label className="block text-purple-200 font-semibold mb-1">Laptop Availability *</label>
                     <select
                       value={categoryData.laptop_available}
                       onChange={(e) => handleCategoryChange("laptop_available", e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                     >
-                      <option value="Yes (Personal Laptop)">Yes, bringing my personal laptop</option>
-                      <option value="Need Campus Lab PC">Need to use campus laboratory workstation</option>
+                      <option value="Yes (Personal Laptop)" className="bg-[#130d28] text-white">Yes, bringing my personal laptop</option>
+                      <option value="Need Campus Lab PC" className="bg-[#130d28] text-white">Need to use campus laboratory workstation</option>
                     </select>
                   </div>
                 </div>
@@ -505,40 +504,40 @@ Powered by UniVibe Student Intelligence Engine
 
               {/* CULTURAL & MUSIC */}
               {(event.category === "Cultural" || event.category === "Music") && (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5 text-xs">
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">Performance Category *</label>
+                    <label className="block text-purple-200 font-semibold mb-1">Performance Category *</label>
                     <input
                       type="text"
                       required
                       value={categoryData.performance_category}
                       onChange={(e) => handleCategoryChange("performance_category", e.target.value)}
                       placeholder="e.g. Classical Dance, Indie Acoustic, Live Band, Skit"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Instrument or Vocal Preference</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Instrument or Vocal Preference</label>
                       <input
                         type="text"
                         value={categoryData.instrument_or_vocal}
                         onChange={(e) => handleCategoryChange("instrument_or_vocal", e.target.value)}
                         placeholder="e.g. Lead Vocals, Electric Guitar, Drums"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Individual or Group</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Individual or Group</label>
                       <select
                         value={categoryData.participation_type}
                         onChange={(e) => handleCategoryChange("participation_type", e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       >
-                        <option value="Individual">Solo Performance</option>
-                        <option value="Team">Group / Band Performance</option>
+                        <option value="Individual" className="bg-[#130d28] text-white">Solo Performance</option>
+                        <option value="Team" className="bg-[#130d28] text-white">Group / Band Performance</option>
                       </select>
                     </div>
                   </div>
@@ -547,84 +546,43 @@ Powered by UniVibe Student Intelligence Engine
 
               {/* SPORTS */}
               {event.category === "Sports" && (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5 text-xs">
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">Sport Category / Playing Position *</label>
+                    <label className="block text-purple-200 font-semibold mb-1">Sport / Game *</label>
                     <input
                       type="text"
                       required
                       value={categoryData.sport_category}
                       onChange={(e) => handleCategoryChange("sport_category", e.target.value)}
-                      placeholder="e.g. Center Forward / Midfielder"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-lavender-300 font-medium mb-1">Relevant Sports Experience (Optional)</label>
-                    <input
-                      type="text"
-                      value={categoryData.sport_experience}
-                      onChange={(e) => handleCategoryChange("sport_experience", e.target.value)}
-                      placeholder="e.g. Played inter-school or departmental tournaments"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* GAMING */}
-              {event.category === "Gaming" && (
-                <div className="space-y-3 text-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Game Title / Platform *</label>
-                      <input
-                        type="text"
-                        required
-                        value={categoryData.game_title}
-                        onChange={(e) => handleCategoryChange("game_title", e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-lavender-300 font-medium mb-1">In-Game Nickname / Gaming ID *</label>
-                      <input
-                        type="text"
-                        required
-                        value={categoryData.gaming_id}
-                        onChange={(e) => handleCategoryChange("gaming_id", e.target.value)}
-                        placeholder="e.g. VIBE_Player#123"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
-                      />
-                    </div>
                   </div>
                 </div>
               )}
 
               {/* PHOTOGRAPHY */}
               {event.category === "Photography" && (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Camera or Smartphone Preference *</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Camera or Smartphone Preference *</label>
                       <select
                         value={categoryData.camera_type}
                         onChange={(e) => handleCategoryChange("camera_type", e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       >
-                        <option value="DSLR / Mirrorless Camera">DSLR / Mirrorless Camera</option>
-                        <option value="Smartphone (Mobile Photography)">Smartphone (Mobile Photography)</option>
+                        <option value="DSLR / Mirrorless Camera" className="bg-[#130d28] text-white">DSLR / Mirrorless Camera</option>
+                        <option value="Smartphone (Mobile Photography)" className="bg-[#130d28] text-white">Smartphone (Mobile Photography)</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Portfolio Link (Optional)</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Portfolio Link (Optional)</label>
                       <input
                         type="url"
                         value={categoryData.portfolio_link}
                         onChange={(e) => handleCategoryChange("portfolio_link", e.target.value)}
                         placeholder="https://instagram.com/myphotos"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       />
                     </div>
                   </div>
@@ -633,41 +591,41 @@ Powered by UniVibe Student Intelligence Engine
 
               {/* ENTREPRENEURSHIP */}
               {event.category === "Entrepreneurship" && (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Startup or Project Name *</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Startup or Project Name *</label>
                       <input
                         type="text"
                         required
                         value={categoryData.startup_name}
                         onChange={(e) => handleCategoryChange("startup_name", e.target.value)}
                         placeholder="e.g. UniVibe"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Pitch Sector / Track *</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Pitch Sector / Track *</label>
                       <input
                         type="text"
                         required
                         value={categoryData.pitch_category}
                         onChange={(e) => handleCategoryChange("pitch_category", e.target.value)}
                         placeholder="e.g. EdTech, SaaS, FinTech"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-lavender-300 font-medium mb-1">Executive 2-Sentence Idea Description *</label>
+                    <label className="block text-purple-200 font-semibold mb-1">Executive 2-Sentence Idea Description *</label>
                     <textarea
                       rows={2}
                       required
                       value={categoryData.idea_description}
                       onChange={(e) => handleCategoryChange("idea_description", e.target.value)}
                       placeholder="What problem are you solving and how does your prototype address it?"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400 resize-none"
                     />
                   </div>
                 </div>
@@ -675,27 +633,27 @@ Powered by UniVibe Student Intelligence Engine
 
               {/* LITERARY */}
               {event.category === "Literary" && (
-                <div className="space-y-3 text-xs">
+                <div className="space-y-3.5 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Competition Category *</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Competition Category *</label>
                       <input
                         type="text"
                         required
                         value={categoryData.competition_category}
                         onChange={(e) => handleCategoryChange("competition_category", e.target.value)}
                         placeholder="e.g. Parliamentary Debate, Slam Poetry"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-lavender-300 font-medium mb-1">Language Preference</label>
+                      <label className="block text-purple-200 font-semibold mb-1">Language Preference</label>
                       <input
                         type="text"
                         value={categoryData.language_preference}
                         onChange={(e) => handleCategoryChange("language_preference", e.target.value)}
                         placeholder="e.g. English / Regional"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-midnight-950 border border-violet/20 text-white focus:outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#0e081f] border border-purple-500/30 text-white focus:outline-none focus:border-purple-400"
                       />
                     </div>
                   </div>
@@ -718,71 +676,71 @@ Powered by UniVibe Student Intelligence Engine
         {/* STEP 2: SUMMARY REVIEW & CONSENT */}
         {step === 2 && (
           <div className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
-            <div className="p-4 rounded-2xl bg-midnight-950 border border-violet/20 space-y-3">
-              <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                <span className="text-xs text-lavender-400 font-semibold uppercase">Event</span>
+            <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-500/30 space-y-3">
+              <div className="flex items-center justify-between border-b border-purple-500/20 pb-2">
+                <span className="text-xs text-purple-300 font-semibold uppercase">Event</span>
                 <span className="text-sm font-bold text-white">{event.name}</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
-                  <span className="text-lavender-400">Date:</span>
-                  <div className="text-white font-medium">
+                  <span className="text-purple-300">Date:</span>
+                  <div className="text-white font-medium mt-0.5">
                     {new Date(event.start_datetime).toLocaleDateString()}
                   </div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Venue:</span>
-                  <div className="text-white font-medium truncate">{event.venue}</div>
+                  <span className="text-purple-300">Venue:</span>
+                  <div className="text-white font-medium truncate mt-0.5">{event.venue}</div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Registration Fee:</span>
-                  <div className="text-emerald-400 font-bold">
+                  <span className="text-purple-300">Registration Fee:</span>
+                  <div className="text-emerald-400 font-bold mt-0.5">
                     {event.participation_fee === 0 ? "FREE" : `₹${event.participation_fee}`}
                   </div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Category:</span>
-                  <div className="text-violet-light font-medium">{event.category}</div>
+                  <span className="text-purple-300">Category:</span>
+                  <div className="text-purple-200 font-medium mt-0.5">{event.category}</div>
                 </div>
               </div>
             </div>
 
             {/* Student Participant Details Summary */}
-            <div className="p-4 rounded-2xl bg-midnight-950 border border-white/5 space-y-2 text-xs">
-              <span className="text-xs font-bold text-lavender-300 block mb-1">
+            <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-500/20 space-y-2 text-xs">
+              <span className="text-xs font-bold text-purple-300 block mb-1">
                 Participant Information
               </span>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-lavender-400">Student:</span>
-                  <div className="text-white font-medium">{commonData.full_name}</div>
+                  <span className="text-purple-300">Student:</span>
+                  <div className="text-white font-medium mt-0.5">{commonData.full_name}</div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Email:</span>
-                  <div className="text-white font-medium truncate">{commonData.email}</div>
+                  <span className="text-purple-300">Email:</span>
+                  <div className="text-white font-medium truncate mt-0.5">{commonData.email}</div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Department:</span>
-                  <div className="text-white font-medium">{commonData.department} ({commonData.year})</div>
+                  <span className="text-purple-300">Department:</span>
+                  <div className="text-white font-medium mt-0.5">{commonData.department} ({commonData.year})</div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Phone:</span>
-                  <div className="text-white font-medium">{commonData.phone}</div>
+                  <span className="text-purple-300">Phone:</span>
+                  <div className="text-white font-medium mt-0.5">{commonData.phone}</div>
                 </div>
               </div>
             </div>
 
-            {/* Required Consent Checkbox (Requirement 5) */}
-            <div className="p-4 rounded-xl bg-violet/10 border border-violet/30 space-y-3">
+            {/* Required Consent Checkbox */}
+            <div className="p-4 rounded-xl bg-[#1a0f35] border border-purple-500/30 space-y-3">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={consentAccepted}
                   onChange={(e) => setConsentAccepted(e.target.checked)}
-                  className="mt-1 w-4 h-4 rounded border-violet/40 text-violet focus:ring-violet bg-midnight-950 cursor-pointer"
+                  className="mt-1 w-4 h-4 rounded border-purple-400 text-[#6c35de] focus:ring-[#6c35de] bg-[#0e081f] cursor-pointer"
                 />
-                <span className="text-xs text-lavender-200 leading-relaxed">
+                <span className="text-xs text-purple-100 leading-relaxed">
                   I confirm that the information provided is accurate and agree to the event participation guidelines, attendance policy, and university conduct code.
                 </span>
               </label>
@@ -816,18 +774,18 @@ Powered by UniVibe Student Intelligence Engine
 
             <div>
               <h3 className="text-2xl font-extrabold text-white">You're Registered!</h3>
-              <p className="text-xs text-lavender-300 mt-1 max-w-md mx-auto">
+              <p className="text-xs text-purple-200 mt-1 max-w-md mx-auto">
                 Your registration for <strong className="text-white">{event.name}</strong> has been successfully submitted and confirmed.
               </p>
             </div>
 
             {/* Digital Pass Card */}
-            <div className="p-5 rounded-2xl bg-midnight-950 border border-emerald-500/30 text-left space-y-3 shadow-2xl relative overflow-hidden">
+            <div className="p-5 rounded-2xl bg-[#0e081f] border border-emerald-500/40 text-left space-y-3 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
 
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center justify-between pb-3 border-b border-purple-500/20">
                 <div>
-                  <span className="text-[10px] text-lavender-400 font-semibold uppercase">Official Registration ID</span>
+                  <span className="text-[10px] text-purple-300 font-semibold uppercase">Official Registration ID</span>
                   <div className="text-base font-mono font-extrabold text-emerald-400 mt-0.5">
                     {confirmedRegistration.registration_number}
                   </div>
@@ -837,24 +795,24 @@ Powered by UniVibe Student Intelligence Engine
                 </Badge>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
-                  <span className="text-lavender-400">Participant:</span>
-                  <div className="text-white font-medium">{commonData.full_name}</div>
+                  <span className="text-purple-300">Participant:</span>
+                  <div className="text-white font-medium mt-0.5">{commonData.full_name}</div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Date:</span>
-                  <div className="text-white font-medium">
+                  <span className="text-purple-300">Date:</span>
+                  <div className="text-white font-medium mt-0.5">
                     {new Date(event.start_datetime).toLocaleDateString()}
                   </div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Venue:</span>
-                  <div className="text-white font-medium truncate">{event.venue}</div>
+                  <span className="text-purple-300">Venue:</span>
+                  <div className="text-white font-medium truncate mt-0.5">{event.venue}</div>
                 </div>
                 <div>
-                  <span className="text-lavender-400">Confirmed At:</span>
-                  <div className="text-white font-medium">
+                  <span className="text-purple-300">Confirmed At:</span>
+                  <div className="text-white font-medium mt-0.5">
                     {new Date(confirmedRegistration.submitted_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </div>
                 </div>
@@ -862,15 +820,13 @@ Powered by UniVibe Student Intelligence Engine
             </div>
 
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button
-                variant="secondary"
-                size="sm"
+              <button
                 onClick={handleDownloadConfirmation}
-                className="w-full sm:w-auto text-xs"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 hover:text-white border border-purple-500/30 text-xs font-semibold transition-all cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5 mr-1" />
                 Download Registration Pass
-              </Button>
+              </button>
               <Button
                 size="sm"
                 onClick={onClose}
@@ -885,4 +841,3 @@ Powered by UniVibe Student Intelligence Engine
     </div>
   );
 }
-

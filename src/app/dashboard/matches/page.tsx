@@ -35,9 +35,6 @@ export default function MatchesPage() {
       });
       const data = await res.json();
       setMatches(data.matches);
-      if (data.matches?.recommendations?.[0]) {
-        setSelectedOpp(data.matches.recommendations[0]);
-      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -85,36 +82,34 @@ export default function MatchesPage() {
             isLoading={regenerating}
             className="text-xs"
           >
-            <RefreshCw className="w-3.5 h-3.5 mr-1 text-violet-light" />
+            <RefreshCw className="w-3.5 h-3.5 mr-1 text-[#6c35de]" />
             Regenerate Matches
           </Button>
         }
       />
 
       <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto w-full">
-        {/* Verification Status Banner (Requirement 8 & 13) */}
-        <div className="p-4 rounded-xl bg-midnight-900 border border-violet/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        {/* Verification Status Banner */}
+        <div className="p-4 rounded-2xl bg-[#130d28] border border-purple-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
-            <div className="text-xs text-lavender-300">
-              <span className="font-semibold text-white">Campus Knowledge Grounding: </span>
+            <div className="text-xs text-lavender-200">
+              <span className="font-bold text-white">Campus Knowledge Grounding: </span>
               Verified items reflect active campus programs. Suggested items are marked as{" "}
-              <span className="text-indigo-300 font-medium">"Suggested Opportunity Type — Verification Required"</span>.
+              <span className="text-purple-300 font-semibold">"Suggested Opportunity Type — Verification Required"</span>.
             </div>
           </div>
-          <span className="text-[11px] font-mono text-lavender-400 bg-white/5 px-3 py-1 rounded-full shrink-0">
+          <span className="text-[11px] font-mono font-bold text-purple-200 bg-white/10 px-3 py-1 rounded-full shrink-0 border border-white/10">
             {matches?.recommendations?.length || 0} Ranked Recommendations
           </span>
         </div>
 
-        {/* Highlight: Single Best Match */}
+        {/* Highlight: Single Best Match (Opaque rich dark gradient) */}
         {bestMatch && (
-          <div className="rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-violet/30 via-midnight-800 to-midnight-850 border border-violet/40 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-72 h-72 bg-violet/20 rounded-full blur-3xl pointer-events-none" />
-
+          <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#1c0f38] via-[#150b2b] to-[#0d071b] border border-purple-500/30 shadow-2xl relative overflow-hidden">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-violet text-white text-xs font-bold tracking-wide flex items-center gap-1 shadow-md shadow-violet/30">
+                <span className="px-3 py-1 rounded-full bg-[#6c35de] text-white text-xs font-bold tracking-wide flex items-center gap-1 shadow-md shadow-purple-900/30">
                   <Star className="w-3.5 h-3.5 fill-white" /> Top AI Recommendation
                 </span>
                 <Badge variant={bestMatch.verification_status === "VERIFIED" ? "verified" : "suggested"}>
@@ -125,15 +120,15 @@ export default function MatchesPage() {
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"
-                  variant={bestMatch.is_saved ? "secondary" : "outline"}
+                  variant="secondary"
                   onClick={() => handleToggleSave(bestMatch)}
                   className="text-xs"
                 >
-                  <Bookmark className={`w-3.5 h-3.5 mr-1 ${bestMatch.is_saved ? "fill-violet text-violet" : ""}`} />
+                  <Bookmark className={`w-3.5 h-3.5 mr-1 ${bestMatch.is_saved ? "fill-purple-400 text-purple-400" : ""}`} />
                   {bestMatch.is_saved ? "Saved" : "Save Opportunity"}
                 </Button>
                 <Link href={`/dashboard/outreach?opportunity=${encodeURIComponent(bestMatch.opportunity_name)}`}>
-                  <Button size="sm" className="text-xs">
+                  <Button size="sm" variant="primary" className="text-xs">
                     <Send className="w-3.5 h-3.5 mr-1" />
                     Launch Outreach Copilot
                   </Button>
@@ -141,70 +136,70 @@ export default function MatchesPage() {
               </div>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               {bestMatch.opportunity_name}
             </h2>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-lavender-300 mt-2">
-              <span className="font-semibold text-violet-light">{bestMatch.category}</span>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-lavender-200 mt-2 font-medium">
+              <span className="font-bold text-purple-300">{bestMatch.category}</span>
               <span>•</span>
-              <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-lavender-400" /> {bestMatch.time_commitment}
+              <span className="flex items-center gap-1 text-lavender-300">
+                <Clock className="w-3.5 h-3.5 text-purple-300" /> {bestMatch.time_commitment}
               </span>
               <span>•</span>
-              <span className="font-mono text-emerald-400 font-bold">{bestMatch.match_score}% Fit Score</span>
+              <span className="font-mono text-emerald-300 font-extrabold">{bestMatch.match_score}% Fit Score</span>
             </div>
 
-            <p className="text-sm text-lavender-200 mt-4 leading-relaxed max-w-3xl">
+            <p className="text-sm text-lavender-100 mt-4 leading-relaxed max-w-3xl">
               {bestMatch.why_it_matches}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
-              <div className="p-3.5 rounded-xl bg-midnight-950/70 border border-white/5">
-                <div className="text-[10px] uppercase font-semibold text-lavender-400">Career Impact</div>
-                <div className="text-xs text-lavender-200 mt-1">{bestMatch.career_impact}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/15">
+              <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20">
+                <div className="text-[10px] uppercase font-bold text-purple-300 tracking-wider">Career Impact</div>
+                <div className="text-xs text-lavender-100 mt-1 font-medium">{bestMatch.career_impact}</div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-midnight-950/70 border border-white/5">
-                <div className="text-[10px] uppercase font-semibold text-lavender-400">Skills Gained</div>
-                <div className="flex flex-wrap gap-1 mt-1.5">
+              <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20">
+                <div className="text-[10px] uppercase font-bold text-purple-300 tracking-wider">Skills Gained</div>
+                <div className="flex flex-wrap gap-1.5 mt-2">
                   {bestMatch.skills_gained?.map((skill, idx) => (
-                    <span key={idx} className="text-[10px] px-2 py-0.5 rounded bg-violet/20 text-lavender-200">
+                    <span key={idx} className="text-[10px] px-2.5 py-1 rounded-lg bg-purple-900/60 text-purple-100 border border-purple-400/40 font-semibold">
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-midnight-950/70 border border-white/5">
-                <div className="text-[10px] uppercase font-semibold text-lavender-400">First Action</div>
-                <div className="text-xs font-semibold text-violet-light mt-1">{bestMatch.first_action}</div>
+              <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20">
+                <div className="text-[10px] uppercase font-bold text-purple-300 tracking-wider">First Action</div>
+                <div className="text-xs font-bold text-purple-200 mt-1">{bestMatch.first_action}</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* 5 Ranked Opportunity Cards */}
-        <div className="space-y-4">
+        {/* Ranked Opportunity Cards Section */}
+        <div className="space-y-5">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Compass className="w-5 h-5 text-violet-light" />
+            <h3 className="text-xl font-black text-[#150a33] flex items-center gap-2">
+              <Compass className="w-5 h-5 text-[#6c35de]" />
               All {matches?.recommendations?.length || 0} Ranked Opportunities
             </h3>
-            <span className="text-xs text-lavender-400">Grounded in verified campus catalog</span>
+            <span className="text-xs font-semibold text-[#645c84]">Grounded in verified campus catalog</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {matches?.recommendations?.map((opp, idx) => {
               return (
                 <div
                   key={opp.id}
-                  className="p-5 rounded-2xl bg-midnight-850/80 border border-violet/20 hover:border-violet/40 transition-all flex flex-col justify-between glass-card-hover"
+                  className="p-6 rounded-3xl bg-[#130d28] border border-purple-500/25 hover:border-purple-400/50 transition-all flex flex-col justify-between shadow-xl group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-lavender-400 font-mono">#{idx + 1}</span>
-                        <span className="text-xs font-semibold text-violet-light uppercase tracking-wider">
+                        <span className="text-xs font-black text-purple-300 font-mono">#{idx + 1}</span>
+                        <span className="text-xs font-bold text-purple-200 uppercase tracking-wider">
                           {opp.category}
                         </span>
                       </div>
@@ -213,14 +208,16 @@ export default function MatchesPage() {
                       </Badge>
                     </div>
 
-                    <h4 className="text-base font-bold text-white mb-2">{opp.opportunity_name}</h4>
-                    <p className="text-xs text-lavender-300 leading-relaxed line-clamp-3 mb-4">
+                    <h4 className="text-base font-bold text-white mb-2 group-hover:text-purple-200 transition-colors">
+                      {opp.opportunity_name}
+                    </h4>
+                    <p className="text-xs text-lavender-200 leading-relaxed line-clamp-3 mb-4">
                       {opp.why_it_matches}
                     </p>
 
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {opp.skills_gained?.slice(0, 2).map((s, i) => (
-                        <span key={i} className="text-[10px] px-2 py-0.5 rounded bg-violet/15 text-lavender-300">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {opp.skills_gained?.slice(0, 3).map((s, i) => (
+                        <span key={i} className="text-[10px] px-2.5 py-0.5 rounded-lg bg-white/10 text-purple-200 border border-white/10 font-semibold">
                           {s}
                         </span>
                       ))}
@@ -228,24 +225,24 @@ export default function MatchesPage() {
                   </div>
 
                   <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs">
-                    <span className="font-mono text-emerald-400 font-bold">{opp.match_score}% Match</span>
-                    <div className="flex items-center gap-1.5">
+                    <span className="font-mono text-emerald-300 font-extrabold">{opp.match_score}% Match</span>
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleToggleSave(opp);
                         }}
-                        className="p-1.5 rounded-lg bg-midnight-900 hover:bg-violet/20 text-lavender-300"
+                        className="p-2 rounded-xl bg-[#0e081f] hover:bg-purple-900/60 border border-purple-400/20 text-purple-200 transition-colors cursor-pointer"
                         title="Save Opportunity"
                       >
-                        <Bookmark className={`w-3.5 h-3.5 ${opp.is_saved ? "fill-violet text-violet" : ""}`} />
+                        <Bookmark className={`w-3.5 h-3.5 ${opp.is_saved ? "fill-purple-400 text-purple-400" : ""}`} />
                       </button>
                       <Link
                         href={`/dashboard/outreach?opportunity=${encodeURIComponent(opp.opportunity_name)}`}
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <Button size="sm" variant="secondary" className="text-xs px-2.5 py-1">
-                          <Send className="w-3 h-3 text-violet-light mr-1" />
+                        <Button size="sm" variant="primary" className="text-xs px-3 py-1 shadow-sm">
+                          <Send className="w-3 h-3 mr-1" />
                           Outreach
                         </Button>
                       </Link>
@@ -260,4 +257,3 @@ export default function MatchesPage() {
     </div>
   );
 }
-

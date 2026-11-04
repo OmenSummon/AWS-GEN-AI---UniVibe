@@ -41,7 +41,6 @@ export function MyRegistrationsTab({
   onViewEventDetails,
 }: MyRegistrationsTabProps) {
   const [activeTab, setActiveTab] = useState("All");
-  const [selectedRegForVoucher, setSelectedRegForVoucher] = useState<EventRegistration | null>(null);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   const filteredRegistrations = registrations.filter((reg) => {
@@ -120,8 +119,8 @@ Powered by UniVibe Student Intelligence Engine
 
   return (
     <div className="space-y-6">
-      {/* Status Filter Tabs */}
-      <div className="flex border-b border-white/10 overflow-x-auto pb-2 gap-2">
+      {/* Status Filter Tabs (Rendered on Light Canvas) */}
+      <div className="flex border-b border-gray-200 overflow-x-auto pb-3 gap-2">
         {statusTabs.map((tab) => {
           const count =
             tab === "All"
@@ -142,16 +141,16 @@ Powered by UniVibe Student Intelligence Engine
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
                 isActive
-                  ? "bg-violet text-white shadow-md shadow-violet/20"
-                  : "bg-midnight-850/80 text-lavender-400 hover:text-white border border-white/5"
+                  ? "bg-[#6c35de] text-white shadow-md shadow-purple-600/25"
+                  : "bg-white text-[#4a4268] hover:text-[#150a33] border border-gray-200 hover:border-gray-300 shadow-xs"
               }`}
             >
               <span>{tab}</span>
               <span
-                className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                  isActive ? "bg-white/20 text-white" : "bg-white/5 text-lavender-400"
+                className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  isActive ? "bg-white/20 text-white" : "bg-gray-100 text-[#4a4268]"
                 }`}
               >
                 {count}
@@ -163,11 +162,11 @@ Powered by UniVibe Student Intelligence Engine
 
       {/* Registrations List */}
       {filteredRegistrations.length === 0 ? (
-        <div className="p-12 text-center rounded-2xl bg-midnight-850/60 border border-white/5 space-y-3">
-          <Calendar className="w-10 h-10 text-violet-light/40 mx-auto" />
-          <h4 className="text-base font-bold text-white">No registrations found</h4>
-          <p className="text-xs text-lavender-400 max-w-sm mx-auto">
-            You don't have any registered events under the "{activeTab}" filter. Explore available events in the catalog.
+        <div className="p-12 text-center rounded-3xl bg-white border border-gray-200/90 shadow-sm space-y-3">
+          <Calendar className="w-10 h-10 text-[#6c35de] mx-auto opacity-70" />
+          <h4 className="text-base font-bold text-[#150a33]">No registrations found</h4>
+          <p className="text-xs text-[#645c84] max-w-sm mx-auto leading-relaxed">
+            You don't have any registered events under the "{activeTab}" filter. Explore available opportunities in the catalog.
           </p>
         </div>
       ) : (
@@ -179,16 +178,16 @@ Powered by UniVibe Student Intelligence Engine
             return (
               <div
                 key={reg.id}
-                className={`rounded-2xl border transition-all p-5 flex flex-col justify-between space-y-4 shadow-lg ${
+                className={`rounded-3xl border transition-all p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-xl ${
                   isCancelled
-                    ? "bg-midnight-950/60 border-red-500/20 opacity-75"
-                    : "bg-midnight-850/90 border-violet/20 hover:border-violet/40 glass-card-hover"
+                    ? "bg-[#100b21] border-red-500/30 opacity-75"
+                    : "bg-[#130d28] border-purple-500/25 hover:border-purple-400/40"
                 }`}
               >
                 <div>
                   {/* Top Bar */}
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[11px] font-mono font-bold text-violet-light bg-violet/15 px-2.5 py-0.5 rounded-md">
+                    <span className="text-[11px] font-mono font-bold text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2.5 py-0.5 rounded-md">
                       {reg.registration_number}
                     </span>
                     <Badge
@@ -212,23 +211,23 @@ Powered by UniVibe Student Intelligence Engine
                       <img
                         src={event.poster_url}
                         alt={event.name}
-                        className="w-16 h-16 rounded-xl object-cover shrink-0 border border-white/10"
+                        className="w-16 h-16 rounded-2xl object-cover shrink-0 border border-purple-400/20"
                       />
                     )}
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <h4 className="text-base font-bold text-white line-clamp-1">
                         {event?.name || "Campus Event"}
                       </h4>
-                      <div className="flex items-center gap-1.5 text-xs text-lavender-400 mt-1">
-                        <Calendar className="w-3.5 h-3.5 text-violet-light" />
-                        <span>
+                      <div className="flex items-center gap-1.5 text-xs text-lavender-200 mt-1">
+                        <Calendar className="w-3.5 h-3.5 text-purple-300 shrink-0" />
+                        <span className="truncate">
                           {event ? new Date(event.start_datetime).toLocaleDateString() : "Date TBD"}
                         </span>
                         <span>•</span>
-                        <span className="text-lavender-300">{event?.event_mode || "Offline"}</span>
+                        <span className="text-purple-200">{event?.event_mode || "Offline"}</span>
                       </div>
-                      <div className="text-[11px] text-lavender-400/80 mt-1 flex items-center gap-1 truncate">
-                        <MapPin className="w-3 h-3 text-lavender-400 shrink-0" />
+                      <div className="text-[11px] text-lavender-300 mt-1 flex items-center gap-1 truncate">
+                        <MapPin className="w-3 h-3 text-purple-300 shrink-0" />
                         <span className="truncate">{event?.venue || "Campus Venue"}</span>
                       </div>
                     </div>
@@ -236,22 +235,20 @@ Powered by UniVibe Student Intelligence Engine
                 </div>
 
                 {/* Bottom Meta & Functional Actions */}
-                <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
-                  <span className="text-[10px] text-lavender-400 font-mono">
+                <div className="pt-3 border-t border-purple-500/20 flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <span className="text-[10px] text-lavender-300 font-mono">
                     Submitted: {new Date(reg.submitted_at).toLocaleDateString()}
                   </span>
 
                   <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      variant="ghost"
+                    <button
                       onClick={() => handleDownload(reg)}
-                      className="text-xs h-8 px-2.5"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 hover:text-white border border-purple-500/30 text-xs font-semibold transition-all cursor-pointer"
                       title="Download Confirmation Pass"
                     >
-                      <Download className="w-3.5 h-3.5 mr-1" />
-                      Pass
-                    </Button>
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Pass</span>
+                    </button>
 
                     {event && (
                       <Button
@@ -285,4 +282,3 @@ Powered by UniVibe Student Intelligence Engine
     </div>
   );
 }
-

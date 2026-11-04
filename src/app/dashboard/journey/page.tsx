@@ -86,39 +86,39 @@ export default function JourneyPage() {
             isLoading={regenerating}
             className="text-xs"
           >
-            <RefreshCw className="w-3.5 h-3.5 mr-1 text-violet-light" />
+            <RefreshCw className="w-3.5 h-3.5 mr-1 text-[#6c35de]" />
             Regenerate Roadmap
           </Button>
         }
       />
 
       <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto w-full">
-        {/* Journey Progress Header */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-violet/25 via-midnight-800 to-midnight-850 border border-violet/25 relative overflow-hidden shadow-xl">
+        {/* Journey Progress Header (Opaque rich dark gradient) */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#1c0f38] via-[#150b2b] to-[#0d071b] border border-purple-500/30 relative overflow-hidden shadow-2xl">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet/20 border border-violet/30 text-xs text-lavender-200 mb-2">
-                <Map className="w-3.5 h-3.5 text-violet-light" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-purple-200 mb-2">
+                <Map className="w-3.5 h-3.5 text-purple-300" />
                 <span>Student Growth Journey</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
                 {journey?.title || "Strategic Campus Impact Roadmap"}
               </h2>
-              <p className="text-sm text-lavender-300 mt-1 max-w-2xl">
+              <p className="text-sm text-lavender-100 mt-1 max-w-2xl font-medium">
                 Check off milestones as you achieve them. Progress is stored in your private database.
               </p>
             </div>
 
-            <div className="bg-midnight-950/80 p-5 rounded-2xl border border-white/10 shrink-0 text-center min-w-[180px]">
-              <div className="text-3xl font-extrabold text-white">
+            <div className="bg-[#0e081f] p-5 rounded-2xl border border-purple-400/25 shrink-0 text-center min-w-[180px] shadow-sm">
+              <div className="text-3xl font-black text-white">
                 {journey?.progress_pct || 0}%
               </div>
-              <div className="text-xs text-lavender-400 mt-1">
+              <div className="text-xs text-purple-300 font-bold mt-1">
                 {journey?.completed_milestones || 0} of {journey?.total_milestones || 11} Milestones
               </div>
-              <div className="w-full bg-midnight-900 h-2 rounded-full mt-3 overflow-hidden border border-white/5">
+              <div className="w-full bg-[#1b1238] h-2.5 rounded-full mt-3 overflow-hidden border border-white/5">
                 <div
-                  className="bg-gradient-to-r from-violet to-emerald-400 h-full transition-all duration-300"
+                  className="bg-gradient-to-r from-[#6c35de] to-emerald-400 h-full rounded-full transition-all duration-300"
                   style={{ width: `${journey?.progress_pct || 0}%` }}
                 />
               </div>
@@ -131,20 +131,20 @@ export default function JourneyPage() {
           {journey?.phases?.map((phase) => (
             <div
               key={phase.phase_number}
-              className="rounded-2xl p-6 sm:p-8 bg-midnight-850/80 border border-violet/20 space-y-6"
+              className="rounded-3xl p-6 sm:p-8 bg-[#130d28] border border-purple-500/25 space-y-6 shadow-xl"
             >
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-violet-light bg-violet/15 px-2.5 py-0.5 rounded">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xs font-mono font-bold text-purple-100 bg-purple-900/60 border border-purple-400/40 px-3 py-1 rounded-lg">
                       Phase 0{phase.phase_number}
                     </span>
-                    <span className="text-xs text-lavender-400 font-medium">{phase.time_horizon}</span>
+                    <span className="text-xs text-purple-300 font-bold">{phase.time_horizon}</span>
                   </div>
-                  <h3 className="text-lg font-bold text-white mt-1.5">{phase.phase_name}</h3>
+                  <h3 className="text-xl font-black text-white mt-2">{phase.phase_name}</h3>
                 </div>
-                <p className="text-xs text-lavender-400 max-w-md sm:text-right">
-                  <span className="font-semibold text-lavender-200">Core Focus: </span>
+                <p className="text-xs text-lavender-200 max-w-md sm:text-right leading-relaxed">
+                  <span className="font-bold text-purple-300">Core Focus: </span>
                   {phase.focus}
                 </p>
               </div>
@@ -157,21 +157,21 @@ export default function JourneyPage() {
                     <div
                       key={m.id}
                       onClick={() => !isBusy && handleToggleMilestone(m)}
-                      className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start gap-4 ${
+                      className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-start gap-4 ${
                         m.completed
-                          ? "bg-emerald-500/10 border-emerald-500/30"
-                          : "bg-midnight-900/80 border-white/5 hover:border-violet/40"
+                          ? "bg-emerald-950/40 border-emerald-500/40 shadow-xs"
+                          : "bg-[#0e081f] border-purple-400/20 hover:border-purple-400/50 shadow-xs"
                       }`}
                     >
                       <button
                         type="button"
                         disabled={isBusy}
-                        className="mt-0.5 shrink-0 focus:outline-none"
+                        className="mt-0.5 shrink-0 focus:outline-none cursor-pointer"
                       >
                         {m.completed ? (
                           <CheckCircle2 className="w-5 h-5 text-emerald-400 fill-emerald-500/20" />
                         ) : (
-                          <Circle className="w-5 h-5 text-lavender-400 hover:text-violet-light" />
+                          <Circle className="w-5 h-5 text-purple-300 hover:text-white" />
                         )}
                       </button>
 
@@ -185,20 +185,20 @@ export default function JourneyPage() {
                             {m.title}
                           </h4>
                           {m.deadline && (
-                            <span className="text-[10px] font-mono text-lavender-400 shrink-0">
+                            <span className="text-[10px] font-mono font-bold text-purple-300 shrink-0">
                               Target: {m.deadline}
                             </span>
                           )}
                         </div>
                         <p
                           className={`text-xs mt-1 leading-relaxed ${
-                            m.completed ? "text-lavender-400/80" : "text-lavender-300"
+                            m.completed ? "text-lavender-300" : "text-lavender-200"
                           }`}
                         >
                           {m.description}
                         </p>
                         {m.completed_at && (
-                          <div className="text-[10px] text-emerald-400/90 mt-2 font-mono">
+                          <div className="text-[10px] text-emerald-300 font-mono font-bold mt-2">
                             ✓ Completed on {new Date(m.completed_at).toLocaleDateString()}
                           </div>
                         )}
@@ -213,26 +213,26 @@ export default function JourneyPage() {
 
         {/* Final Mission Challenge */}
         {journey?.final_mission_challenge && (
-          <div className="rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-violet/30 via-midnight-800 to-midnight-900 border border-violet/40 shadow-2xl space-y-4">
+          <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#1c0f38] via-[#150b2b] to-[#0d071b] border border-purple-500/35 shadow-2xl space-y-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-violet-light uppercase tracking-wider flex items-center gap-1.5">
-                <Flag className="w-4 h-4" /> Capstone UniVibe Challenge
+              <span className="text-xs font-black text-purple-200 uppercase tracking-wider flex items-center gap-1.5">
+                <Flag className="w-4 h-4 text-purple-300" /> Capstone UniVibe Challenge
               </span>
               <Badge variant="default">Academic Year Milestone</Badge>
             </div>
 
-            <h3 className="text-2xl font-extrabold text-white">
+            <h3 className="text-2xl font-black text-white tracking-tight">
               {journey.final_mission_challenge.title}
             </h3>
-            <p className="text-sm text-lavender-200 leading-relaxed max-w-3xl">
+            <p className="text-sm text-lavender-100 leading-relaxed max-w-3xl">
               {journey.final_mission_challenge.vision}
             </p>
 
             <div className="pt-2">
-              <span className="text-xs font-semibold text-lavender-300 block mb-2">Measurable Outcomes:</span>
-              <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <span className="text-xs font-bold text-purple-200 block mb-3">Measurable Outcomes:</span>
+              <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                 {journey.final_mission_challenge.measurable_outcomes?.map((out, idx) => (
-                  <li key={idx} className="p-3 rounded-xl bg-midnight-950/70 border border-white/5 text-xs text-lavender-300 flex items-start gap-2">
+                  <li key={idx} className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20 text-xs text-lavender-100 flex items-start gap-2.5 font-medium shadow-xs">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>{out}</span>
                   </li>
@@ -240,7 +240,7 @@ export default function JourneyPage() {
               </ul>
             </div>
 
-            <div className="text-xs text-emerald-400 font-semibold pt-3 border-t border-white/10">
+            <div className="text-xs text-emerald-300 font-bold pt-3 border-t border-white/10">
               End-of-Year Target: {journey.final_mission_challenge.end_of_year_target}
             </div>
           </div>
@@ -249,4 +249,3 @@ export default function JourneyPage() {
     </div>
   );
 }
-
