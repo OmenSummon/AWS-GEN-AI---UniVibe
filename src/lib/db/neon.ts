@@ -75,291 +75,30 @@ memoryStore.profiles.set(defaultDemoId, {
 const initialDemoEvents = [
   {
     id: "evt-01",
-    name: "CodeStorm Hackathon",
-    slug: "codestorm-hackathon",
+    name: "JIS Cloud AI Hackathon 2026",
+    slug: "jis-cloud-ai-hackathon-2026",
     category: "Hackathons",
-    description: "The flagship 36-hour inter-college software sprint where campus builders code, prototype, and pitch real-world software solutions to tech industry judges.",
+    description: "A flagship inter-college hackathon building generative AI applications using AWS Bedrock and Neon Serverless DB.",
     poster_url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-20T09:00:00Z",
-    end_datetime: "2026-11-21T21:00:00Z",
-    registration_deadline: "2026-11-18T23:59:59Z",
-    venue: "Main Campus Tech Wing, Labs 401-404",
+    start_datetime: "2026-11-28T09:00:00Z",
+    end_datetime: "2026-11-29T21:00:00Z",
+    registration_deadline: "2026-11-24T23:59:59Z",
+    venue: "Auditorium Hall B, Tech Building, JIS University",
     event_mode: "Offline",
     participation_fee: 0,
     capacity: 150,
-    registered_count: 112,
-    eligibility: "Open to all enrolled undergraduate and postgraduate students. Teams of 2 to 4.",
+    registered_count: 84,
+    eligibility: "Open to all enrolled undergraduate students. Teams of 2 to 4.",
     event_rules: [
       "All code and prototypes must be developed during the hackathon period.",
       "Open-source libraries and APIs are permitted; pre-built full applications are prohibited.",
       "Each team must submit a public GitHub repository and give a live 3-minute demo."
     ],
-    required_materials: ["Personal laptop and charger", "Student ID card", "Hardware kit if IoT track"],
-    contact_information: "codestorm@campus.edu • Room 402 CS Tech Wing",
-    event_status: "Filling Fast",
-    verification_status: "DEMO",
+    required_materials: ["Personal laptop and charger", "Student ID card"],
+    contact_information: "jis.hackathon@jisuniversity.ac.in • JIS Tech Club",
+    event_status: "Registration Open",
+    verification_status: "VERIFIED",
     is_featured: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-02",
-    name: "AI Innovation Workshop",
-    slug: "ai-innovation-workshop",
-    category: "Workshops",
-    description: "Hands-on masterclass exploring Large Language Models, prompt engineering architectures, and deploying retrieval-augmented generative systems on AWS.",
-    poster_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-15T14:00:00Z",
-    end_datetime: "2026-11-15T17:30:00Z",
-    registration_deadline: "2026-11-14T18:00:00Z",
-    venue: "Innovation Center Room 204 & Online Zoom stream",
-    event_mode: "Hybrid",
-    participation_fee: 0,
-    capacity: 80,
-    registered_count: 46,
-    eligibility: "Basic Python knowledge recommended. Open to all departments.",
-    event_rules: [
-      "Bring a working laptop with Python 3.10+ installed.",
-      "AWS sandbox tokens will be issued at the start of the session.",
-      "Certificate issued upon completion of hands-on mini-project."
-    ],
-    required_materials: ["Laptop with VS Code or Jupyter", "Active GitHub account"],
-    contact_information: "ailab-workshops@campus.edu",
-    event_status: "Registration Open",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-03",
-    name: "Campus Cultural Night",
-    slug: "campus-cultural-night",
-    category: "Cultural",
-    description: "An electric evening celebrating diverse student talent with theatrical performances, multicultural dance showcases, and live food pop-ups.",
-    poster_url: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-28T18:00:00Z",
-    end_datetime: "2026-11-28T22:30:00Z",
-    registration_deadline: "2026-11-25T23:59:59Z",
-    venue: "University Open-Air Amphitheatre",
-    event_mode: "Offline",
-    participation_fee: 0,
-    capacity: 500,
-    registered_count: 340,
-    eligibility: "Open to all students, faculty, and verified university guests.",
-    event_rules: [
-      "Entry allowed only with confirmed UniVibe digital registration pass.",
-      "Strict campus decorum and zero tolerance for unauthorized substances.",
-      "Stage performers must check in with student coordinators by 4:30 PM."
-    ],
-    required_materials: ["Student Digital ID pass", "Festive cultural attire encouraged"],
-    contact_information: "culturalaffairs@campus.edu",
-    event_status: "Registration Open",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-04",
-    name: "Inter-College Football Tournament",
-    slug: "football-tournament",
-    category: "Sports",
-    description: "The premiere 7-a-side campus football cup. Compete across group stages and knockouts to claim the University Champions Trophy.",
-    poster_url: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-12-05T08:30:00Z",
-    end_datetime: "2026-12-07T17:00:00Z",
-    registration_deadline: "2026-11-30T20:00:00Z",
-    venue: "University Sports Complex & Turf Ground 1",
-    event_mode: "Offline",
-    participation_fee: 250,
-    capacity: 32,
-    registered_count: 28,
-    eligibility: "Teams of 7 playing + 3 rolling substitutes. All players must be currently matriculated.",
-    event_rules: [
-      "Standard FIFA rules with 20-minute halves.",
-      "Cleats and shin guards are mandatory for match safety.",
-      "Referee decisions are final."
-    ],
-    required_materials: ["Team matching kits", "Turf cleats", "Medical waiver form"],
-    contact_information: "sportsboard@campus.edu",
-    event_status: "Filling Fast",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-05",
-    name: "Startup Pitch Arena",
-    slug: "startup-pitch-arena",
-    category: "Entrepreneurship",
-    description: "Pitch your early-stage venture or product concept to venture capitalists, faculty angels, and alumni founders for $5,000 in non-dilutive pilot grants.",
-    poster_url: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-24T10:00:00Z",
-    end_datetime: "2026-11-24T16:00:00Z",
-    registration_deadline: "2026-11-21T23:59:59Z",
-    venue: "Dean's Innovation Boardroom & Virtual Livestream",
-    event_mode: "Hybrid",
-    participation_fee: 0,
-    capacity: 40,
-    registered_count: 31,
-    eligibility: "Student-founded projects with at least 1 working demo or structured customer validation.",
-    event_rules: [
-      "5-minute pitch followed by 4 minutes of investor Q&A.",
-      "Slides must be submitted in PDF format 24 hours prior to the event.",
-      "Confidential IP belongs 100% to student founders."
-    ],
-    required_materials: ["10-slide pitch deck (PDF)", "Product demo link or prototype"],
-    contact_information: "incubator@campus.edu • Innovation Hub Floor 2",
-    event_status: "Registration Open",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-06",
-    name: "BGMI Campus Championship",
-    slug: "bgmi-championship",
-    category: "Gaming",
-    description: "Squad battle royale esports tournament featuring custom rooms, casted live streams, and cash prize pool for the top 3 teams.",
-    poster_url: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-22T17:00:00Z",
-    end_datetime: "2026-11-22T23:00:00Z",
-    registration_deadline: "2026-11-20T23:59:59Z",
-    venue: "Official Campus Esports Discord Server",
-    event_mode: "Online",
-    participation_fee: 100,
-    capacity: 64,
-    registered_count: 59,
-    eligibility: "Undergraduate squads of 4 players. Minimum in-game level 30.",
-    event_rules: [
-      "Emulators and iPad tablets are strictly prohibited (Mobile phones only).",
-      "All squad leaders must join discord voice lobby 20 mins before room start.",
-      "Cheating or third-party plugins result in immediate campus disqualification."
-    ],
-    required_materials: ["Mobile phone with game installed", "Stable WiFi / 5G connection", "Discord app"],
-    contact_information: "esports@campus.edu",
-    event_status: "Filling Fast",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-07",
-    name: "LensCraft Photography Challenge",
-    slug: "lenscraft-photography",
-    category: "Photography",
-    description: "Theme-based photography competition across campus. Capture 'Architectural Geometry' and 'Hidden Campus Life' in raw digital composition.",
-    poster_url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-19T10:00:00Z",
-    end_datetime: "2026-11-19T18:00:00Z",
-    registration_deadline: "2026-11-17T18:00:00Z",
-    venue: "Campus Botanical Garden & Fine Arts Courtyard",
-    event_mode: "Offline",
-    participation_fee: 0,
-    capacity: 60,
-    registered_count: 38,
-    eligibility: "Open to amateur and student photographers. DSLR, Mirrorless, and Mobile tracks.",
-    event_rules: [
-      "Photos must be taken on university grounds during the designated 6-hour sprint.",
-      "Basic color correction is permitted; AI generative infills or photo manipulation is barred.",
-      "Submit high-resolution JPEG/RAW with EXIF metadata intact."
-    ],
-    required_materials: ["DSLR / Mirrorless Camera or High-end Smartphone", "Memory Card"],
-    contact_information: "photo-guild@campus.edu",
-    event_status: "Registration Open",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-08",
-    name: "Battle of Bands",
-    slug: "battle-of-bands",
-    category: "Music",
-    description: "The loudest showdown of the semester. Student bands compete in rock, indie, jazz, and fusion genres before a live crowd and celebrity guest judges.",
-    poster_url: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-12-01T18:30:00Z",
-    end_datetime: "2026-12-01T22:30:00Z",
-    registration_deadline: "2026-11-26T23:59:59Z",
-    venue: "Student Union Grand Auditorium",
-    event_mode: "Offline",
-    participation_fee: 0,
-    capacity: 20,
-    registered_count: 19,
-    eligibility: "Student bands with 3 to 7 members. At least 1 original composition required.",
-    event_rules: [
-      "15 minutes stage time including 3 minutes sound-check.",
-      "Standard drum kit, amps, and PA system will be provided on stage.",
-      "Lyrics must comply with university student affairs guidelines."
-    ],
-    required_materials: ["Personal guitars, bass, keyboards, pedals, and drumsticks"],
-    contact_information: "music-society@campus.edu",
-    event_status: "Filling Fast",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-09",
-    name: "Poetry and Debate Championship",
-    slug: "poetry-debate-championship",
-    category: "Literary",
-    description: "A battle of eloquence, critical thought, and verse. Oxford-style parliamentary debates alongside slam poetry recitals.",
-    poster_url: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-16T11:00:00Z",
-    end_datetime: "2026-11-16T16:00:00Z",
-    registration_deadline: "2026-11-14T23:59:59Z",
-    venue: "Humanities Block, Seminar Hall 2",
-    event_mode: "Offline",
-    participation_fee: 0,
-    capacity: 50,
-    registered_count: 32,
-    eligibility: "Open to all students. Debaters can register as two-person teams or individual speakers.",
-    event_rules: [
-      "Debate motions revealed 15 minutes before debate rounds.",
-      "Poetry track allows original works in English, Spanish, or Hindi (max 4 minutes).",
-      "Strict timekeeping enforced by parliamentary gavel."
-    ],
-    required_materials: ["Writing notebook and pen", "Copy of original poem if competing in Slam"],
-    contact_information: "debatesociety@campus.edu",
-    event_status: "Registration Open",
-    verification_status: "DEMO",
-    is_featured: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: "evt-10",
-    name: "Career Connect Networking Session",
-    slug: "career-connect-session",
-    category: "Career & Placement",
-    description: "Exclusive curated speed-networking and resume critique session with alumni working at top tech firms, investment banks, and research labs.",
-    poster_url: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
-    start_datetime: "2026-11-25T15:00:00Z",
-    end_datetime: "2026-11-25T19:00:00Z",
-    registration_deadline: "2026-11-23T23:59:59Z",
-    venue: "University Alumni Hall & Virtual Breakout Rooms",
-    event_mode: "Hybrid",
-    participation_fee: 0,
-    capacity: 120,
-    registered_count: 120,
-    eligibility: "2nd, 3rd, and final year students preparing for internships and full-time roles.",
-    event_rules: [
-      "Business casual or formal dress code strictly required.",
-      "Bring 3 printed copies of your 1-page resume.",
-      "Priority given to confirmed registrations; waitlist opens if seats drop."
-    ],
-    required_materials: ["Printed resumes", "LinkedIn profile QR code or digital portfolio"],
-    contact_information: "careercenter@campus.edu",
-    event_status: "Event Full",
-    verification_status: "DEMO",
-    is_featured: false,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   }
@@ -471,7 +210,7 @@ const demoIndividualReg1 = {
   registration_number: "JIS-2026-00201",
   student_id: "demo-student-004",
   event_id: "evt-02",
-  event: initialDemoEvents[1],
+  event: initialDemoEvents[0],
   registration_data: {
     full_name: "Priya Sharma",
     email: "priya.sharma@jisuniversity.ac.in",
@@ -496,7 +235,7 @@ const demoIndividualReg2 = {
   registration_number: "JIS-2026-00202",
   student_id: "demo-student-005",
   event_id: "evt-02",
-  event: initialDemoEvents[1],
+  event: initialDemoEvents[0],
   registration_data: {
     full_name: "Debjit Mondal",
     email: "debjit.mondal@jisuniversity.ac.in",
@@ -521,7 +260,7 @@ const demoIndividualReg3 = {
   registration_number: "JIS-2026-00301",
   student_id: "demo-student-006",
   event_id: "evt-03",
-  event: initialDemoEvents[2],
+  event: initialDemoEvents[0],
   registration_data: {
     full_name: "Ananya Banerjee",
     email: "ananya.banerjee@jisuniversity.ac.in",
@@ -548,8 +287,8 @@ memoryStore.eventRegistrations.set("demo-student-005", [demoIndividualReg2]);
 memoryStore.eventRegistrations.set("demo-student-006", [demoIndividualReg3]);
 
 const initialSaved = new Set<string>();
-initialSaved.add("evt-02");
-initialSaved.add("evt-05");
+initialSaved.add("evt-01");
+// initialSaved
 memoryStore.savedEvents.set(defaultDemoId, initialSaved);
 
 // Seed Organizer Events for Dr. Evelyn Vance
@@ -1110,6 +849,7 @@ export const db = {
     const sql = getNeonSql();
     if (sql) {
       try {
+        await sql`DELETE FROM opportunity_recommendations WHERE user_id = ${userId};`;
         for (const r of recommendations) {
           await sql`
             INSERT INTO opportunity_recommendations (
@@ -1354,6 +1094,105 @@ export const db = {
   },
 
   // ========================
+  // AVAILABLE EVENTS DAO METHODS
+  // ========================
+
+  async getAvailableEvents(filter?: { category?: string; search?: string }) {
+    const sql = getNeonSql();
+    if (sql) {
+      try {
+        let rows = await sql`SELECT * FROM available_events ORDER BY event_date ASC;`;
+        if (filter?.category && filter.category !== "All") {
+          rows = rows.filter((e: any) => e.category.toLowerCase() === filter.category?.toLowerCase());
+        }
+        if (filter?.search && filter.search.trim()) {
+          const q = filter.search.toLowerCase().trim();
+          rows = rows.filter((e: any) =>
+            e.name.toLowerCase().includes(q) ||
+            e.category.toLowerCase().includes(q) ||
+            e.description.toLowerCase().includes(q) ||
+            e.venue.toLowerCase().includes(q)
+          );
+        }
+        return rows;
+      } catch (e) {
+        console.error("Error fetching available_events from Neon:", e);
+      }
+    }
+    return [];
+  },
+
+  async saveAvailableEvent(evt: {
+    id?: string;
+    master_event_id?: string;
+    name: string;
+    category: string;
+    description: string;
+    organizer: string;
+    format: string;
+    event_date: string;
+    registration_deadline: string;
+    venue: string;
+    capacity: number;
+    participation_fee?: string | number;
+    eligibility?: string;
+    status?: string;
+  }) {
+    const sql = getNeonSql();
+    let id = evt.id;
+    if (!id && sql && evt.master_event_id) {
+      try {
+        const existing = await sql`SELECT id FROM available_events WHERE master_event_id = ${evt.master_event_id} LIMIT 1;`;
+        if (existing && existing.length > 0 && existing[0].id) {
+          id = existing[0].id;
+        }
+      } catch (err) {
+        console.error("Error looking up existing available event by master_event_id:", err);
+      }
+    }
+    if (!id) {
+      id = `avail-evt-${Date.now()}`;
+    }
+    const fee = String(evt.participation_fee || "0");
+    const status = evt.status || "Registration Open";
+
+    if (sql) {
+      try {
+        await sql`
+          INSERT INTO available_events (
+            id, master_event_id, name, category, description, organizer, format,
+            event_date, registration_deadline, venue, capacity, registered_count,
+            participation_fee, eligibility, status, updated_at
+          ) VALUES (
+            ${id}, ${evt.master_event_id || null}, ${evt.name}, ${evt.category}, ${evt.description},
+            ${evt.organizer || 'Student Organization'}, ${evt.format || 'Offline'}, 
+            ${evt.event_date}, ${evt.registration_deadline}, ${evt.venue || 'Campus Auditorium'}, 
+            ${Number(evt.capacity) || 100}, 0, ${fee}, ${evt.eligibility || 'Open to all students'}, 
+            ${status}, NOW()
+          )
+          ON CONFLICT (id) DO UPDATE SET
+            name = EXCLUDED.name,
+            category = EXCLUDED.category,
+            description = EXCLUDED.description,
+            organizer = EXCLUDED.organizer,
+            format = EXCLUDED.format,
+            event_date = EXCLUDED.event_date,
+            registration_deadline = EXCLUDED.registration_deadline,
+            venue = EXCLUDED.venue,
+            capacity = EXCLUDED.capacity,
+            participation_fee = EXCLUDED.participation_fee,
+            eligibility = EXCLUDED.eligibility,
+            status = EXCLUDED.status,
+            updated_at = NOW();
+        `;
+      } catch (e) {
+        console.error("Error saving to available_events in Neon:", e);
+      }
+    }
+
+    return { ...evt, id, status, updated_at: new Date().toISOString() };
+  },
+
   // EVENT HUB DAO METHODS
   // ========================
 
@@ -1366,6 +1205,46 @@ export const db = {
         const rows = await sql`SELECT * FROM events ORDER BY start_datetime ASC;`;
         if (rows.length > 0) {
           allEvents.push(...rows);
+        }
+
+        // Also fetch from available_events table
+        const availRows = await sql`
+          SELECT * FROM available_events 
+          WHERE status NOT IN ('Draft', 'In Planning')
+          ORDER BY event_date ASC;
+        `;
+        if (availRows && availRows.length > 0) {
+          for (const r of availRows) {
+            // Avoid duplicate if already in events
+            if (!allEvents.some((e) => e.id === r.id || e.id === r.master_event_id)) {
+              allEvents.push({
+                id: r.id,
+                name: r.name,
+                slug: r.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+                description: r.description,
+                category: r.category,
+                poster_url: (r.name && r.name.toLowerCase().includes("jis cloud ai hackathon 2026"))
+                  ? "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
+                  : ((r as any).poster_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80"),
+                start_datetime: r.event_date.includes("T") ? r.event_date : `${r.event_date}T09:00:00Z`,
+                end_datetime: r.event_date.includes("T") ? r.event_date : `${r.event_date}T18:00:00Z`,
+                registration_deadline: r.registration_deadline.includes("T") ? r.registration_deadline : `${r.registration_deadline}T23:59:59Z`,
+                venue: r.venue,
+                event_mode: r.format || "Offline",
+                participation_fee: typeof r.participation_fee === "number" ? r.participation_fee : (parseInt(r.participation_fee) || 0),
+                capacity: Number(r.capacity) || 100,
+                registered_count: Number(r.registered_count) || 0,
+                eligibility: r.eligibility || "Open to all students",
+                event_rules: ["Follow university student conduct code.", "Check in with verified UniVibe pass."],
+                required_materials: ["Student ID Card"],
+                contact_information: r.organizer || "Student Council",
+                event_status: r.status === "Draft" ? "Registration Closed" : "Registration Open",
+                verification_status: "VERIFIED",
+                created_at: r.created_at,
+                updated_at: r.updated_at,
+              });
+            }
+          }
         }
       } catch (e) {
         console.error("Error loading events from Neon:", e);
@@ -1398,11 +1277,15 @@ export const db = {
       };
     });
 
-    // Apply category filter
+// Dynamic filtering: all valid created events are returned
+
+    // Apply category filter (normalizing singular vs plural like Hackathon vs Hackathons, and fest suffixes)
     if (filter?.category && filter.category !== "All") {
-      enriched = enriched.filter(
-        (e) => e.category.toLowerCase() === filter.category?.toLowerCase()
-      );
+      const targetCat = filter.category.toLowerCase().replace(/s$/, "");
+      enriched = enriched.filter((e) => {
+        const cat = (e.category || "").toLowerCase().replace(/s$/, "");
+        return cat === targetCat || cat.includes(targetCat) || targetCat.includes(cat);
+      });
     }
 
     // Apply search query
@@ -1670,10 +1553,43 @@ export const db = {
   // ========================
 
   async getOrganizerProfile(organizerId: string) {
+    const sql = getNeonSql();
+    if (sql) {
+      try {
+        const rows = await sql`SELECT * FROM organizer_profiles WHERE id = ${organizerId} LIMIT 1;`;
+        if (rows && rows.length > 0) return rows[0];
+      } catch (e) {
+        console.error("Error fetching organizer profile from Neon:", e);
+      }
+    }
     return memoryStore.organizerProfiles.get(organizerId) || memoryStore.organizerProfiles.get(defaultOrganizerId) || null;
   },
 
   async saveOrganizerProfile(profile: any) {
+    const sql = getNeonSql();
+    if (sql) {
+      try {
+        await sql`
+          INSERT INTO organizer_profiles (
+            id, name, organization_name, department, email, phone, role_title, avatar_url, updated_at
+          ) VALUES (
+            ${profile.id}, ${profile.name}, ${profile.organization_name}, ${profile.department}, 
+            ${profile.email}, ${profile.phone || ''}, ${profile.role_title}, ${profile.avatar_url || null}, NOW()
+          )
+          ON CONFLICT (id) DO UPDATE SET
+            name = EXCLUDED.name,
+            organization_name = EXCLUDED.organization_name,
+            department = EXCLUDED.department,
+            email = EXCLUDED.email,
+            phone = EXCLUDED.phone,
+            role_title = EXCLUDED.role_title,
+            avatar_url = EXCLUDED.avatar_url,
+            updated_at = NOW();
+        `;
+      } catch (e) {
+        console.error("Error saving organizer profile to Neon:", e);
+      }
+    }
     memoryStore.organizerProfiles.set(profile.id, {
       ...profile,
       updated_at: new Date().toISOString(),
@@ -1682,6 +1598,48 @@ export const db = {
   },
 
   async getOrganizerEvents(organizerId: string, filter?: { status?: string; search?: string }) {
+    const sql = getNeonSql();
+    if (sql) {
+      try {
+        const rows = await sql`
+          SELECT * FROM organizer_events 
+          WHERE organizer_id = ${organizerId} 
+          ORDER BY updated_at DESC;
+        `;
+        if (rows && rows.length > 0) {
+          let list = rows.map((r: any) => ({
+            ...r,
+            basics: typeof r.basics === 'string' ? JSON.parse(r.basics) : r.basics,
+            audience: typeof r.audience === 'string' ? JSON.parse(r.audience) : r.audience,
+            timeline: typeof r.timeline === 'string' ? JSON.parse(r.timeline) : r.timeline,
+            logistics: typeof r.logistics === 'string' ? JSON.parse(r.logistics) : r.logistics,
+            objectives: typeof r.objectives === 'string' ? JSON.parse(r.objectives) : r.objectives,
+            registration: typeof r.registration === 'string' ? JSON.parse(r.registration) : r.registration,
+            section_ai_outputs: typeof r.section_ai_outputs === 'string' ? JSON.parse(r.section_ai_outputs) : (r.section_ai_outputs || {}),
+            final_report: typeof r.final_report === 'string' ? JSON.parse(r.final_report) : r.final_report,
+          }));
+
+          if (filter?.status && filter.status !== "All") {
+            list = list.filter((e: any) => e.status.toLowerCase() === filter.status?.toLowerCase());
+          }
+
+          if (filter?.search && filter.search.trim()) {
+            const q = filter.search.toLowerCase().trim();
+            list = list.filter(
+              (e: any) =>
+                e.basics?.event_name?.toLowerCase().includes(q) ||
+                e.basics?.event_category?.toLowerCase().includes(q) ||
+                e.basics?.event_description?.toLowerCase().includes(q)
+            );
+          }
+
+          return list;
+        }
+      } catch (e) {
+        console.error("Error fetching organizer events from Neon:", e);
+      }
+    }
+
     let list = Array.from(memoryStore.organizerEvents.values()).filter(
       (e) => e.organizer_id === organizerId
     );
@@ -1706,9 +1664,55 @@ export const db = {
   },
 
   async getOrganizerEventById(eventId: string, organizerId: string) {
+    const sql = getNeonSql();
+    if (sql) {
+      try {
+        const rows = await sql`
+          SELECT * FROM organizer_events 
+          WHERE id = ${eventId} LIMIT 1;
+        `;
+        if (rows && rows.length > 0) {
+          const r = rows[0] as any;
+          return {
+            ...r,
+            basics: typeof r.basics === 'string' ? JSON.parse(r.basics) : r.basics,
+            audience: typeof r.audience === 'string' ? JSON.parse(r.audience) : r.audience,
+            timeline: typeof r.timeline === 'string' ? JSON.parse(r.timeline) : r.timeline,
+            logistics: typeof r.logistics === 'string' ? JSON.parse(r.logistics) : r.logistics,
+            objectives: typeof r.objectives === 'string' ? JSON.parse(r.objectives) : r.objectives,
+            registration: typeof r.registration === 'string' ? JSON.parse(r.registration) : r.registration,
+            section_ai_outputs: typeof r.section_ai_outputs === 'string' ? JSON.parse(r.section_ai_outputs) : (r.section_ai_outputs || {}),
+            final_report: typeof r.final_report === 'string' ? JSON.parse(r.final_report) : r.final_report,
+          };
+        }
+      } catch (e) {
+        console.error("Error fetching organizer event by id from Neon:", e);
+      }
+    }
     const event = memoryStore.organizerEvents.get(eventId);
     if (!event) return null;
     return event;
+  },
+
+  async deleteOrganizerEvent(eventId: string) {
+    const sql = getNeonSql();
+    memoryStore.organizerEvents.delete(eventId);
+    if (sql) {
+      try {
+        await sql`DELETE FROM available_events WHERE master_event_id = ${eventId} OR id = ${eventId};`;
+        await sql`DELETE FROM organizer_events WHERE id = ${eventId};`;
+        await sql`DELETE FROM master_events WHERE id = ${eventId};`;
+        try { await sql`DELETE FROM event_summarized WHERE master_event_id = ${eventId};`; } catch {}
+        try { await sql`DELETE FROM event_audience WHERE master_event_id = ${eventId};`; } catch {}
+        try { await sql`DELETE FROM event_dates WHERE master_event_id = ${eventId};`; } catch {}
+        try { await sql`DELETE FROM event_other_info WHERE master_event_id = ${eventId};`; } catch {}
+        try { await sql`DELETE FROM event_objectives WHERE master_event_id = ${eventId};`; } catch {}
+        try { await sql`DELETE FROM event_registration_participation WHERE master_event_id = ${eventId};`; } catch {}
+      } catch (e) {
+        console.error("Error deleting event from Neon:", e);
+      }
+    }
+    return { success: true, id: eventId };
   },
 
   async saveOrganizerEvent(event: any) {
@@ -1719,6 +1723,261 @@ export const db = {
       updated_at: new Date().toISOString(),
     };
     memoryStore.organizerEvents.set(event.id, updated);
+
+    const sql = getNeonSql();
+    if (sql) {
+      try {
+        await sql`
+          INSERT INTO organizer_events (
+            id, organizer_id, basics, audience, timeline, logistics, objectives, registration, 
+            section_ai_outputs, final_report, status, current_wizard_section, public_event_id, updated_at
+          ) VALUES (
+            ${updated.id}, ${updated.organizer_id}, ${JSON.stringify(updated.basics || {})}, 
+            ${JSON.stringify(updated.audience || {})}, ${JSON.stringify(updated.timeline || {})}, 
+            ${JSON.stringify(updated.logistics || {})}, ${JSON.stringify(updated.objectives || {})}, 
+            ${JSON.stringify(updated.registration || {})}, ${JSON.stringify(updated.section_ai_outputs || {})}, 
+            ${JSON.stringify(updated.final_report || null)}, ${updated.status || 'Draft'}, 
+            ${Number(updated.current_wizard_section || 1)}, ${updated.public_event_id || null}, NOW()
+          )
+          ON CONFLICT (id) DO UPDATE SET
+            basics = EXCLUDED.basics,
+            audience = EXCLUDED.audience,
+            timeline = EXCLUDED.timeline,
+            logistics = EXCLUDED.logistics,
+            objectives = EXCLUDED.objectives,
+            registration = EXCLUDED.registration,
+            section_ai_outputs = EXCLUDED.section_ai_outputs,
+            final_report = EXCLUDED.final_report,
+            status = EXCLUDED.status,
+            current_wizard_section = EXCLUDED.current_wizard_section,
+            public_event_id = EXCLUDED.public_event_id,
+            updated_at = NOW();
+        `;
+
+        // Sync into master_events & 6 individual section tables in Neon DB
+        const masterId = updated.id;
+        const title = updated.basics?.event_name || "Untitled Event";
+        await sql`
+          INSERT INTO master_events (id, organizer_id, title, status, readiness_score, ai_report, updated_at)
+          VALUES (
+            ${masterId}, ${updated.organizer_id}, ${title}, ${updated.status || 'Draft'}, 
+            ${updated.final_report?.event_readiness_assessment?.readiness_score || 0}, 
+            ${JSON.stringify(updated.final_report || {})}, NOW()
+          )
+          ON CONFLICT (id) DO UPDATE SET
+            title = EXCLUDED.title,
+            status = EXCLUDED.status,
+            readiness_score = EXCLUDED.readiness_score,
+            ai_report = EXCLUDED.ai_report,
+            updated_at = NOW();
+        `;
+
+        // Section 1: event_summarized
+        if (updated.basics && updated.basics.event_name) {
+          const s1Id = `sum-${masterId}`;
+          await sql`
+            INSERT INTO event_summarized (
+              id, master_event_id, event_name, event_description, event_category, event_organizer, event_format, updated_at
+            ) VALUES (
+              ${s1Id}, ${masterId}, ${updated.basics.event_name}, ${updated.basics.event_description || ''}, 
+              ${updated.basics.event_category || ''}, ${updated.basics.event_organizer || ''}, 
+              ${updated.basics.event_format || 'Offline'}, NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+              event_name = EXCLUDED.event_name,
+              event_description = EXCLUDED.event_description,
+              event_category = EXCLUDED.event_category,
+              event_organizer = EXCLUDED.event_organizer,
+              event_format = EXCLUDED.event_format,
+              updated_at = NOW();
+          `;
+        }
+
+        // Section 2: event_audience
+        if (updated.audience && (updated.audience.target_audience || updated.audience.expected_participants)) {
+          const s2Id = `aud-${masterId}`;
+          await sql`
+            INSERT INTO event_audience (
+              id, master_event_id, expected_participants, target_audience, participation_type, geographical_reach, updated_at
+            ) VALUES (
+              ${s2Id}, ${masterId}, ${Number(updated.audience.expected_participants) || 100}, 
+              ${updated.audience.target_audience || 'University Students'}, ${updated.audience.participation_type || 'Individual'}, 
+              ${updated.audience.geographical_reach || 'College-Level'}, NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+              expected_participants = EXCLUDED.expected_participants,
+              target_audience = EXCLUDED.target_audience,
+              participation_type = EXCLUDED.participation_type,
+              geographical_reach = EXCLUDED.geographical_reach,
+              updated_at = NOW();
+          `;
+        }
+
+        // Section 3: event_dates
+        if (updated.timeline && (updated.timeline.proposed_event_date || updated.timeline.event_duration)) {
+          const s3Id = `date-${masterId}`;
+          await sql`
+            INSERT INTO event_dates (
+              id, master_event_id, proposed_event_date, event_duration, preparation_start_date, registration_deadline, date_flexibility, updated_at
+            ) VALUES (
+              ${s3Id}, ${masterId}, ${updated.timeline.proposed_event_date || ''}, ${updated.timeline.event_duration || ''}, 
+              ${updated.timeline.preparation_start_date || ''}, ${updated.timeline.registration_deadline || ''}, 
+              ${updated.timeline.date_flexibility || 'Flexible'}, NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+              proposed_event_date = EXCLUDED.proposed_event_date,
+              event_duration = EXCLUDED.event_duration,
+              preparation_start_date = EXCLUDED.preparation_start_date,
+              registration_deadline = EXCLUDED.registration_deadline,
+              date_flexibility = EXCLUDED.date_flexibility,
+              updated_at = NOW();
+          `;
+        }
+
+        // Section 4: event_other_info
+        if (updated.logistics && (updated.logistics.venue_location_details || updated.logistics.budget_financial_availability || updated.logistics.financial_constraints_expectations)) {
+          const s4Id = `other-${masterId}`;
+          await sql`
+            INSERT INTO event_other_info (
+              id, master_event_id, budget_financial_requirements, financial_constraints, venue_location, 
+              infrastructure_equipment, team_composition, external_support_resources, updated_at
+            ) VALUES (
+              ${s4Id}, ${masterId}, ${updated.logistics.budget_financial_availability || ''}, 
+              ${updated.logistics.financial_constraints_expectations || ''}, 
+              ${updated.logistics.venue_location_details || ''}, 
+              ${updated.logistics.infrastructure_equipment_availability || ''}, 
+              ${updated.logistics.team_composition_manpower || ''}, 
+              ${updated.logistics.external_support_assistance || ''}, NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+              budget_financial_requirements = EXCLUDED.budget_financial_requirements,
+              financial_constraints = EXCLUDED.financial_constraints,
+              venue_location = EXCLUDED.venue_location,
+              infrastructure_equipment = EXCLUDED.infrastructure_equipment,
+              team_composition = EXCLUDED.team_composition,
+              external_support_resources = EXCLUDED.external_support_resources,
+              updated_at = NOW();
+          `;
+        }
+
+        // Section 5: event_objectives
+        if (updated.objectives && updated.objectives.primary_event_objective) {
+          const s5Id = `obj-${masterId}`;
+          await sql`
+            INSERT INTO event_objectives (
+              id, master_event_id, primary_event_objective, secondary_objectives, event_theme, 
+              expected_outcomes, key_deliverables, success_criteria, institutional_alignment, 
+              social_educational_impact, updated_at
+            ) VALUES (
+              ${s5Id}, ${masterId}, ${updated.objectives.primary_event_objective}, 
+              ${updated.objectives.secondary_objectives || ''}, ${updated.objectives.event_theme || ''}, 
+              ${updated.objectives.expected_outcomes || ''}, ${updated.objectives.key_deliverables || ''}, 
+              ${updated.objectives.success_criteria || ''}, ${updated.objectives.institutional_alignment || ''}, 
+              ${updated.objectives.social_educational_impact || ''}, NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+              primary_event_objective = EXCLUDED.primary_event_objective,
+              secondary_objectives = EXCLUDED.secondary_objectives,
+              event_theme = EXCLUDED.event_theme,
+              expected_outcomes = EXCLUDED.expected_outcomes,
+              key_deliverables = EXCLUDED.key_deliverables,
+              success_criteria = EXCLUDED.success_criteria,
+              institutional_alignment = EXCLUDED.institutional_alignment,
+              social_educational_impact = EXCLUDED.social_educational_impact,
+              updated_at = NOW();
+          `;
+        }
+
+        // Section 6: event_registration_participation
+        if (updated.registration && (updated.registration.registration_method || updated.registration.participant_eligibility)) {
+          const s6Id = `reg-${masterId}`;
+          await sql`
+            INSERT INTO event_registration_participation (
+              id, master_event_id, registration_method, registration_window, participant_eligibility, 
+              eligibility_restrictions, participation_mode, team_size_range, registration_fee, 
+              selection_process, max_registration_capacity, waitlist_availability, 
+              certificate_document_requirements, expected_participants, proposed_event_date, updated_at
+            ) VALUES (
+              ${s6Id}, ${masterId}, ${updated.registration.registration_method || 'Online Form'}, 
+              ${updated.registration.registration_window || ''}, 
+              ${updated.registration.participant_eligibility || 'Open to all students'}, 
+              ${updated.registration.eligibility_restrictions || ''}, 
+              ${updated.registration.participation_mode || 'Individual'}, 
+              ${updated.registration.team_size_range || ''}, 
+              ${String(updated.registration.registration_fee || '0')}, 
+              ${updated.registration.selection_process || 'First Come, First Served'}, 
+              ${Number(updated.registration.max_registration_capacity) || 150}, 
+              ${updated.registration.waitlist_availability || 'Yes'}, 
+              ${updated.registration.certificate_document_requirements || ''}, 
+              ${Number(updated.audience?.expected_participants || updated.registration?.expected_participants || 100)}, 
+              ${updated.timeline?.proposed_event_date || ''}, NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+              registration_method = EXCLUDED.registration_method,
+              registration_window = EXCLUDED.registration_window,
+              participant_eligibility = EXCLUDED.participant_eligibility,
+              eligibility_restrictions = EXCLUDED.eligibility_restrictions,
+              participation_mode = EXCLUDED.participation_mode,
+              team_size_range = EXCLUDED.team_size_range,
+              registration_fee = EXCLUDED.registration_fee,
+              selection_process = EXCLUDED.selection_process,
+              max_registration_capacity = EXCLUDED.max_registration_capacity,
+              waitlist_availability = EXCLUDED.waitlist_availability,
+              certificate_document_requirements = EXCLUDED.certificate_document_requirements,
+              expected_participants = EXCLUDED.expected_participants,
+              proposed_event_date = EXCLUDED.proposed_event_date,
+              updated_at = NOW();
+          `;
+        }
+
+        // Available Events: Sync basic necessities into available_events table in Neon DB when Published
+        const availId = `avail-${masterId}`;
+        const feeStr = String(updated.registration?.registration_fee || "0");
+        if (updated.status === "Published") {
+          const availStatus = "Registration Open";
+          await sql`
+            INSERT INTO available_events (
+              id, master_event_id, name, category, description, organizer, format,
+              event_date, registration_deadline, venue, capacity, registered_count,
+              participation_fee, eligibility, status, updated_at
+            ) VALUES (
+              ${availId}, ${masterId}, 
+              ${updated.basics?.event_name || 'Untitled Event'}, 
+              ${updated.basics?.event_category || 'Other'}, 
+              ${updated.basics?.event_description || 'Campus Event'}, 
+              ${updated.basics?.event_organizer || 'Student Organization'}, 
+              ${updated.basics?.event_format || 'Offline'}, 
+              ${updated.timeline?.proposed_event_date || new Date().toISOString().split('T')[0]}, 
+              ${updated.timeline?.registration_deadline || new Date().toISOString().split('T')[0]}, 
+              ${updated.logistics?.venue_location_details || 'Campus Auditorium'}, 
+              ${Number(updated.registration?.max_registration_capacity) || Number(updated.audience?.expected_participants) || 100}, 
+              0, 
+              ${feeStr}, 
+              ${updated.registration?.participant_eligibility || 'Open to all students'}, 
+              ${availStatus}, 
+              NOW()
+            )
+            ON CONFLICT (id) DO UPDATE SET
+              name = EXCLUDED.name,
+              category = EXCLUDED.category,
+              description = EXCLUDED.description,
+              organizer = EXCLUDED.organizer,
+              format = EXCLUDED.format,
+              event_date = EXCLUDED.event_date,
+              registration_deadline = EXCLUDED.registration_deadline,
+              venue = EXCLUDED.venue,
+              capacity = EXCLUDED.capacity,
+              participation_fee = EXCLUDED.participation_fee,
+              eligibility = EXCLUDED.eligibility,
+              status = EXCLUDED.status,
+              updated_at = NOW();
+          `;
+        }
+      } catch (e) {
+        console.error("Error writing organizer event to Neon DB:", e);
+      }
+    }
+
     return updated;
   },
 

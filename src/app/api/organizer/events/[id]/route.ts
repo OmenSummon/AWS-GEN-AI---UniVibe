@@ -9,7 +9,22 @@ export async function GET(
   try {
     const { searchParams } = new URL(request.url);
     const organizerId = searchParams.get("organizerId") || DEFAULT_ORGANIZER_ID;
-    const event = await db.getOrganizerEventById(params.id, organizerId);
+    const rawId = params.id;
+    const eventId = decodeURIComponent(rawId);
+
+    let event: any = null;
+    if (eventId === "latest") {
+      const events = await db.getOrganizerEvents(organizerId);
+      event = events.find((e: any) => e.status === "In Planning" || e.status === "Draft") || events[0] || null;
+    } else {
+      event = await db.getOrganizerEventById(eventId, organizerId);
+      
+      // Fallback: If direct query did not find it, search through organizer events list
+      if (!event) {
+        const events = await db.getOrganizerEvents(organizerId);
+        event = events.find((e: any) => e.id === eventId || e.id === rawId) || null;
+      }
+    }
 
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
@@ -31,8 +46,9 @@ export async function PUT(
   try {
     const body = await request.json();
     const organizerId = body.organizer_id || DEFAULT_ORGANIZER_ID;
+    const eventId = decodeURIComponent(params.id);
 
-    const existing = await db.getOrganizerEventById(params.id, organizerId);
+    const existing = await db.getOrganizerEventById(eventId, organizerId);
     if (!existing) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
     }
@@ -40,7 +56,7 @@ export async function PUT(
     const updated = await db.saveOrganizerEvent({
       ...existing,
       ...body,
-      id: params.id,
+      id: eventId,
       updated_at: new Date().toISOString(),
     });
 
@@ -53,3 +69,25 @@ export async function PUT(
   }
 }
 
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const rawId = params.id;
+    const eventId = decodeURIComponent(rawId);
+
+    await db.deleteOrganizerEvent(eventId);
+
+    return NextResponse.json({
+      success: true,
+      message: "Event successfully deleted from database",
+      id: eventId,
+    });
+  } catch (err: any) {
+    return NextResponse.json(
+      { error: err?.message || "Failed to delete event" },
+      { status: 500 }
+    );
+  }
+}

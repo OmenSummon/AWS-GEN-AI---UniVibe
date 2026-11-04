@@ -26,22 +26,22 @@ export async function POST(request: Request) {
     const organizerId = body.organizer_id || DEFAULT_ORGANIZER_ID;
 
     const newEvent = {
-      id: "org-evt-" + Date.now(),
+      id: body.id || ("org-evt-" + Date.now()),
       organizer_id: organizerId,
       status: body.status || "Draft",
       current_wizard_section: body.current_wizard_section || 1,
       basics: body.basics || {
         event_name: "Untitled Event",
         event_description: "",
-        event_category: "Hackathon",
-        event_organizer: "Student Organization",
-        event_format: "Offline",
+        event_category: "",
+        event_organizer: "",
+        event_format: "",
       },
       audience: body.audience || {
         expected_participants: 100,
-        target_audience: "University Students",
-        participation_type: "Individual",
-        geographical_reach: "College-Level",
+        target_audience: "",
+        participation_type: "",
+        geographical_reach: "",
       },
       timeline: body.timeline || {
         proposed_event_date: new Date(Date.now() + 86400000 * 30).toISOString().split("T")[0],

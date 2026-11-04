@@ -24,8 +24,7 @@ const organizerNavItems = [
   { name: "Create Event", href: "/organizer/create-event", icon: PlusCircle },
   { name: "My Events", href: "/organizer/my-events", icon: Calendar },
   { name: "Registrations & Teams", href: "/organizer/registrations", icon: Users },
-  { name: "Event Intelligence", href: "/organizer/event-reports", icon: BarChart3 },
-  { name: "Event Reports", href: "/organizer/event-reports", icon: FileText },
+  { name: "Event Intelligence and Report", href: "/organizer/event-reports", icon: BarChart3 },
   { name: "Settings", href: "/organizer/settings", icon: Settings },
 ];
 
@@ -87,13 +86,13 @@ export function OrganizerSidebar() {
 
         {/* Navigation List */}
         <nav className="flex-1 px-3 py-3 space-y-1.5 overflow-y-auto">
-          {organizerNavItems.map((item, idx) => {
-            const isActive = pathname === item.href && (idx !== 5 || pathname === "/organizer/event-reports");
+          {organizerNavItems.map((item) => {
+            const isActive = pathname === item.href;
             const Icon = item.icon;
 
             return (
               <Link
-                key={`${item.name}-${idx}`}
+                key={item.name}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(

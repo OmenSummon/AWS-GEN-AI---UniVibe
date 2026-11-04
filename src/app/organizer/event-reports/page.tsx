@@ -74,7 +74,7 @@ ${selectedEvent.final_report?.event_readiness_assessment?.critical_action_items?
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-white">
-            Event Intelligence &amp; Committee Dossiers
+            Event Intelligence &amp; Report
           </h1>
           <p className="text-xs md:text-sm text-lavender-300 mt-1">
             Aggregated multi-section AI feasibility reports ready for university approval.

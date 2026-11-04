@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -17,58 +17,87 @@ import {
   ChevronRight,
   Eye,
   EyeOff,
-  Building
+  Building,
+  X
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function EntryGatePage() {
   const router = useRouter();
 
-  // State
-  const [showOrganizerModal, setShowOrganizerModal] = useState(false);
-  const [studentLoading, setStudentLoading] = useState(false);
-  const [organizerLoading, setOrganizerLoading] = useState(false);
+  // Active Role for Auth Modal ("student" | "organizer" | null)
+  const [authModalRole, setAuthModalRole] = useState<"student" | "organizer" | null>(null);
 
-  // Organizer Credentials (JIS University Student Organizer)
-  const [orgUsername, setOrgUsername] = useState("student.organizer@jisuniversity.ac.in");
-  const [orgPassword, setOrgPassword] = useState("admin123");
+  // Form Inputs & Loading
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<"google" | "github" | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  // Handle Student Selection -> Register & Open Student Relative Page
-  const handleStudentContinue = async () => {
-    setStudentLoading(true);
+  // Check if redirected back with error from OAuth
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlError = params.get("error");
+      if (urlError) {
+        setLoginError(urlError);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+  }, []);
+
+  // Open modal with pre-configured demo defaults for respective role
+  const openAuthModal = (role: "student" | "organizer") => {
+    setAuthModalRole(role);
+    setLoginError(null);
+    setShowPassword(false);
+    setEmailInput("");
+    setPasswordInput("");
+  };
+
+  // Method 1 & 2: Social OAuth Login (Google & GitHub)
+  const handleSocialLogin = async (provider: "google" | "github") => {
+    if (!authModalRole) return;
+    setSocialLoading(provider);
+    setLoginError(null);
+
+    // Direct Google OAuth flow to server endpoint
+    if (provider === "google") {
+      window.location.href = `/api/auth/signin/google?role=${authModalRole}`;
+      return;
+    }
+
     try {
-      await fetch("/api/auth/role", {
+      const res = await fetch("/api/auth/role", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role: "student" }),
+        body: JSON.stringify({
+          role: authModalRole,
+          provider,
+        }),
       });
-      router.push("/onboarding");
+
+      const data = await res.json();
+      if (!res.ok) {
+        setLoginError(data.error || `Failed to sign in with ${provider}.`);
+        setSocialLoading(null);
+        return;
+      }
+
+      router.push(data.redirectUrl || (authModalRole === "organizer" ? "/organizer/dashboard" : "/dashboard"));
     } catch {
-      router.push("/onboarding");
+      setLoginError(`Failed to connect to ${provider}. Please try again.`);
+      setSocialLoading(null);
     }
   };
 
-  // Direct Student Dashboard shortcut
-  const handleStudentDirectDashboard = async () => {
-    setStudentLoading(true);
-    try {
-      await fetch("/api/auth/role", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role: "student" }),
-      });
-      router.push("/dashboard");
-    } catch {
-      router.push("/dashboard");
-    }
-  };
-
-  // Handle Organizer Login -> Verify Credentials & Open Organizer Suite
-  const handleOrganizerLogin = async (e: React.FormEvent) => {
+  // Method 3: Credentials Login (Username / Email & Password)
+  const handleCredentialsLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setOrganizerLoading(true);
+    if (!authModalRole) return;
+    setAuthLoading(true);
     setLoginError(null);
 
     try {
@@ -76,23 +105,24 @@ export default function EntryGatePage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          role: "organizer",
-          username: orgUsername,
-          password: orgPassword,
+          role: authModalRole,
+          username: emailInput,
+          password: passwordInput,
+          provider: "credentials",
         }),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        setLoginError(data.error || "Invalid organizer credentials.");
-        setOrganizerLoading(false);
+        setLoginError(data.error || "Invalid credentials.");
+        setAuthLoading(false);
         return;
       }
 
-      router.push(data.redirectUrl || "/organizer/dashboard");
-    } catch (err: any) {
-      setLoginError("Failed to authenticate student organizer. Please try again.");
-      setOrganizerLoading(false);
+      router.push(data.redirectUrl || (authModalRole === "organizer" ? "/organizer/dashboard" : "/dashboard"));
+    } catch {
+      setLoginError("Failed to authenticate. Please try again.");
+      setAuthLoading(false);
     }
   };
 
@@ -187,7 +217,7 @@ export default function EntryGatePage() {
                 Student
               </h3>
 
-              <p className="text-lavender-300/90 text-sm leading-relaxed mb-6">
+              <p className="text-lavender-300/90 text-sm leading-relaxed mb-6 min-h-[44px] flex items-center">
                 Discover opportunities, explore campus events, build your skills, and create your personalized growth journey.
               </p>
 
@@ -207,23 +237,17 @@ export default function EntryGatePage() {
 
             <div className="space-y-2.5">
               <button
-                onClick={handleStudentContinue}
-                disabled={studentLoading}
-                className="w-full py-3.5 px-6 rounded-2xl bg-[#6c35de] hover:bg-[#7b41ee] active:bg-[#5f2ccd] text-white font-bold text-sm shadow-lg shadow-purple-900/50 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                type="button"
+                onClick={() => openAuthModal("student")}
+                className="w-full py-3.5 px-6 rounded-2xl bg-[#6c35de] hover:bg-[#7b41ee] active:bg-[#5f2ccd] text-white font-bold text-sm shadow-lg shadow-purple-900/50 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
               >
-                {studentLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    <span>Continue as Student</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
+                <span>Continue as Student</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
 
               <button
-                onClick={handleStudentDirectDashboard}
-                disabled={studentLoading}
+                type="button"
+                onClick={() => openAuthModal("student")}
                 className="w-full py-1.5 text-xs text-lavender-400 hover:text-white transition-colors text-center cursor-pointer"
               >
                 Already have a profile? Enter Dashboard &rarr;
@@ -251,8 +275,8 @@ export default function EntryGatePage() {
                 Event Organizer
               </h3>
 
-              <p className="text-lavender-300/90 text-sm leading-relaxed mb-6">
-                Plan campus events, analyze event objectives, organize resources, and build comprehensive event proposals using AI.
+              <p className="text-lavender-300/90 text-sm leading-relaxed mb-6 min-h-[44px] flex items-center">
+                Plan campus events, organize resources, and build comprehensive event proposals using AI.
               </p>
 
               {/* Character Illustration Banner */}
@@ -269,13 +293,22 @@ export default function EntryGatePage() {
               </div>
             </div>
 
-            <div>
+            <div className="space-y-2.5">
               <button
-                onClick={() => setShowOrganizerModal(true)}
+                type="button"
+                onClick={() => openAuthModal("organizer")}
                 className="w-full py-3.5 px-6 rounded-2xl bg-[#6c35de] hover:bg-[#7b41ee] active:bg-[#5f2ccd] text-white font-bold text-sm shadow-lg shadow-purple-900/50 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Continue as Organizer</span>
                 <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openAuthModal("organizer")}
+                className="w-full py-1.5 text-xs text-lavender-400 hover:text-white transition-colors text-center cursor-pointer"
+              >
+                Already have a profile? Enter Dashboard &rarr;
               </button>
             </div>
           </motion.div>
@@ -287,34 +320,57 @@ export default function EntryGatePage() {
         UniVibe &bull; JIS University (Kolkata, India) &bull; Student Intelligence Engine
       </footer>
 
-      {/* Organizer Login Modal */}
+      {/* Unified 3-Method Sign-In Dialogue Box for Student & Organizer */}
       <AnimatePresence>
-        {showOrganizerModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+        {authModalRole && (
+          <motion.div
+            key="auth-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setAuthModalRole(null);
+            }}
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              key={`auth-modal-${authModalRole}`}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="relative w-full max-w-md rounded-3xl p-7 bg-[#211244] border border-white/15 shadow-2xl shadow-purple-950/90 text-white"
+              onClick={(e) => e.stopPropagation()}
             >
+              {/* Header */}
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#6c35de] flex items-center justify-center text-white">
-                    <Calendar className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-xl bg-[#6c35de] flex items-center justify-center text-white shadow-md shadow-purple-700/30">
+                    {authModalRole === "student" ? (
+                      <GraduationCap className="w-5 h-5" />
+                    ) : (
+                      <Calendar className="w-5 h-5" />
+                    )}
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg text-white">Student Organizer Sign-In</h4>
-                    <p className="text-xs text-lavender-300">JIS Tech Club &amp; Student Council</p>
+                    <h4 className="font-bold text-lg text-white">
+                      {authModalRole === "student" ? "Student Sign-In" : "Student Organizer Sign-In"}
+                    </h4>
+                    <p className="text-xs text-lavender-300">
+                      {authModalRole === "student" ? "JIS University Student Portal" : "JIS Tech Club & Student Council"}
+                    </p>
                   </div>
                 </div>
                 <button
-                  onClick={() => setShowOrganizerModal(false)}
-                  className="text-lavender-400 hover:text-white text-lg p-1"
+                  onClick={() => setAuthModalRole(null)}
+                  className="text-lavender-400 hover:text-white text-lg p-1.5 rounded-lg hover:bg-white/10 transition-colors"
                 >
-                  &times;
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
+              {/* Error Banner */}
               {loginError && (
                 <div className="mb-4 p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
                   <ShieldAlert className="w-4 h-4 shrink-0" />
@@ -322,20 +378,76 @@ export default function EntryGatePage() {
                 </div>
               )}
 
-              <form onSubmit={handleOrganizerLogin} className="space-y-4">
+              {/* Methods 1 & 2: Google & GitHub OAuth Sign-In */}
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                {/* Google Sign-In */}
+                <button
+                  type="button"
+                  onClick={() => handleSocialLogin("google")}
+                  disabled={socialLoading !== null || authLoading}
+                  className="py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/30 text-white text-xs font-semibold flex items-center justify-center gap-2.5 transition-all shadow-sm cursor-pointer disabled:opacity-50"
+                  title="Sign in with your Google account"
+                >
+                  {socialLoading === "google" ? (
+                    <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+                  ) : (
+                    <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                      <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/>
+                      <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
+                      <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.8s.2-2.1.4-2.8L1.9 6.3C.7 8.7 0 10.8 0 12s.7 3.3 1.9 5.7l3.7-2.9z"/>
+                      <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16c1.8 3.7 5.6 7 10.1 7z"/>
+                    </svg>
+                  )}
+                  <span>Google</span>
+                </button>
+
+                {/* GitHub Sign-In */}
+                <button
+                  type="button"
+                  onClick={() => handleSocialLogin("github")}
+                  disabled={socialLoading !== null || authLoading}
+                  className="py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/30 text-white text-xs font-semibold flex items-center justify-center gap-2.5 transition-all shadow-sm cursor-pointer disabled:opacity-50"
+                  title="Sign in with your GitHub account"
+                >
+                  {socialLoading === "github" ? (
+                    <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+                  ) : (
+                    <svg className="w-4 h-4 shrink-0 fill-white" viewBox="0 0 24 24">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                    </svg>
+                  )}
+                  <span>GitHub</span>
+                </button>
+              </div>
+
+              {/* Divider */}
+              <div className="relative my-4 flex items-center justify-center">
+                <div className="border-t border-white/10 w-full" />
+                <span className="bg-[#211244] px-3 text-[10px] font-semibold text-lavender-400/80 uppercase tracking-wider shrink-0">
+                  or continue with credentials
+                </span>
+              </div>
+
+              {/* Method 3: Credentials Form */}
+              <form onSubmit={handleCredentialsLogin} className="space-y-3.5">
                 <div>
                   <label className="block text-xs font-semibold text-lavender-300 mb-1">
-                    Student Organizer Email / Username
+                    {authModalRole === "student" ? "Student Email / Username" : "Student Organizer Email / Username"}
                   </label>
                   <div className="relative">
                     <User className="w-4 h-4 text-lavender-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      value={orgUsername}
-                      onChange={(e) => setOrgUsername(e.target.value)}
-                      placeholder="student.organizer@jisuniversity.ac.in"
-                      className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-[#150a2b] border border-white/10 text-white text-xs focus:outline-none focus:border-[#8a4bfa]"
+                      value={emailInput}
+                      onChange={(e) => setEmailInput(e.target.value)}
+                      placeholder={
+                        authModalRole === "student"
+                          ? "Enter student email or ID (e.g. name@jisuniversity.ac.in)"
+                          : "Enter organizer email or username (e.g. organizer@jisuniversity.ac.in)"
+                      }
+                      className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-[#150a2b] border border-white/10 text-white text-xs placeholder:text-lavender-400/50 focus:outline-none focus:border-[#8a4bfa]"
                       required
+                      autoComplete="username"
                     />
                   </div>
                 </div>
@@ -348,51 +460,53 @@ export default function EntryGatePage() {
                     <Lock className="w-4 h-4 text-lavender-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type={showPassword ? "text" : "password"}
-                      value={orgPassword}
-                      onChange={(e) => setOrgPassword(e.target.value)}
-                      placeholder="Password"
-                      className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-[#150a2b] border border-white/10 text-white text-xs focus:outline-none focus:border-[#8a4bfa]"
+                      value={passwordInput}
+                      onChange={(e) => setPasswordInput(e.target.value)}
+                      placeholder={
+                        authModalRole === "student"
+                          ? "Enter your student password"
+                          : "Enter your organizer password"
+                      }
+                      className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-[#150a2b] border border-white/10 text-white text-xs placeholder:text-lavender-400/50 focus:outline-none focus:border-[#8a4bfa]"
                       required
+                      autoComplete="current-password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-lavender-400 hover:text-white"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-lavender-400 hover:text-white p-1"
                     >
                       {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
-                  </div>
-                  <div className="text-[11px] text-lavender-400 mt-1">
-                    Demo password: <span className="text-purple-300 font-mono">admin123</span>
                   </div>
                 </div>
 
                 <div className="pt-2 flex items-center justify-end gap-2.5">
                   <button
                     type="button"
-                    onClick={() => setShowOrganizerModal(false)}
-                    className="px-4 py-2.5 rounded-xl text-xs font-semibold text-lavender-300 hover:text-white"
+                    onClick={() => setAuthModalRole(null)}
+                    className="px-4 py-2.5 rounded-xl text-xs font-semibold text-lavender-300 hover:text-white transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    disabled={organizerLoading}
-                    className="px-5 py-2.5 rounded-xl bg-[#6c35de] hover:bg-[#7b41ee] text-white font-bold text-xs shadow-lg shadow-purple-900/50 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    disabled={authLoading}
+                    className="px-5 py-2.5 rounded-xl bg-[#6c35de] hover:bg-[#7b41ee] text-white font-bold text-xs shadow-lg shadow-purple-900/50 flex items-center gap-1.5 cursor-pointer disabled:opacity-50 transition-colors"
                   >
-                    {organizerLoading ? (
+                    {authLoading ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
                     ) : (
                       <>
                         <KeyRound className="w-3.5 h-3.5" />
-                        <span>Sign In &amp; Open Suite</span>
+                        <span>{authModalRole === "student" ? "Sign In & Enter Dashboard" : "Sign In & Open Suite"}</span>
                       </>
                     )}
                   </button>
                 </div>
               </form>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

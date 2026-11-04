@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Calendar,
   PlusCircle,
@@ -18,28 +19,148 @@ import {
   MoreHorizontal,
   Plus,
   BarChart3,
-  CalendarDays
+  CalendarDays,
+  Loader2
 } from "lucide-react";
+import { calculateEventProgress } from "@/lib/workflow/masterEventWorkflow";
+
+function safeDecode(val: string | null | undefined): string {
+  if (!val) return "";
+  try {
+    let prev = val;
+    let decoded = decodeURIComponent(val);
+    while (decoded !== prev && decoded.includes("%")) {
+      prev = decoded;
+      decoded = decodeURIComponent(decoded);
+    }
+    return decoded;
+  } catch {
+    return val || "";
+  }
+}
 
 export default function OrganizerDashboardPage() {
-  const [organizerName, setOrganizerName] = useState("Rohan");
+  const router = useRouter();
+  const [organizerName, setOrganizerName] = useState("Organizer");
+  const [organizerAvatar, setOrganizerAvatar] = useState<string | null>(null);
+  const [avatarError, setAvatarError] = useState(false);
+  const [latestEvent, setLatestEvent] = useState<any>(null);
+  const [eventsList, setEventsList] = useState<any[]>([]);
+  const [metrics, setMetrics] = useState({
+    total: 0,
+    drafts: 0,
+    pending: 0,
+    published: 0,
+    registrations: 1248,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Read cookies immediately on mount for zero-flash UI
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const nameMatch = document.cookie.match(/univibe_user_name=([^;]+)/);
+      const avatarMatch = document.cookie.match(/univibe_user_avatar=([^;]+)/);
+      if (nameMatch && nameMatch[1]) {
+        const decoded = safeDecode(nameMatch[1].trim());
+        if (decoded) setOrganizerName(decoded);
+      }
+      if (avatarMatch && avatarMatch[1]) {
+        const decoded = safeDecode(avatarMatch[1].trim());
+        if (decoded) {
+          setOrganizerAvatar(decoded);
+          setAvatarError(false);
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    async function loadProfile() {
+    async function loadDashboardData() {
       try {
-        const res = await fetch("/api/organizer/profile");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.profile?.name) {
-            setOrganizerName(data.profile.name.split(" ")[0]);
+        const [profileRes, eventsRes, metricsRes] = await Promise.all([
+          fetch("/api/organizer/profile").catch(() => null),
+          fetch("/api/organizer/events").catch(() => null),
+          fetch("/api/organizer/metrics").catch(() => null),
+        ]);
+
+        if (profileRes && profileRes.ok) {
+          const profileData = await profileRes.json();
+          if (profileData.profile?.name) {
+            setOrganizerName(safeDecode(profileData.profile.name));
+          }
+          if (profileData.profile?.avatar_url) {
+            const rawAvatar = safeDecode(profileData.profile.avatar_url);
+            setOrganizerAvatar(rawAvatar);
+            setAvatarError(false);
+          }
+        }
+
+        let events: any[] = [];
+        if (eventsRes && eventsRes.ok) {
+          const eventsData = await eventsRes.json();
+          events = eventsData.events || [];
+          setEventsList(events);
+
+          if (events.length > 0) {
+            // Find the most recent draft / in planning event, or the latest event
+            const activeDraft = events.find(
+              (e: any) => e.status === "In Planning" || e.status === "Draft"
+            ) || events[0];
+            setLatestEvent(activeDraft);
+
+            const publishedCount = events.filter(
+              (e: any) => e.status === "Published"
+            ).length;
+            const pendingCount = events.filter((e: any) => {
+              if (e.status === "Published") return false;
+              if (e.status === "Pending Review") return true;
+              const prog = calculateEventProgress(e);
+              return prog.overallPercentage === 100;
+            }).length;
+            const draftsCount = events.filter((e: any) => {
+              if (e.status === "Published") return false;
+              if (e.status === "Pending Review") return false;
+              const prog = calculateEventProgress(e);
+              return prog.overallPercentage < 100;
+            }).length;
+
+            setMetrics((prev) => ({
+              ...prev,
+              total: events.length,
+              drafts: draftsCount,
+              pending: pendingCount,
+              published: publishedCount,
+            }));
+          }
+        }
+
+        if (metricsRes && metricsRes.ok) {
+          const mData = await metricsRes.json();
+          if (mData.metrics) {
+            setMetrics((prev) => ({
+              ...prev,
+              registrations: mData.metrics.total_registrations ?? prev.registrations,
+              total: events.length > 0 ? events.length : (mData.metrics.total_events ?? prev.total),
+              drafts: events.length > 0 ? prev.drafts : (mData.metrics.draft_events ?? prev.drafts),
+              pending: events.length > 0 ? prev.pending : (mData.metrics.pending_review ?? prev.pending),
+              published: events.length > 0 ? prev.published : (mData.metrics.published_events ?? prev.published),
+            }));
           }
         }
       } catch (err) {
-        console.error("Failed to load organizer profile", err);
+        console.error("Dashboard data load error:", err);
+      } finally {
+        setIsLoading(false);
       }
     }
-    loadProfile();
+    loadDashboardData();
   }, []);
+
+  // Compute live progress based on the latest saved draft in DB
+  const progress = calculateEventProgress(latestEvent);
+  const overallPercentage = progress.overallPercentage;
+  // Circumference of r=58 is 2 * PI * 58 ~ 364
+  const strokeDashoffset = Math.round(364 - (364 * overallPercentage) / 100);
 
   return (
     <div className="space-y-6">
@@ -58,12 +179,20 @@ export default function OrganizerDashboardPage() {
           <button className="w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors">
             <Bell className="w-4 h-4" />
           </button>
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-sm">
-            <img
-              src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80"
-              alt="Rohan"
-              className="w-full h-full object-cover"
-            />
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-sm bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shrink-0">
+            {organizerAvatar && !avatarError ? (
+              <img
+                src={organizerAvatar}
+                alt={organizerName}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+                onError={() => setAvatarError(true)}
+              />
+            ) : (
+              <span className="text-sm font-bold text-white select-none">
+                {organizerName ? organizerName.charAt(0).toUpperCase() : "O"}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -77,7 +206,7 @@ export default function OrganizerDashboardPage() {
               <Calendar className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">12</div>
+          <div className="text-2xl font-black text-[#150a33]">{metrics.total}</div>
           <div className="text-xs font-semibold text-gray-500 mt-0.5">Total Events</div>
         </div>
 
@@ -88,7 +217,7 @@ export default function OrganizerDashboardPage() {
               <FileText className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">4</div>
+          <div className="text-2xl font-black text-[#150a33]">{metrics.drafts}</div>
           <div className="text-xs font-semibold text-gray-500 mt-0.5">Draft Events</div>
         </div>
 
@@ -99,7 +228,7 @@ export default function OrganizerDashboardPage() {
               <Clock className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">3</div>
+          <div className="text-2xl font-black text-[#150a33]">{metrics.pending}</div>
           <div className="text-xs font-semibold text-gray-500 mt-0.5">Pending Review</div>
         </div>
 
@@ -110,7 +239,7 @@ export default function OrganizerDashboardPage() {
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">4</div>
+          <div className="text-2xl font-black text-[#150a33]">{metrics.published}</div>
           <div className="text-xs font-semibold text-gray-500 mt-0.5">Published Events</div>
         </div>
 
@@ -124,7 +253,9 @@ export default function OrganizerDashboardPage() {
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#6c35de]">1,248</div>
+          <div className="text-2xl font-black text-[#6c35de]">
+            {metrics.registrations.toLocaleString()}
+          </div>
           <div className="text-xs font-semibold text-gray-500 mt-0.5">Total Registrations &rarr;</div>
         </Link>
       </div>
@@ -133,9 +264,16 @@ export default function OrganizerDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left (2 cols): Event Planning Progress */}
         <div className="lg:col-span-2 p-6 rounded-3xl bg-white border border-gray-150 shadow-sm space-y-4">
-          <h3 className="text-base font-bold text-[#150a33]">
-            Event Planning Progress
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-bold text-[#150a33]">
+              Event Planning Progress
+            </h3>
+            {latestEvent?.basics?.event_name && (
+              <span className="text-xs font-semibold text-[#6c35de] bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100 max-w-[240px] truncate">
+                {latestEvent.basics.event_name}
+              </span>
+            )}
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-1">
             {/* Circular Progress Gauge */}
@@ -157,13 +295,14 @@ export default function OrganizerDashboardPage() {
                     stroke="#6c35de"
                     strokeWidth="11"
                     strokeDasharray="364"
-                    strokeDashoffset="120"
+                    strokeDashoffset={strokeDashoffset}
                     strokeLinecap="round"
                     fill="transparent"
+                    className="transition-all duration-700 ease-out"
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center justify-center text-center">
-                  <span className="text-2xl font-black text-[#150a33]">67%</span>
+                  <span className="text-2xl font-black text-[#150a33]">{overallPercentage}%</span>
                   <span className="text-[10px] text-gray-500 font-semibold">Overall Progress</span>
                 </div>
               </div>
@@ -171,34 +310,23 @@ export default function OrganizerDashboardPage() {
 
             {/* Checklist items */}
             <div className="space-y-2.5">
-              <div className="flex items-center gap-2.5 text-xs text-[#150a33]">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span className="font-semibold">Event Basics</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-[#150a33]">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span className="font-semibold">Audience &amp; Reach</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-[#150a33]">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span className="font-semibold">Timeline</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-gray-400">
-                <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0" />
-                <span>Resources &amp; Logistics</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-gray-400">
-                <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0" />
-                <span>Strategic Objectives</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-gray-400">
-                <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0" />
-                <span>Registration &amp; Eligibility</span>
-              </div>
+              {progress.sections.map((sec) => (
+                <div
+                  key={sec.num}
+                  className={`flex items-center gap-2.5 text-xs ${sec.complete ? "text-[#150a33]" : "text-gray-400"}`}
+                >
+                  {sec.complete ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  ) : (
+                    <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0" />
+                  )}
+                  <span className={sec.complete ? "font-semibold" : ""}>{sec.title}</span>
+                </div>
+              ))}
 
               <div className="pt-2">
                 <Link
-                  href="/organizer/create-event"
+                  href={latestEvent?.id ? `/organizer/create-event?id=${latestEvent.id}` : "/organizer/create-event?mode=continue"}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#6c35de] hover:bg-[#7b41ee] text-xs font-bold text-white shadow-md shadow-purple-900/20 transition-all"
                 >
                   <span>Continue Planning</span>
@@ -227,7 +355,7 @@ export default function OrganizerDashboardPage() {
             </Link>
 
             <Link
-              href="/organizer/create-event"
+              href={latestEvent?.id ? `/organizer/create-event?id=${latestEvent.id}` : "/organizer/create-event?mode=continue"}
               className="p-4 rounded-2xl bg-purple-50/60 hover:bg-purple-100/70 border border-purple-100 flex flex-col items-center justify-center text-center group transition-colors"
             >
               <div className="w-8 h-8 rounded-xl bg-purple-100 text-[#6c35de] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
@@ -243,7 +371,7 @@ export default function OrganizerDashboardPage() {
               <div className="w-8 h-8 rounded-xl bg-purple-100 text-[#6c35de] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
                 <BarChart3 className="w-4 h-4" />
               </div>
-              <span className="text-xs font-bold text-[#150a33]">Generate Event Report</span>
+              <span className="text-xs font-bold text-[#150a33]">Event Intelligence &amp; Report</span>
             </Link>
 
             <Link
@@ -287,104 +415,84 @@ export default function OrganizerDashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 text-[#150a33]">
-              {/* Row 1 */}
-              <tr className="hover:bg-purple-50/30 transition-colors">
-                <td className="py-3.5 pl-2 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-purple-900 overflow-hidden shrink-0">
-                    <img
-                      src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=100&q=80"
-                      alt="TechFest 2026"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <div className="font-bold text-sm">TechFest 2026</div>
-                    <div className="text-[10px] text-gray-400">JIS University</div>
-                  </div>
-                </td>
-                <td className="py-3.5 text-gray-600">Technical Fest</td>
-                <td className="py-3.5">
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-600 border border-amber-200">
-                    In Planning
-                  </span>
-                </td>
-                <td className="py-3.5 text-gray-500">—</td>
-                <td className="py-3.5 text-gray-500">2 hours ago</td>
-                <td className="py-3.5 pr-2 text-right">
-                  <Link
-                    href="/organizer/create-event"
-                    className="p-1 rounded-lg hover:bg-gray-100 text-gray-500 inline-block"
-                  >
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Link>
-                </td>
-              </tr>
+              {eventsList.length > 0 ? (
+                eventsList.slice(0, 5).map((evt: any) => {
+                  const name = evt.basics?.event_name || "Untitled Initiative";
+                  const category = evt.basics?.event_category || "General";
+                  const rawStatus = evt.status || "Draft";
+                  const is100 = calculateEventProgress(evt).overallPercentage === 100;
+                  const displayStatus =
+                    rawStatus === "Published"
+                      ? "Published"
+                      : is100 || rawStatus === "Pending Review"
+                      ? "Pending Review"
+                      : "In Planning";
+                  const capacity = evt.registration?.max_registration_capacity || evt.audience?.expected_participants || 0;
+                  const dateStr = evt.updated_at
+                    ? new Date(evt.updated_at).toLocaleDateString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+                    : "Recently";
 
-              {/* Row 2 */}
-              <tr className="hover:bg-purple-50/30 transition-colors">
-                <td className="py-3.5 pl-2 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-fuchsia-900 overflow-hidden shrink-0">
-                    <img
-                      src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=100&q=80"
-                      alt="Campus Cultural Night"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <div className="font-bold text-sm">Campus Cultural Night</div>
-                    <div className="text-[10px] text-gray-400">JIS University</div>
-                  </div>
-                </td>
-                <td className="py-3.5 text-gray-600">Cultural</td>
-                <td className="py-3.5">
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">
-                    Published
-                  </span>
-                </td>
-                <td className="py-3.5 font-semibold text-[#150a33]">486</td>
-                <td className="py-3.5 text-gray-500">1 day ago</td>
-                <td className="py-3.5 pr-2 text-right">
-                  <Link
-                    href="/organizer/registrations"
-                    className="p-1 rounded-lg hover:bg-gray-100 text-gray-500 inline-block"
-                  >
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Link>
-                </td>
-              </tr>
+                  const statusBadge =
+                    displayStatus === "Published"
+                      ? "bg-emerald-50 text-emerald-600 border-emerald-200"
+                      : displayStatus === "Pending Review"
+                      ? "bg-amber-50 text-amber-700 border-amber-200 font-bold"
+                      : "bg-purple-50 text-[#6c35de] border-purple-200";
 
-              {/* Row 3 */}
-              <tr className="hover:bg-purple-50/30 transition-colors">
-                <td className="py-3.5 pl-2 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-indigo-900 overflow-hidden shrink-0">
-                    <img
-                      src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=100&q=80"
-                      alt="AI Innovation Workshop"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <div className="font-bold text-sm">AI Innovation Workshop</div>
-                    <div className="text-[10px] text-gray-400">JIS University</div>
-                  </div>
-                </td>
-                <td className="py-3.5 text-gray-600">Workshop</td>
-                <td className="py-3.5">
-                  <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-purple-50 text-[#6c35de] border border-purple-200">
-                    Pending Review
-                  </span>
-                </td>
-                <td className="py-3.5 text-gray-500">—</td>
-                <td className="py-3.5 text-gray-500">2 days ago</td>
-                <td className="py-3.5 pr-2 text-right">
-                  <Link
-                    href="/organizer/create-event"
-                    className="p-1 rounded-lg hover:bg-gray-100 text-gray-500 inline-block"
-                  >
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Link>
-                </td>
-              </tr>
+                  const eventUrl = `/organizer/create-event?id=${evt.id}`;
+
+                  return (
+                    <tr
+                      key={evt.id}
+                      onClick={() => router.push(eventUrl)}
+                      className="hover:bg-purple-50/50 transition-colors cursor-pointer group"
+                      title={`Open "${name}" in Create Event editor`}
+                    >
+                      <td className="py-3.5 pl-2 flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-purple-100 text-[#6c35de] font-bold flex items-center justify-center shrink-0 group-hover:bg-[#6c35de] group-hover:text-white transition-colors">
+                          {name.slice(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <Link
+                            href={eventUrl}
+                            className="font-bold text-sm text-[#150a33] group-hover:text-[#6c35de] transition-colors hover:underline block"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {name}
+                          </Link>
+                          <div className="text-[10px] text-gray-400">JIS University</div>
+                        </div>
+                      </td>
+                      <td className="py-3.5 text-gray-600 font-medium">{category}</td>
+                      <td className="py-3.5">
+                        <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${statusBadge}`}>
+                          {displayStatus}
+                        </span>
+                      </td>
+                      <td className="py-3.5 font-semibold text-[#150a33]">{capacity > 0 ? capacity : "—"}</td>
+                      <td className="py-3.5 text-gray-500">{dateStr}</td>
+                      <td className="py-3.5 pr-2 text-right">
+                        <div className="flex items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
+                          <Link
+                            href={eventUrl}
+                            className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-[#6c35de] text-[#6c35de] hover:text-white border border-purple-200 text-[11px] font-bold transition-all inline-flex items-center gap-1 shadow-2xs"
+                            title="Open in Create Event Editor"
+                          >
+                            <span>Edit</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={6} className="py-8 text-center text-gray-400">
+                    No events found in Neon DB yet. Click "Create New Event" to start planning!
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
