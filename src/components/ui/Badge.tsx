@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "default" | "success" | "warning" | "verified" | "suggested" | "outline" | "danger";
+  variant?: "default" | "success" | "warning" | "verified" | "suggested" | "outline" | "danger" | "accent";
   tone?: "dark" | "light" | "auto";
 }
 
@@ -13,22 +13,23 @@ export function Badge({
   children,
   ...props
 }: BadgeProps) {
-  // Styles optimized for high contrast (minimum 7:1) across both dark surfaces and light surfaces
   const variantStyles = {
     default:
-      "bg-purple-900/50 text-purple-100 border-purple-400/40 font-semibold shadow-xs",
+      "bg-[#446B8D]/25 text-[#FEFEFE] border-[#446B8D]/50 font-semibold shadow-xs",
     success:
-      "bg-emerald-950/60 text-emerald-300 border-emerald-400/50 font-semibold shadow-xs",
+      "bg-emerald-950/60 text-emerald-300 border-emerald-500/40 font-semibold shadow-xs",
     warning:
-      "bg-amber-950/60 text-amber-300 border-amber-400/50 font-semibold shadow-xs",
+      "bg-[#E4B74A]/20 text-[#E4B74A] border-[#E4B74A]/40 font-semibold shadow-xs",
     verified:
-      "bg-emerald-950/70 text-emerald-200 border-emerald-400/60 font-bold tracking-wide shadow-xs",
+      "bg-[#446B8D]/30 text-[#FEFEFE] border-[#E4B74A] font-bold tracking-wide shadow-xs",
     suggested:
-      "bg-indigo-950/70 text-indigo-200 border-indigo-400/50 font-semibold shadow-xs",
+      "bg-[#353434] text-[#D4D4D4] border-[#444343] font-semibold shadow-xs",
     outline:
-      "bg-white/10 text-white border-white/25 font-semibold backdrop-blur-sm",
+      "bg-transparent text-[#FEFEFE] border-[#444343] font-semibold",
     danger:
-      "bg-rose-950/60 text-rose-300 border-rose-400/50 font-semibold shadow-xs",
+      "bg-[#B71C1C]/25 text-[#FF8E8E] border-[#B71C1C]/60 font-semibold shadow-xs",
+    accent:
+      "bg-[#E4B74A]/25 text-[#E4B74A] border-[#E4B74A]/50 font-bold shadow-xs",
   };
 
   return (

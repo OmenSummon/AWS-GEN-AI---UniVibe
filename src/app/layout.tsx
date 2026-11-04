@@ -16,10 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-midnight-900 text-lavender-100 antialiased selection:bg-violet selection:text-white">
+      <body className="min-h-screen bg-[#2C2B2B] text-[#FEFEFE] antialiased selection:bg-[#446B8D] selection:text-[#FEFEFE]">
         {children}
       </body>
     </html>
   );
 }
-

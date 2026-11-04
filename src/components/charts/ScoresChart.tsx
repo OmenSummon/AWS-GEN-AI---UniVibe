@@ -30,31 +30,32 @@ export function ScoresChart({ scores }: ScoresChartProps) {
     <div className="w-full h-72 sm:h-80 flex items-center justify-center">
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart cx="50%" cy="50%" outerRadius="75%" data={data}>
-          <PolarGrid stroke="#2D2254" strokeDasharray="3 3" />
+          <PolarGrid stroke="#444343" strokeDasharray="3 3" />
           <PolarAngleAxis
             dataKey="factor"
-            tick={{ fill: "#C4B5FD", fontSize: 11, fontWeight: 500 }}
+            tick={{ fill: "#FEFEFE", fontSize: 11, fontWeight: 600 }}
           />
           <PolarRadiusAxis
             angle={30}
             domain={[0, 100]}
-            tick={{ fill: "#6B7280", fontSize: 9 }}
-            stroke="#2D2254"
+            tick={{ fill: "#A8A8A8", fontSize: 9 }}
+            stroke="#444343"
           />
           <Radar
             name="UniVibe Score"
             dataKey="score"
-            stroke="#8B5CF6"
-            fill="#8B5CF6"
-            fillOpacity={0.35}
+            stroke="#446B8D"
+            fill="#446B8D"
+            fillOpacity={0.45}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: "#130F26",
-              borderColor: "#8B5CF6",
+              backgroundColor: "#2C2B2B",
+              borderColor: "#E4B74A",
               borderRadius: "12px",
-              color: "#FFF",
+              color: "#FEFEFE",
               fontSize: "12px",
+              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.5)",
             }}
           />
         </RadarChart>
@@ -62,4 +63,3 @@ export function ScoresChart({ scores }: ScoresChartProps) {
     </div>
   );
 }
-

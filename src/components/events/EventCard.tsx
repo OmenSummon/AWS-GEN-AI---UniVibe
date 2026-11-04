@@ -69,19 +69,19 @@ export function EventCard({
     event.event_status === "Cancelled";
 
   return (
-    <div className="rounded-3xl bg-[#130d28] border border-purple-500/25 hover:border-purple-400/50 transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-xl">
+    <div className="rounded-3xl bg-[#353434] border border-[#444343] hover:border-[#446B8D] transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-xl">
       {/* Event Poster / Image */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#07050d]">
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#242323]">
         <img
           src={event.poster_url}
           alt={event.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#130d28] via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#353434] via-transparent to-black/40" />
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-          <span className="text-[11px] font-bold tracking-wide px-3 py-1 rounded-xl bg-[#07050d]/85 backdrop-blur-md text-purple-200 border border-purple-400/30 shadow-xs">
+          <span className="text-[11px] font-bold tracking-wide px-3 py-1 rounded-xl bg-[#2C2B2B]/90 backdrop-blur-md text-[#FEFEFE] border border-[#444343] shadow-xs">
             {event.category}
           </span>
           <button
@@ -89,20 +89,20 @@ export function EventCard({
               e.stopPropagation();
               onToggleSave(event.id);
             }}
-            className="p-1.5 rounded-xl bg-[#07050d]/85 backdrop-blur-md text-purple-200 hover:text-white border border-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-xl bg-[#2C2B2B]/90 backdrop-blur-md text-[#FEFEFE] hover:text-[#E4B74A] border border-[#444343] transition-colors cursor-pointer"
             title="Save event"
           >
-            <Bookmark className={`w-3.5 h-3.5 ${event.is_saved ? "fill-purple-400 text-purple-400" : ""}`} />
+            <Bookmark className={`w-3.5 h-3.5 ${event.is_saved ? "fill-[#E4B74A] text-[#E4B74A]" : ""}`} />
           </button>
         </div>
 
         {/* Bottom Mode & Fee info */}
-        <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-xs font-bold text-white">
-          <span className="flex items-center gap-1.5 bg-[#07050d]/85 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] border border-white/10">
-            {event.event_mode === "Online" ? <Video className="w-3.5 h-3.5 text-cyan-400" /> : <MapPin className="w-3.5 h-3.5 text-purple-300" />}
+        <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-xs font-bold text-[#FEFEFE]">
+          <span className="flex items-center gap-1.5 bg-[#2C2B2B]/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-[11px] border border-[#444343]">
+            {event.event_mode === "Online" ? <Video className="w-3.5 h-3.5 text-[#446B8D]" /> : <MapPin className="w-3.5 h-3.5 text-[#E4B74A]" />}
             {event.event_mode}
           </span>
-          <span className="font-black bg-[#6c35de] px-2.5 py-1 rounded-lg text-[11px] text-white shadow-xs">
+          <span className="font-black bg-[#E4B74A] text-[#2C2B2B] px-2.5 py-1 rounded-lg text-[11px] shadow-xs">
             {event.participation_fee === 0 ? "FREE" : `₹${event.participation_fee}`}
           </span>
         </div>
@@ -120,33 +120,33 @@ export function EventCard({
             )}
           </div>
 
-          <h3 className="text-base font-bold text-white group-hover:text-purple-200 transition-colors line-clamp-1">
+          <h3 className="text-base font-bold text-[#FEFEFE] group-hover:text-[#E4B74A] transition-colors line-clamp-1">
             {event.name}
           </h3>
 
-          <p className="text-xs text-lavender-200 line-clamp-2 mt-1 leading-relaxed font-medium">
+          <p className="text-xs text-[#D4D4D4] line-clamp-2 mt-1 leading-relaxed font-medium">
             {event.description}
           </p>
         </div>
 
         {/* Meta Info */}
-        <div className="space-y-2 text-xs text-purple-300 border-t border-white/10 pt-3 font-medium">
+        <div className="space-y-2 text-xs text-[#A8A8A8] border-t border-[#444343] pt-3 font-medium">
           <div className="flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-purple-300 shrink-0" />
-            <span className="truncate text-purple-100">{formattedDate} • {formattedTime}</span>
+            <Calendar className="w-3.5 h-3.5 text-[#446B8D] shrink-0" />
+            <span className="truncate text-[#D4D4D4]">{formattedDate} • {formattedTime}</span>
           </div>
 
           <div className="flex items-center gap-2">
-            <MapPin className="w-3.5 h-3.5 text-purple-300 shrink-0" />
-            <span className="truncate text-purple-100">{event.venue}</span>
+            <MapPin className="w-3.5 h-3.5 text-[#446B8D] shrink-0" />
+            <span className="truncate text-[#D4D4D4]">{event.venue}</span>
           </div>
 
           <div className="flex items-center justify-between pt-1 text-[11px]">
-            <span className="flex items-center gap-1.5 text-purple-300 font-bold">
-              <Users className="w-3 h-3" />
+            <span className="flex items-center gap-1.5 text-[#D4D4D4] font-bold">
+              <Users className="w-3 h-3 text-[#446B8D]" />
               {event.registered_count} / {event.capacity} seats
             </span>
-            <span className="text-amber-300 font-bold font-mono">
+            <span className="text-[#E4B74A] font-bold font-mono">
               Closes {new Date(event.registration_deadline).toLocaleDateString()}
             </span>
           </div>

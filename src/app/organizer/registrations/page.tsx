@@ -195,15 +195,15 @@ export default function OrganizerRegistrationsPage() {
           <div className="flex items-center gap-2">
             <Link
               href="/organizer/dashboard"
-              className="p-1 rounded-lg text-gray-500 hover:text-gray-900 transition-colors"
+              className="p-1 rounded-lg text-[#D4D4D4] hover:text-[#FEFEFE] transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>
-            <h1 className="text-2xl font-extrabold text-[#150a33] tracking-tight">
-              Registered Individuals &amp; Teams
+            <h1 className="text-2xl font-extrabold text-[#FEFEFE] tracking-tight">
+              Registered Individuals & Teams
             </h1>
           </div>
-          <p className="text-xs text-[#645c84] ml-7">
+          <p className="text-xs text-[#D4D4D4] ml-7">
             Live JIS University participant roster, hackathon team squads, and venue check-in verification.
           </p>
         </div>
@@ -211,68 +211,68 @@ export default function OrganizerRegistrationsPage() {
         <button
           onClick={handleExportCSV}
           disabled={filteredList.length === 0}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-purple-300 text-xs font-bold text-[#150a33] shadow-sm transition-colors cursor-pointer w-fit disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#353434] border border-[#444343] hover:border-[#446B8D] text-xs font-bold text-[#FEFEFE] shadow-sm transition-colors cursor-pointer w-fit disabled:opacity-50"
         >
-          <Download className="w-4 h-4 text-[#6c35de]" />
+          <Download className="w-4 h-4 text-[#E4B74A]" />
           <span>Export Roster (CSV)</span>
         </button>
       </div>
 
       {/* Metric Cards Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
-          <div className="text-xs font-semibold text-gray-500">Total Registrations</div>
-          <div className="text-2xl font-black text-[#150a33] mt-1">{totalCount}</div>
-          <div className="text-[11px] text-gray-400 mt-1 flex items-center gap-1">
-            <Users className="w-3 h-3 text-[#6c35de]" />
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
+          <div className="text-xs font-semibold text-[#D4D4D4]">Total Registrations</div>
+          <div className="text-2xl font-black text-[#FEFEFE] mt-1">{totalCount}</div>
+          <div className="text-[11px] text-[#888888] mt-1 flex items-center gap-1">
+            <Users className="w-3 h-3 text-[#446B8D]" />
             Across JIS University Events
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
-          <div className="text-xs font-semibold text-purple-600">Hackathon Teams</div>
-          <div className="text-2xl font-black text-[#6c35de] mt-1">{teamCount}</div>
-          <div className="text-[11px] text-gray-400 mt-1 flex items-center gap-1">
-            <Code2 className="w-3 h-3 text-[#6c35de]" />
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
+          <div className="text-xs font-semibold text-[#E4B74A]">Hackathon Teams</div>
+          <div className="text-2xl font-black text-[#E4B74A] mt-1">{teamCount}</div>
+          <div className="text-[11px] text-[#888888] mt-1 flex items-center gap-1">
+            <Code2 className="w-3 h-3 text-[#E4B74A]" />
             Multi-member squads
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
-          <div className="text-xs font-semibold text-indigo-600">Individual Attendees</div>
-          <div className="text-2xl font-black text-indigo-600 mt-1">{individualCount}</div>
-          <div className="text-[11px] text-gray-400 mt-1 flex items-center gap-1">
-            <User className="w-3 h-3 text-indigo-600" />
-            Workshops &amp; Talks
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
+          <div className="text-xs font-semibold text-[#446B8D]">Individual Attendees</div>
+          <div className="text-2xl font-black text-[#FEFEFE] mt-1">{individualCount}</div>
+          <div className="text-[11px] text-[#888888] mt-1 flex items-center gap-1">
+            <User className="w-3 h-3 text-[#446B8D]" />
+            Workshops & Talks
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
-          <div className="text-xs font-semibold text-emerald-600">Venue Checked-In</div>
-          <div className="text-2xl font-black text-emerald-600 mt-1">{checkedInCount}</div>
-          <div className="text-[11px] text-gray-400 mt-1 flex items-center gap-1">
-            <UserCheck className="w-3 h-3 text-emerald-600" />
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
+          <div className="text-xs font-semibold text-[#E4B74A]">Venue Checked-In</div>
+          <div className="text-2xl font-black text-[#FEFEFE] mt-1">{checkedInCount}</div>
+          <div className="text-[11px] text-[#888888] mt-1 flex items-center gap-1">
+            <UserCheck className="w-3 h-3 text-[#E4B74A]" />
             Badges Verified
           </div>
         </div>
       </div>
 
       {/* Filter and Search Controls */}
-      <div className="p-4 rounded-3xl bg-white border border-gray-150 shadow-sm space-y-4">
+      <div className="p-4 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           {/* Event Filter */}
           <div>
-            <label className="block text-[11px] font-semibold text-gray-500 mb-1">
+            <label className="block text-[11px] font-semibold text-[#D4D4D4] mb-1">
               Select Event
             </label>
             <select
               value={selectedEventId}
               onChange={(e) => setSelectedEventId(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-white border border-gray-200 text-xs text-[#150a33] focus:outline-none focus:border-[#6c35de] cursor-pointer"
+              className="w-full px-3 py-2 rounded-xl bg-[#242323] border border-[#444343] text-xs text-[#FEFEFE] focus:outline-none focus:border-[#446B8D] cursor-pointer"
             >
-              <option value="all">All JIS University Events</option>
+              <option value="all" className="bg-[#2C2B2B]">All JIS University Events</option>
               {events.map((evt) => (
-                <option key={evt.id} value={evt.id}>
+                <option key={evt.id} value={evt.id} className="bg-[#2C2B2B]">
                   {evt.name}
                 </option>
               ))}
@@ -281,7 +281,7 @@ export default function OrganizerRegistrationsPage() {
 
           {/* Type Filter */}
           <div>
-            <label className="block text-[11px] font-semibold text-gray-500 mb-1">
+            <label className="block text-[11px] font-semibold text-[#D4D4D4] mb-1">
               Participant Type
             </label>
             <div className="flex items-center gap-1">
@@ -289,8 +289,8 @@ export default function OrganizerRegistrationsPage() {
                 onClick={() => setTypeFilter("all")}
                 className={`flex-1 py-2 px-2.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                   typeFilter === "all"
-                    ? "bg-purple-100 text-[#6c35de]"
-                    : "bg-gray-100 text-gray-600 hover:text-gray-900"
+                    ? "bg-[#446B8D] text-[#FEFEFE]"
+                    : "bg-[#242323] text-[#D4D4D4] hover:text-[#FEFEFE]"
                 }`}
               >
                 All
@@ -299,8 +299,8 @@ export default function OrganizerRegistrationsPage() {
                 onClick={() => setTypeFilter("Team")}
                 className={`flex-1 py-2 px-2.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                   typeFilter === "Team"
-                    ? "bg-purple-100 text-[#6c35de]"
-                    : "bg-gray-100 text-gray-600 hover:text-gray-900"
+                    ? "bg-[#446B8D] text-[#FEFEFE]"
+                    : "bg-[#242323] text-[#D4D4D4] hover:text-[#FEFEFE]"
                 }`}
               >
                 Teams
@@ -309,8 +309,8 @@ export default function OrganizerRegistrationsPage() {
                 onClick={() => setTypeFilter("Individual")}
                 className={`flex-1 py-2 px-2.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                   typeFilter === "Individual"
-                    ? "bg-purple-100 text-[#6c35de]"
-                    : "bg-gray-100 text-gray-600 hover:text-gray-900"
+                    ? "bg-[#446B8D] text-[#FEFEFE]"
+                    : "bg-[#242323] text-[#D4D4D4] hover:text-[#FEFEFE]"
                 }`}
               >
                 Individuals
@@ -320,33 +320,33 @@ export default function OrganizerRegistrationsPage() {
 
           {/* Status Filter */}
           <div>
-            <label className="block text-[11px] font-semibold text-gray-500 mb-1">
+            <label className="block text-[11px] font-semibold text-[#D4D4D4] mb-1">
               Verification Status
             </label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-white border border-gray-200 text-xs text-[#150a33] focus:outline-none focus:border-[#6c35de] cursor-pointer"
+              className="w-full px-3 py-2 rounded-xl bg-[#242323] border border-[#444343] text-xs text-[#FEFEFE] focus:outline-none focus:border-[#446B8D] cursor-pointer"
             >
-              <option value="all">All Statuses</option>
-              <option value="Checked In">Checked In Only</option>
-              <option value="Confirmed">Confirmed (Pending Check-In)</option>
+              <option value="all" className="bg-[#2C2B2B]">All Statuses</option>
+              <option value="Checked In" className="bg-[#2C2B2B]">Checked In Only</option>
+              <option value="Confirmed" className="bg-[#2C2B2B]">Confirmed (Pending Check-In)</option>
             </select>
           </div>
 
           {/* Search Box */}
           <div>
-            <label className="block text-[11px] font-semibold text-gray-500 mb-1">
+            <label className="block text-[11px] font-semibold text-[#D4D4D4] mb-1">
               Search Roster
             </label>
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-[#888888] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Name, Team, Roll (JIS/...)"
-                className="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-gray-200 text-xs text-[#150a33] placeholder-gray-400 focus:outline-none focus:border-[#6c35de]"
+                className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#242323] border border-[#444343] text-xs text-[#FEFEFE] placeholder-[#888888] focus:outline-none focus:border-[#446B8D]"
               />
             </div>
           </div>
@@ -355,15 +355,15 @@ export default function OrganizerRegistrationsPage() {
 
       {/* Registrations List */}
       {loading ? (
-        <div className="p-12 text-center rounded-3xl bg-white border border-gray-150 shadow-sm">
-          <Loader2 className="w-6 h-6 animate-spin text-[#6c35de] mx-auto mb-2" />
-          <p className="text-xs text-gray-500">Loading attendee rosters...</p>
+        <div className="p-12 text-center rounded-3xl bg-[#353434] border border-[#444343] shadow-sm">
+          <Loader2 className="w-6 h-6 animate-spin text-[#E4B74A] mx-auto mb-2" />
+          <p className="text-xs text-[#D4D4D4]">Loading attendee rosters...</p>
         </div>
       ) : filteredList.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl bg-white border border-gray-150 shadow-sm space-y-2">
-          <Users className="w-8 h-8 text-gray-400 mx-auto opacity-50" />
-          <p className="text-sm font-semibold text-[#150a33]">No registrations found</p>
-          <p className="text-xs text-gray-500">
+        <div className="p-12 text-center rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-2">
+          <Users className="w-8 h-8 text-[#888888] mx-auto opacity-50" />
+          <p className="text-sm font-semibold text-[#FEFEFE]">No registrations found</p>
+          <p className="text-xs text-[#D4D4D4]">
             Try adjusting your search query or participant type filter.
           </p>
         </div>
@@ -377,44 +377,44 @@ export default function OrganizerRegistrationsPage() {
             return (
               <div
                 key={reg.id}
-                className={`p-6 rounded-3xl bg-white border transition-all shadow-sm ${
+                className={`p-6 rounded-3xl bg-[#353434] border transition-all shadow-sm ${
                   isCheckedIn
-                    ? "border-emerald-300"
-                    : "border-gray-150 hover:border-purple-300"
+                    ? "border-[#446B8D]"
+                    : "border-[#444343] hover:border-[#446B8D]"
                 }`}
               >
                 <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
                   {/* Left Column: Team / Participant Info */}
                   <div className="space-y-3 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-[11px] font-bold text-gray-600 bg-gray-100 px-2.5 py-0.5 rounded-md">
+                      <span className="font-mono text-[11px] font-bold text-[#D4D4D4] bg-[#242323] px-2.5 py-0.5 rounded-md border border-[#444343]">
                         {reg.registration_number}
                       </span>
 
                       {isTeam ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-[#6c35de] border border-purple-200 uppercase tracking-wider">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#242323] text-[#E4B74A] border border-[#444343] uppercase tracking-wider">
                           <Code2 className="w-3 h-3" /> Team ({data.team_size || 3} Members)
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-200 uppercase tracking-wider">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#242323] text-[#446B8D] border border-[#444343] uppercase tracking-wider">
                           <User className="w-3 h-3" /> Individual Attendee
                         </span>
                       )}
 
-                      <span className="text-xs text-gray-400">&bull;</span>
-                      <span className="text-xs font-semibold text-[#150a33]">
+                      <span className="text-xs text-[#888888]">&bull;</span>
+                      <span className="text-xs font-semibold text-[#FEFEFE]">
                         {reg.event?.name || "Campus Event"}
                       </span>
                     </div>
 
                     {/* Primary Name Header */}
                     <div>
-                      <h3 className="text-xl font-bold text-[#150a33] flex items-center gap-2">
+                      <h3 className="text-xl font-bold text-[#FEFEFE] flex items-center gap-2">
                         {isTeam ? data.team_name : data.full_name}
                       </h3>
                       {isTeam && data.team_leader && (
-                        <p className="text-xs text-gray-600 mt-0.5">
-                          Team Leader: <strong className="text-[#150a33]">{data.team_leader}</strong>{" "}
+                        <p className="text-xs text-[#D4D4D4] mt-0.5">
+                          Team Leader: <strong className="text-[#FEFEFE]">{data.team_leader}</strong>{" "}
                           ({data.student_id_num || "JIS Univ"})
                         </p>
                       )}
@@ -422,11 +422,11 @@ export default function OrganizerRegistrationsPage() {
 
                     {/* Team Members Roster or Individual Details */}
                     {isTeam && data.teammates && (
-                      <div className="p-3 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-1">
-                        <div className="text-[11px] font-bold text-purple-700 uppercase tracking-wider">
+                      <div className="p-3 rounded-2xl bg-[#242323] border border-[#444343] space-y-1">
+                        <div className="text-[11px] font-bold text-[#E4B74A] uppercase tracking-wider">
                           Team Members Roster:
                         </div>
-                        <div className="text-xs text-gray-700">
+                        <div className="text-xs text-[#FEFEFE]">
                           {data.teammates}
                         </div>
                       </div>
@@ -434,30 +434,30 @@ export default function OrganizerRegistrationsPage() {
 
                     {/* Project or Pitch details if present */}
                     {data.problem_statement && (
-                      <div className="text-xs text-gray-600">
-                        <strong className="text-gray-900">Project / Solution Focus:</strong>{" "}
+                      <div className="text-xs text-[#D4D4D4]">
+                        <strong className="text-[#FEFEFE]">Project / Solution Focus:</strong>{" "}
                         {data.problem_statement}
                       </div>
                     )}
 
                     {/* Academic & Contact Details Row */}
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 pt-1 border-t border-gray-100">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-[#888888] pt-1 border-t border-[#444343]">
                       <div className="flex items-center gap-1.5">
-                        <GraduationCap className="w-3.5 h-3.5 text-gray-400" />
+                        <GraduationCap className="w-3.5 h-3.5 text-[#888888]" />
                         <span>{data.department || "JIS University"} &bull; {data.year || "Student"}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Mail className="w-3.5 h-3.5 text-gray-400" />
-                        <span>{data.email}</span>
+                        <Mail className="w-3.5 h-3.5 text-[#888888]" />
+                        <span className="text-[#D4D4D4]">{data.email}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Phone className="w-3.5 h-3.5 text-gray-400" />
-                        <span>{data.phone}</span>
+                        <Phone className="w-3.5 h-3.5 text-[#888888]" />
+                        <span className="text-[#D4D4D4]">{data.phone}</span>
                       </div>
                       {data.student_id_num && (
                         <div className="flex items-center gap-1.5">
-                          <Shield className="w-3.5 h-3.5 text-gray-400" />
-                          <span>Roll: {data.student_id_num}</span>
+                          <Shield className="w-3.5 h-3.5 text-[#888888]" />
+                          <span className="text-[#D4D4D4]">Roll: {data.student_id_num}</span>
                         </div>
                       )}
                     </div>
@@ -467,11 +467,11 @@ export default function OrganizerRegistrationsPage() {
                   <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 shrink-0">
                     <div className="flex items-center gap-2">
                       {isCheckedIn ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Checked In
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#446B8D]/25 text-[#FEFEFE] border border-[#446B8D]/50">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#E4B74A]" /> Checked In
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#E4B74A]/20 text-[#E4B74A] border border-[#E4B74A]/40">
                           <Clock className="w-3.5 h-3.5" /> Confirmed (Pending Check-In)
                         </span>
                       )}
@@ -482,21 +482,21 @@ export default function OrganizerRegistrationsPage() {
                       disabled={togglingId === reg.id}
                       className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                         isCheckedIn
-                          ? "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                          : "bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-md shadow-emerald-600/20"
+                          ? "bg-[#242323] hover:bg-[#2c2b2b] text-[#D4D4D4] border border-[#444343]"
+                          : "bg-[#446B8D] hover:bg-[#557FA5] text-[#FEFEFE] shadow-md"
                       }`}
                     >
                       {togglingId === reg.id ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
                       ) : isCheckedIn ? (
                         <>
-                          <Clock className="w-3.5 h-3.5 text-amber-600" />
+                          <Clock className="w-3.5 h-3.5 text-[#E4B74A]" />
                           <span>Revert to Confirmed</span>
                         </>
                       ) : (
                         <>
-                          <UserCheck className="w-3.5 h-3.5 text-white" />
-                          <span>Verify &amp; Check In</span>
+                          <UserCheck className="w-3.5 h-3.5 text-[#FEFEFE]" />
+                          <span>Verify & Check In</span>
                         </>
                       )}
                     </button>

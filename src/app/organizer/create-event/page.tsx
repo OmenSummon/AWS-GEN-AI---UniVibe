@@ -102,12 +102,12 @@ const DEFAULT_INPUTS: WorkflowInputState = {
 
 // ── Shared Field Styles ───────────────────────────────────────
 const inputCls =
-  "w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-xs text-[#150a33] focus:outline-none focus:border-[#6c35de] transition-colors";
+  "w-full px-3.5 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-xs text-[#FEFEFE] placeholder-[#888888] focus:outline-none focus:border-[#446B8D] transition-colors";
 const selectCls =
-  "w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-xs text-[#150a33] focus:outline-none focus:border-[#6c35de] cursor-pointer";
-const labelCls = "block text-xs font-semibold text-[#150a33] mb-1";
+  "w-full px-3.5 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-xs text-[#FEFEFE] focus:outline-none focus:border-[#446B8D] cursor-pointer";
+const labelCls = "block text-xs font-semibold text-[#FEFEFE] mb-1";
 const textareaCls =
-  "w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-200 text-xs text-[#150a33] focus:outline-none focus:border-[#6c35de] resize-none transition-colors";
+  "w-full px-3.5 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-xs text-[#FEFEFE] placeholder-[#888888] focus:outline-none focus:border-[#446B8D] resize-none transition-colors";
 
 // ─────────────────────────────────────────────────────────────
 // SECTION FORM COMPONENTS (pure presentational — no nav logic)
@@ -473,10 +473,10 @@ function Section6_Registration({
 function SectionHeader({ num, title, subtitle }: { num: number; title: string; subtitle: string }) {
   return (
     <div className="pb-1">
-      <h2 className="text-base font-extrabold text-[#150a33]">
+      <h2 className="text-base font-extrabold text-[#FEFEFE]">
         {num}. {title}
       </h2>
-      <p className="text-xs text-gray-500 mt-0.5">{subtitle}</p>
+      <p className="text-xs text-[#D4D4D4] mt-0.5">{subtitle}</p>
     </div>
   );
 }
@@ -501,7 +501,7 @@ function AiSummaryContent({
   if (step === 1) {
     const out = outputs.summarizedEvent;
     return out ? (
-      <div className="space-y-2 text-xs text-[#334155] leading-relaxed">
+      <div className="space-y-2 text-xs text-[#D4D4D4] leading-relaxed">
         {[
           ["Event", out.bullets.event],
           ["Category", out.bullets.category],
@@ -510,7 +510,7 @@ function AiSummaryContent({
           ["Overview", out.bullets.overview],
         ].map(([k, v]) => (
           <div key={k} className="flex items-start gap-1.5">
-            <span className="font-bold text-[#6c35de] shrink-0">+</span>
+            <span className="font-bold text-[#E4B74A] shrink-0">+</span>
             <div><strong>{k}:</strong> {v}</div>
           </div>
         ))}
@@ -522,19 +522,19 @@ function AiSummaryContent({
   if (step === 2) {
     const out = outputs.audienceSummarization;
     return out ? (
-      <div className="space-y-2 text-xs text-[#334155] leading-relaxed">
+      <div className="space-y-2 text-xs text-[#D4D4D4] leading-relaxed">
         {[
           ["Scale", out.highlights.scale],
           ["Model", out.highlights.participation_model],
           ["Reach", out.highlights.reach],
         ].map(([k, v]) => (
           <div key={k} className="flex items-start gap-1.5">
-            <span className="font-bold text-[#6c35de] shrink-0">+</span>
+            <span className="font-bold text-[#E4B74A] shrink-0">+</span>
             <div><strong>{k}:</strong> {v}</div>
           </div>
         ))}
         {out.summary && (
-          <p className="text-[#334155] leading-relaxed mt-2 border-t border-purple-100 pt-2">
+          <p className="text-[#D4D4D4] leading-relaxed mt-2 border-t border-[#444343] pt-2">
             {out.summary.slice(0, 200)}{out.summary.length > 200 ? "…" : ""}
           </p>
         )}
@@ -545,19 +545,19 @@ function AiSummaryContent({
   if (step === 3) {
     const out = outputs.dateFinalization;
     return out ? (
-      <div className="space-y-2 text-xs text-[#334155]">
+      <div className="space-y-2 text-xs text-[#D4D4D4]">
         <div className="flex items-start gap-1.5">
-          <span className="font-bold text-[#6c35de]">+</span>
+          <span className="font-bold text-[#E4B74A]">+</span>
           <div><strong>Days to Event:</strong> {out.days_to_event} days</div>
         </div>
         <div className="flex items-start gap-1.5">
-          <span className="font-bold text-[#6c35de]">+</span>
+          <span className="font-bold text-[#E4B74A]">+</span>
           <div><strong>Reg. Window:</strong> {out.days_for_registration} days remaining</div>
         </div>
         {out.flags.length > 0 && (
-          <div className="mt-2 p-2 rounded-lg bg-red-50 border border-red-200 space-y-1">
+          <div className="mt-2 p-2 rounded-lg bg-[#B71C1C]/15 border border-[#B71C1C]/40 space-y-1">
             {out.flags.map((f, i) => (
-              <div key={i} className="flex items-start gap-1 text-red-700 text-[10px]">
+              <div key={i} className="flex items-start gap-1 text-[#FEFEFE] text-[10px]">
                 <AlertTriangle className="w-3 h-3 shrink-0 mt-0.5" />
                 <span>{f}</span>
               </div>
@@ -569,7 +569,7 @@ function AiSummaryContent({
             <CheckCircle2 className="w-3 h-3" /> Timeline validated — no conflicts detected.
           </div>
         )}
-        <p className="text-[10px] text-gray-500 border-t border-purple-100 pt-2">{out.recommendations}</p>
+        <p className="text-[10px] text-gray-500 border-t border-[#444343] pt-2">{out.recommendations}</p>
       </div>
     ) : <AiSummaryDefault inputs={inputs} step={step} />;
   }
@@ -577,7 +577,7 @@ function AiSummaryContent({
   if (step === 4) {
     const out = outputs.otherInformation;
     return out ? (
-      <div className="space-y-2 text-xs text-[#334155]">
+      <div className="space-y-2 text-xs text-[#D4D4D4]">
         {[
           ["Budget", out.budget_summary],
           ["Venue", out.venue_logistics],
@@ -585,7 +585,7 @@ function AiSummaryContent({
           ["External", out.external_support],
         ].map(([k, v]) => (
           <div key={k} className="flex items-start gap-1.5">
-            <span className="font-bold text-[#6c35de] shrink-0">+</span>
+            <span className="font-bold text-[#E4B74A] shrink-0">+</span>
             <div><strong>{k}:</strong> {String(v).slice(0, 80)}{String(v).length > 80 ? "…" : ""}</div>
           </div>
         ))}
@@ -596,19 +596,19 @@ function AiSummaryContent({
   if (step === 5) {
     const out = outputs.eventObjective;
     return out ? (
-      <div className="space-y-2 text-xs text-[#334155]">
+      <div className="space-y-2 text-xs text-[#D4D4D4]">
         <div className="flex items-start gap-1.5">
-          <span className="font-bold text-[#6c35de]">+</span>
+          <span className="font-bold text-[#E4B74A]">+</span>
           <div><strong>Objective:</strong> {out.primary_objectives.slice(0, 80)}…</div>
         </div>
         {out.proposed_kpis.slice(0, 2).map((kpi, i) => (
           <div key={i} className="flex items-start gap-1.5">
-            <span className="font-bold text-[#6c35de]">+</span>
+            <span className="font-bold text-[#E4B74A]">+</span>
             <div><strong>KPI {i + 1}:</strong> {kpi.slice(0, 70)}…</div>
           </div>
         ))}
         {out.vague_objectives_identified.length > 0 && (
-          <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-[10px] text-amber-700">
+          <div className="p-2 rounded-lg bg-[#E4B74A]/15 border border-[#E4B74A]/40 text-[10px] text-[#FEFEFE]">
             ⚠ {out.vague_objectives_identified[0]}
           </div>
         )}
@@ -619,24 +619,24 @@ function AiSummaryContent({
   if (step === 6) {
     const out = outputs.registrationParticipation;
     return out ? (
-      <div className="space-y-2 text-xs text-[#334155]">
+      <div className="space-y-2 text-xs text-[#D4D4D4]">
         <div className="flex items-start gap-1.5">
-          <span className="font-bold text-[#6c35de]">+</span>
+          <span className="font-bold text-[#E4B74A]">+</span>
           <div><strong>Capacity:</strong> {out.capacity_vs_expected_analysis.slice(0, 80)}</div>
         </div>
         {out.student_onboarding_steps.slice(0, 2).map((s, i) => (
           <div key={i} className="flex items-start gap-1.5">
-            <span className="text-[#6c35de]">{i + 1}.</span>
+            <span className="text-[#E4B74A]">{i + 1}.</span>
             <div>{s}</div>
           </div>
         ))}
         {out.contradictions_flagged.length > 0 && (
-          <div className="p-2 rounded-lg bg-red-50 border border-red-200 text-[10px] text-red-700">
+          <div className="p-2 rounded-lg bg-[#B71C1C]/15 border border-[#B71C1C]/40 text-[10px] text-[#FEFEFE]">
             ⚠ {out.contradictions_flagged[0]}
           </div>
         )}
         {out.missing_information.length > 0 && (
-          <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-[10px] text-amber-700">
+          <div className="p-2 rounded-lg bg-[#E4B74A]/15 border border-[#E4B74A]/40 text-[10px] text-[#FEFEFE]">
             Missing: {out.missing_information[0]}
           </div>
         )}
@@ -658,10 +658,10 @@ function AiSummaryDefault({ inputs, step }: { inputs: WorkflowInputState; step: 
   };
   return (
     <div className="space-y-1.5">
-      <p className="text-[10px] text-[#6c35de] font-semibold">Current inputs</p>
+      <p className="text-[10px] text-[#E4B74A] font-semibold">Current inputs</p>
       {hints[step]?.split("\n").map((line, i) => (
-        <div key={i} className="flex items-start gap-1.5 text-xs text-[#334155]">
-          <span className="font-bold text-[#6c35de] shrink-0">·</span>
+        <div key={i} className="flex items-start gap-1.5 text-xs text-[#D4D4D4]">
+          <span className="font-bold text-[#E4B74A] shrink-0">·</span>
           <span>{line}</span>
         </div>
       ))}
@@ -678,52 +678,52 @@ function FinalReportView({ report }: { report: FinalEventIntelligenceReport }) {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-base font-extrabold text-[#150a33]">Final Event Intelligence Report</h2>
+        <h2 className="text-base font-extrabold text-[#FEFEFE]">Final Event Intelligence Report</h2>
         <p className="text-xs text-gray-500 mt-0.5">Comprehensive AI-generated event plan ready for institutional review.</p>
       </div>
 
       {/* Readiness Score */}
-      <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200">
+      <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-50 to-indigo-50 border border-[#444343]">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs font-bold text-[#6c35de] flex items-center gap-1.5">
+          <span className="text-xs font-bold text-[#E4B74A] flex items-center gap-1.5">
             <BarChart3 className="w-3.5 h-3.5" /> Readiness Score
           </span>
           <span className={`text-2xl font-black ${scoreColor}`}>{score}<span className="text-sm font-medium text-gray-400">/100</span></span>
         </div>
-        <p className="text-xs text-[#334155] font-medium">{report.event_readiness_assessment?.verdict}</p>
-        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-          <div className="h-1.5 rounded-full bg-gradient-to-r from-[#6c35de] to-indigo-500 transition-all"
+        <p className="text-xs text-[#D4D4D4] font-medium">{report.event_readiness_assessment?.verdict}</p>
+        <div className="w-full bg-[#2C2B2B] rounded-full h-1.5 mt-2">
+          <div className="h-1.5 rounded-full bg-[#446B8D] transition-all"
             style={{ width: `${score}%` }} />
         </div>
       </div>
 
       {/* Event Overview */}
       <ReportSection title="Event Overview" icon="📋">
-        <p className="text-xs text-[#334155] leading-relaxed whitespace-pre-line">{report.event_overview}</p>
+        <p className="text-xs text-[#D4D4D4] leading-relaxed whitespace-pre-line">{report.event_overview}</p>
       </ReportSection>
 
       <ReportSection title="Audience & Reach" icon="👥">
-        <p className="text-xs text-[#334155] leading-relaxed">{report.audience_and_reach?.slice(0, 300)}…</p>
+        <p className="text-xs text-[#D4D4D4] leading-relaxed">{report.audience_and_reach?.slice(0, 300)}…</p>
       </ReportSection>
 
       <ReportSection title="Timeline" icon="📅">
-        <p className="text-xs text-[#334155] leading-relaxed whitespace-pre-line">{report.timeline}</p>
+        <p className="text-xs text-[#D4D4D4] leading-relaxed whitespace-pre-line">{report.timeline}</p>
       </ReportSection>
 
       <ReportSection title="Resources & Logistics" icon="📦">
-        <p className="text-xs text-[#334155] leading-relaxed whitespace-pre-line">{report.resources_and_logistics}</p>
+        <p className="text-xs text-[#D4D4D4] leading-relaxed whitespace-pre-line">{report.resources_and_logistics}</p>
       </ReportSection>
 
       <ReportSection title="Strategic Objectives" icon="🎯">
-        <p className="text-xs text-[#334155] leading-relaxed whitespace-pre-line">{report.strategic_objectives}</p>
+        <p className="text-xs text-[#D4D4D4] leading-relaxed whitespace-pre-line">{report.strategic_objectives}</p>
       </ReportSection>
 
       <ReportSection title="KPIs & Expected Outcomes" icon="📊">
-        <p className="text-xs text-[#334155] leading-relaxed whitespace-pre-line">{report.kpis_and_expected_outcomes}</p>
+        <p className="text-xs text-[#D4D4D4] leading-relaxed whitespace-pre-line">{report.kpis_and_expected_outcomes}</p>
       </ReportSection>
 
       <ReportSection title="Registration Policy" icon="🛡️">
-        <p className="text-xs text-[#334155] leading-relaxed">{report.registration_policy}</p>
+        <p className="text-xs text-[#D4D4D4] leading-relaxed">{report.registration_policy}</p>
       </ReportSection>
 
       {/* Critical Actions */}
@@ -731,8 +731,8 @@ function FinalReportView({ report }: { report: FinalEventIntelligenceReport }) {
         <ReportSection title="Critical Action Items" icon="⚡">
           <ul className="space-y-1">
             {report.event_readiness_assessment.critical_action_items.map((item, i) => (
-              <li key={i} className="flex items-start gap-1.5 text-xs text-[#334155]">
-                <span className="text-[#6c35de] font-bold shrink-0">{i + 1}.</span> {item}
+              <li key={i} className="flex items-start gap-1.5 text-xs text-[#D4D4D4]">
+                <span className="text-[#E4B74A] font-bold shrink-0">{i + 1}.</span> {item}
               </li>
             ))}
           </ul>
@@ -744,8 +744,8 @@ function FinalReportView({ report }: { report: FinalEventIntelligenceReport }) {
         <ReportSection title="AI Recommendations" icon="✨">
           <ul className="space-y-1">
             {report.ai_recommendations.map((r, i) => (
-              <li key={i} className="flex items-start gap-1.5 text-xs text-[#334155]">
-                <Sparkles className="w-3 h-3 text-[#6c35de] shrink-0 mt-0.5" /> {r}
+              <li key={i} className="flex items-start gap-1.5 text-xs text-[#D4D4D4]">
+                <Sparkles className="w-3 h-3 text-[#E4B74A] shrink-0 mt-0.5" /> {r}
               </li>
             ))}
           </ul>
@@ -757,8 +757,8 @@ function FinalReportView({ report }: { report: FinalEventIntelligenceReport }) {
 
 function ReportSection({ title, icon, children }: { title: string; icon: string; children: React.ReactNode }) {
   return (
-    <div className="p-3.5 rounded-2xl bg-white border border-gray-100 shadow-sm space-y-2">
-      <h4 className="text-xs font-bold text-[#150a33] flex items-center gap-1.5">
+    <div className="p-3.5 rounded-2xl bg-[#242323] border border-[#444343] shadow-sm space-y-2">
+      <h4 className="text-xs font-bold text-[#FEFEFE] flex items-center gap-1.5">
         <span>{icon}</span> {title}
       </h4>
       {children}
@@ -1243,49 +1243,49 @@ function CreateEventWorkflow() {
         <div>
           <div className="flex items-center gap-2">
             <Link href="/organizer/dashboard"
-              className="p-1 rounded-lg text-gray-500 hover:text-[#150a33] transition-colors">
+              className="p-1 rounded-lg text-gray-500 hover:text-[#FEFEFE] transition-colors">
               <ArrowLeft className="w-5 h-5" />
             </Link>
-            <h1 className="text-2xl font-extrabold text-[#150a33] tracking-tight">
+            <h1 className="text-2xl font-extrabold text-[#FEFEFE] tracking-tight">
               {eventStatus === "Published" ? "Modify Event" : "Create Event"}
             </h1>
             <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ml-1 ${
               eventStatus === "Published"
                 ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                 : eventStatus === "Pending Review"
-                ? "bg-amber-50 text-amber-700 border-amber-200 font-bold"
-                : "bg-purple-50 text-[#6c35de] border-purple-200"
+                ? "bg-amber-50 text-[#FEFEFE] border-amber-200 font-bold"
+                : "bg-[#242323] text-[#D4D4D4] border-[#444343]"
             }`}>
               {eventStatus}
             </span>
           </div>
-          <p className="text-xs text-[#645c84] ml-7">
+          <p className="text-xs text-[#D4D4D4] ml-7">
             Build a complete, AI-assisted event proposal in 6 structured sections connected directly to Neon DB.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {isAutoSaving ? (
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-[#6c35de] font-semibold bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl shadow-xs animate-pulse">
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#6c35de]" />
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-[#E4B74A] font-semibold bg-[#242323] border border-[#444343] px-3 py-1.5 rounded-xl shadow-xs animate-pulse">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#E4B74A]" />
               Saving to Neon DB...
             </span>
           ) : lastSaved ? (
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold bg-emerald-50 border border-emerald-200/80 px-3 py-1.5 rounded-xl shadow-xs">
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-emerald-700 font-semibold bg-[#242323] border border-[#444343] px-3 py-1.5 rounded-xl shadow-xs">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
               Synced to Neon DB ({lastSaved})
             </span>
           ) : null}
 
           <button onClick={handleResetForm}
-            className="px-3.5 py-2 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-xs font-semibold text-gray-500 hover:text-red-600 shadow-sm transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2 rounded-xl bg-[#242323] border border-[#444343] hover:border-[#B71C1C] text-xs font-semibold text-[#D4D4D4] hover:text-[#B71C1C] shadow-sm transition-colors flex items-center gap-1.5"
             title="Reset all fields to blank for a fresh event">
             <RotateCcw className="w-3.5 h-3.5" />
             <span className="hidden md:inline">Reset</span>
           </button>
 
           <button onClick={() => handleSaveDraft()} disabled={savingDraft}
-            className="px-4 py-2 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-xs font-semibold text-[#150a33] shadow-sm transition-colors flex items-center gap-1.5">
+            className="px-4 py-2 rounded-xl bg-[#2C2B2B] border border-[#444343] hover:border-[#E4B74A] text-xs font-semibold text-[#FEFEFE] shadow-sm transition-colors flex items-center gap-1.5">
             {savingDraft ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
             {savingDraft ? "Saving..." : "Save Draft"}
           </button>
@@ -1293,8 +1293,8 @@ function CreateEventWorkflow() {
           <button onClick={handleCreateEvent} disabled={creatingEvent}
             className={`px-5 py-2 rounded-xl text-xs font-bold text-white shadow-md transition-all flex items-center gap-1.5 ${
               eventStatus === "Published"
-                ? "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-emerald-900/20"
-                : "bg-gradient-to-r from-[#6c35de] to-indigo-600 hover:from-[#7b41ee] hover:to-indigo-500 shadow-purple-900/20"
+                ? "bg-[#446B8D] hover:bg-[#557FA5]"
+                : "bg-[#446B8D] hover:bg-[#557FA5] text-[#FEFEFE]"
             }`}>
             {creatingEvent ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -1314,18 +1314,16 @@ function CreateEventWorkflow() {
 
           {finalReport && (
             <button onClick={() => window.print()}
-              className="px-4 py-2 rounded-xl bg-white border border-gray-200 text-xs font-semibold text-[#150a33] shadow-sm flex items-center gap-1.5">
+              className="px-4 py-2 rounded-xl bg-[#2C2B2B] border border-[#444343] hover:border-[#E4B74A] text-xs font-semibold text-[#FEFEFE] shadow-sm transition-colors flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5" /> Export Report
             </button>
           )}
         </div>
       </div>
 
-      {/* Main Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-
-        {/* Left Sidebar — Step Navigator */}
-        <div className="lg:col-span-1 space-y-1.5 p-3 rounded-3xl bg-white border border-gray-150 shadow-sm h-fit">
+      {/* Horizontal Step Navigation Bar */}
+      <div className="mb-6 p-2 sm:p-2.5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
           {WORKFLOW_SECTIONS.map((sec) => {
             const Icon = SECTION_ICONS[sec.num - 1];
             const isActive = currentStep === sec.num;
@@ -1333,46 +1331,60 @@ function CreateEventWorkflow() {
             const isComplete = validateSection(sec.num, inputs).valid;
 
             return (
-              <button key={sec.num}
-                onClick={() => { handleSaveDraft(sec.num, true); setCurrentStep(sec.num); }}
-                className={`w-full p-3 rounded-2xl flex items-center gap-3 text-left transition-all ${isActive
-                    ? "bg-purple-50/80 border border-purple-200"
-                    : "hover:bg-gray-50 border border-transparent"
-                  }`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${isComplete ? "bg-emerald-500 text-white"
-                  : isActive ? "bg-[#6c35de] text-white shadow-sm"
-                    : "bg-gray-100 text-gray-500"
-                  }`}>
+              <button
+                key={sec.num}
+                onClick={() => {
+                  handleSaveDraft(sec.num, true);
+                  setCurrentStep(sec.num);
+                }}
+                className={`relative p-3 rounded-xl flex items-center gap-3 text-left transition-all group ${
+                  isActive
+                    ? "bg-[#242323] border border-[#E4B74A]/80 shadow-sm"
+                    : "bg-[#2C2B2B]/70 hover:bg-[#2C2B2B] border border-[#444343]/60 hover:border-[#444343]"
+                }`}
+              >
+                {/* Step Icon / Number / Checkmark Badge */}
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-all ${
+                    isComplete
+                      ? "bg-[#446B8D] text-[#FEFEFE] shadow-xs"
+                      : isActive
+                      ? "bg-[#E4B74A] text-[#2C2B2B] shadow-sm"
+                      : "bg-[#242323] text-[#888888] group-hover:text-[#D4D4D4]"
+                  }`}
+                >
                   {isComplete ? <CheckCircle2 className="w-4 h-4" /> : sec.num}
                 </div>
-                <div className="min-w-0">
-                  <div className={`text-xs font-bold truncate ${isActive ? "text-[#6c35de]" : "text-[#150a33]"}`}>
+
+                {/* Section Title & Subtitle */}
+                <div className="min-w-0 flex-1">
+                  <div
+                    className={`text-xs font-bold truncate transition-colors ${
+                      isActive ? "text-[#E4B74A]" : "text-[#FEFEFE]"
+                    }`}
+                  >
                     {sec.title}
                   </div>
-                  <div className="text-[10px] text-gray-500 truncate">{sec.subtitle}</div>
+                  <div className="text-[10px] text-[#A8A8A8] truncate hidden xl:block">
+                    {sec.subtitle}
+                  </div>
                 </div>
-                {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#6c35de] ml-auto shrink-0" />}
+
+                {/* Active Indicator Bar */}
+                {isActive && (
+                  <div className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#E4B74A] rounded-full" />
+                )}
               </button>
             );
           })}
-
-          {/* Workflow architecture info */}
-          <div className="mt-3 p-3 rounded-2xl bg-[#f5f3ff] border border-purple-100">
-            <div className="flex items-center gap-1.5 mb-1.5">
-              <ZapIcon className="w-3 h-3 text-[#6c35de]" />
-              <span className="text-[10px] font-bold text-[#6c35de]">Modular AI Workflow</span>
-            </div>
-            <p className="text-[10px] text-[#645c84] leading-relaxed">
-              6 independent processing branches → 1 master aggregation node → Complete event plan
-            </p>
-          </div>
         </div>
+      </div>
 
-        {/* Center + Right: Form + AI Summary */}
-        <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-5 gap-6">
+      {/* Main Content Layout: Active Section Form (Left) + AI Summary & Workflow (Right) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-          {/* Form Panel */}
-          <div className="md:col-span-3 p-6 sm:p-7 rounded-3xl bg-white border border-gray-150 shadow-sm space-y-5">
+        {/* Form Panel (Only one section visible at a time) */}
+        <div className="lg:col-span-8 p-6 sm:p-7 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-5">
             {!finalReport ? (
               <>
                 {/* Render active section form */}
@@ -1390,29 +1402,29 @@ function CreateEventWorkflow() {
 
                 {/* Validation hint */}
                 {!canProceed && validation.missing.length > 0 && (
-                  <div className="flex items-start gap-2 p-3 rounded-xl bg-amber-50 border border-amber-200">
+                  <div className="flex items-start gap-2 p-3 rounded-xl bg-[#E4B74A]/15 border border-[#E4B74A]/40">
                     <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
-                    <span className="text-[11px] text-amber-700">
+                    <span className="text-[11px] text-[#FEFEFE]">
                       Required: {validation.missing.join(", ")}
                     </span>
                   </div>
                 )}
 
                 {/* Navigation Buttons */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between pt-4 border-t border-[#444343]">
                   <button onClick={goPrev} disabled={currentStep === 1}
-                    className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-[#150a33] disabled:opacity-40 flex items-center gap-1.5 transition-colors">
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-[#FEFEFE] disabled:opacity-40 flex items-center gap-1.5 transition-colors">
                     <ChevronLeft className="w-3.5 h-3.5" /> Previous
                   </button>
 
                   {currentStep < 6 ? (
                     <button onClick={goNext} disabled={!canProceed}
-                      className="px-5 py-2 rounded-xl bg-[#6c35de] hover:bg-[#7b41ee] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs shadow-md shadow-purple-900/20 flex items-center gap-1.5 transition-all">
+                      className="px-5 py-2 rounded-xl bg-[#446B8D] hover:bg-[#557FA5] disabled:opacity-50 disabled:cursor-not-allowed text-[#FEFEFE] font-bold text-xs shadow-md flex items-center gap-1.5 transition-all">
                       Save & Continue <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   ) : (
                     <button onClick={handleGenerateFinalPlan} disabled={!canProceed || generatingFinal}
-                      className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#6c35de] to-indigo-600 hover:from-[#7b41ee] hover:to-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-xs shadow-md shadow-purple-900/30 flex items-center gap-1.5 transition-all">
+                      className="px-5 py-2 rounded-xl bg-[#446B8D] hover:bg-[#557FA5] disabled:opacity-50 disabled:cursor-not-allowed text-[#FEFEFE] font-bold text-xs shadow-md flex items-center gap-1.5 transition-all">
                       {generatingFinal
                         ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Generating Plan…</>
                         : <><Sparkles className="w-3.5 h-3.5" /> Generate Final Event Plan <ArrowRight className="w-3.5 h-3.5" /></>}
@@ -1423,16 +1435,16 @@ function CreateEventWorkflow() {
             ) : (
               <>
                 <FinalReportView report={finalReport} />
-                <div className="flex justify-between pt-4 border-t border-gray-100">
+                <div className="flex justify-between pt-4 border-t border-[#444343]">
                   <button onClick={() => setFinalReport(null)}
-                    className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-[#150a33] flex items-center gap-1.5">
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-[#FEFEFE] flex items-center gap-1.5">
                     <ChevronLeft className="w-3.5 h-3.5" /> Edit Sections
                   </button>
                   <button onClick={handleCreateEvent} disabled={creatingEvent}
                     className={`px-5 py-2.5 rounded-xl text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all ${
                       eventStatus === "Published"
-                        ? "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-emerald-900/30"
-                        : "bg-gradient-to-r from-[#6c35de] to-indigo-600 hover:from-[#7b41ee] hover:to-indigo-500 shadow-purple-900/30"
+                        ? "bg-[#446B8D] hover:bg-[#557FA5]"
+                        : "bg-[#446B8D] hover:bg-[#557FA5] text-[#FEFEFE]"
                     }`}>
                     {creatingEvent ? (
                       <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -1452,19 +1464,21 @@ function CreateEventWorkflow() {
                 </div>
               </>
             )}
-          </div>
+        </div>
 
+        {/* Right Column: AI Summary Panel & Workflow Architecture */}
+        <div className="lg:col-span-4 space-y-4">
           {/* AI Summary Panel */}
-          <div className="md:col-span-2 p-6 rounded-3xl bg-[#f5f3ff] border border-[#e9d5ff] shadow-sm space-y-4 h-fit">
+          <div className="p-6 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-4 h-fit">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#6c35de]">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#E4B74A]">
                 <Sparkles className="w-4 h-4" />
                 <span>AI Summary</span>
               </div>
               <button
                 onClick={() => runSectionAnalysis(currentStep)}
                 disabled={analyzingStep === currentStep}
-                className="text-[11px] font-semibold text-[#6c35de] hover:underline disabled:opacity-50">
+                className="text-[11px] font-semibold text-[#E4B74A] hover:underline disabled:opacity-50">
                 {analyzingStep === currentStep ? (
                   <span className="flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Analyzing…</span>
                 ) : "Refresh"}
@@ -1472,15 +1486,15 @@ function CreateEventWorkflow() {
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-[#150a33] mb-2.5">
+              <h4 className="text-xs font-bold text-[#FEFEFE] mb-2.5">
                 {WORKFLOW_SECTIONS[currentStep - 1]?.title} Analysis
               </h4>
               <AiSummaryContent step={currentStep} inputs={inputs} outputs={outputs} />
             </div>
 
             {/* Processing branch status */}
-            <div className="border-t border-purple-100 pt-3 space-y-1">
-              <p className="text-[10px] font-bold text-[#6c35de] mb-2">Processing Branches</p>
+            <div className="border-t border-[#444343] pt-3 space-y-1">
+              <p className="text-[10px] font-bold text-[#E4B74A] mb-2">Processing Branches</p>
               {WORKFLOW_SECTIONS.map(sec => {
                 const hasOutput = (() => {
                   const keyMap: Record<number, keyof WorkflowOutputState> = {
@@ -1491,23 +1505,34 @@ function CreateEventWorkflow() {
                 })();
                 return (
                   <div key={sec.num} className="flex items-center gap-2">
-                    <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${hasOutput ? "bg-emerald-500" : sec.num === currentStep ? "bg-[#6c35de]" : "bg-gray-300"
+                    <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${hasOutput ? "bg-emerald-500" : sec.num === currentStep ? "bg-[#E4B74A]" : "bg-gray-300"
                       }`} />
-                    <span className={`text-[10px] truncate ${hasOutput ? "text-emerald-700" : sec.num === currentStep ? "text-[#6c35de] font-semibold" : "text-gray-400"
+                    <span className={`text-[10px] truncate ${hasOutput ? "text-emerald-700" : sec.num === currentStep ? "text-[#E4B74A] font-semibold" : "text-gray-400"
                       }`}>{sec.title}</span>
                     {hasOutput && <span className="text-[9px] text-emerald-600 ml-auto shrink-0">✓ processed</span>}
-                    {!hasOutput && sec.num === currentStep && <span className="text-[9px] text-[#6c35de] ml-auto shrink-0">active</span>}
+                    {!hasOutput && sec.num === currentStep && <span className="text-[9px] text-[#E4B74A] ml-auto shrink-0">active</span>}
                   </div>
                 );
               })}
               {finalReport && (
-                <div className="flex items-center gap-2 mt-1 pt-1 border-t border-purple-100">
+                <div className="flex items-center gap-2 mt-1 pt-1 border-t border-[#444343]">
                   <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
                   <span className="text-[10px] text-indigo-700 font-semibold">Master Aggregation</span>
                   <span className="text-[9px] text-indigo-600 ml-auto shrink-0">✓ complete</span>
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Modular AI Workflow dialogue box */}
+          <div className="p-4 rounded-2xl bg-[#2C2B2B] border border-[#444343] shadow-sm">
+            <div className="flex items-center gap-2 mb-1.5">
+              <ZapIcon className="w-3.5 h-3.5 text-[#E4B74A]" />
+              <span className="text-xs font-bold text-[#E4B74A]">Modular AI Workflow</span>
+            </div>
+            <p className="text-[11px] text-[#FEFEFE] leading-relaxed">
+              6 independent processing branches → 1 master aggregation node → Complete event plan
+            </p>
           </div>
         </div>
       </div>

@@ -40,18 +40,18 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Top Bar */}
-      <div className="lg:hidden flex items-center justify-between p-4 bg-[#170d30] border-b border-purple-500/20 sticky top-0 z-40">
+      <div className="lg:hidden flex items-center justify-between p-4 bg-[#222121] border-b border-[#444343] sticky top-0 z-40">
         <Link href="/dashboard" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#6c35de] to-[#a855f7] flex items-center justify-center shadow-md">
-            <Sparkles className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 rounded-xl bg-[#446B8D] flex items-center justify-center shadow-md">
+            <Sparkles className="w-4 h-4 text-[#E4B74A]" />
           </div>
-          <span className="font-extrabold text-lg text-white">
+          <span className="font-extrabold text-lg text-[#FEFEFE]">
             UniVibe
           </span>
         </Link>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-2 rounded-lg bg-white/10 text-white"
+          className="p-2 rounded-lg bg-[#353434] text-[#FEFEFE]"
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -68,21 +68,21 @@ export function Sidebar() {
       {/* Main Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#170d30] text-white border-r border-purple-950 flex flex-col transition-transform duration-300 lg:translate-x-0",
+          "fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#222121] text-[#FEFEFE] border-r border-[#444343] flex flex-col transition-transform duration-300 lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Brand Header */}
         <div className="p-6 pb-4">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#6c35de] via-[#8a4bfa] to-[#b182ff] flex items-center justify-center shadow-lg shadow-purple-950/50">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-[#446B8D] border border-[#E4B74A]/40 flex items-center justify-center shadow-lg shadow-[#2C2B2B]/60">
+              <Sparkles className="w-5 h-5 text-[#E4B74A]" />
             </div>
             <div>
-              <div className="font-extrabold text-xl tracking-tight text-white leading-none">
+              <div className="font-extrabold text-xl tracking-tight text-[#FEFEFE] leading-none">
                 UniVibe
               </div>
-              <div className="text-[11px] font-semibold text-purple-300 mt-1">
+              <div className="text-[11px] font-semibold text-[#E4B74A] mt-1">
                 Student
               </div>
             </div>
@@ -103,15 +103,15 @@ export function Sidebar() {
                 className={cn(
                   "flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium transition-all",
                   isActive
-                    ? "bg-[#6c35de] text-white shadow-md shadow-purple-950/40"
-                    : "text-purple-200/70 hover:text-white hover:bg-white/5"
+                    ? "bg-[#446B8D] text-[#FEFEFE] shadow-md shadow-[#2C2B2B]/60 font-semibold"
+                    : "text-[#D4D4D4] hover:text-[#FEFEFE] hover:bg-[#353434]"
                 )}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={cn(
                       "w-4 h-4",
-                      isActive ? "text-white" : "text-purple-300/60"
+                      isActive ? "text-[#E4B74A]" : "text-[#A8A8A8]"
                     )}
                   />
                   <span>{item.name}</span>
@@ -123,19 +123,19 @@ export function Sidebar() {
 
         {/* Grow Your Campus Impact Card */}
         <div className="p-4">
-          <div className="p-4 rounded-2xl bg-gradient-to-b from-[#26154d] to-[#1d0e3b] border border-purple-500/20 shadow-lg relative overflow-hidden">
+          <div className="p-4 rounded-2xl bg-[#353434] border border-[#444343] shadow-lg relative overflow-hidden">
             <div className="relative z-10">
-              <div className="text-xs font-bold text-white mb-1">
+              <div className="text-xs font-bold text-[#FEFEFE] mb-1">
                 Grow Your Campus Impact
               </div>
-              <div className="text-[11px] text-purple-200/70 leading-relaxed mb-3">
+              <div className="text-[11px] text-[#D4D4D4] leading-relaxed mb-3">
                 Track, plan and achieve your goals with AI.
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[10px] text-purple-300 font-medium">JIS University</span>
+                <span className="text-[10px] text-[#A8A8A8] font-medium">JIS University</span>
                 <Link
                   href="/roles"
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-purple-300 hover:text-white"
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#E4B74A] hover:text-[#FEFEFE]"
                 >
                   <ArrowLeftRight className="w-3 h-3" />
                   <span>Switch Role</span>

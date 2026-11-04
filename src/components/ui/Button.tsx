@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | "accent";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
 }
@@ -17,19 +17,21 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-bold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/40 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] select-none cursor-pointer";
+    "inline-flex items-center justify-center font-bold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#446B8D]/50 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] select-none cursor-pointer";
 
   const variantStyles = {
     primary:
-      "bg-gradient-to-r from-[#6c35de] to-[#8a4bfa] text-white shadow-md shadow-purple-900/20 hover:brightness-110 hover:shadow-purple-900/35",
+      "bg-[#446B8D] text-[#FEFEFE] shadow-md shadow-[#2C2B2B]/50 hover:bg-[#557FA5] hover:shadow-lg hover:shadow-[#446B8D]/25",
     secondary:
-      "bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:text-white backdrop-blur-sm",
+      "bg-[#353434] text-[#FEFEFE] border border-[#444343] hover:bg-[#3D3C3C] hover:border-[#E4B74A]/60",
     outline:
-      "bg-white/90 text-[#150a33] border border-gray-300 hover:border-purple-400 hover:bg-purple-50/70 hover:text-[#6c35de] shadow-xs",
+      "bg-transparent text-[#FEFEFE] border border-[#446B8D] hover:bg-[#446B8D]/20 hover:border-[#557FA5]",
     ghost:
-      "bg-transparent text-gray-700 hover:text-[#150a33] hover:bg-gray-100/80",
+      "bg-transparent text-[#D4D4D4] hover:text-[#FEFEFE] hover:bg-[#353434]",
     danger:
-      "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100",
+      "bg-[#B71C1C] text-[#FEFEFE] border border-[#B71C1C] hover:bg-[#CD2A2A] shadow-md shadow-[#B71C1C]/30",
+    accent:
+      "bg-[#E4B74A] text-[#2C2B2B] font-extrabold hover:bg-[#EDC460] shadow-md shadow-[#E4B74A]/25",
   };
 
   const sizeStyles = {

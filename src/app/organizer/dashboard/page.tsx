@@ -167,19 +167,19 @@ export default function OrganizerDashboardPage() {
       {/* Top Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-[#150a33] tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-[#FEFEFE] tracking-tight flex items-center gap-2">
             Welcome back, {organizerName}! 👋
           </h1>
-          <p className="text-sm text-[#645c84] mt-0.5">
+          <p className="text-sm text-[#D4D4D4] mt-0.5">
             Plan, analyze, and deliver impactful campus events at JIS University.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="w-10 h-10 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors">
+          <button className="w-10 h-10 rounded-full bg-[#353434] border border-[#444343] shadow-sm flex items-center justify-center text-[#FEFEFE] hover:text-[#E4B74A] transition-colors">
             <Bell className="w-4 h-4" />
           </button>
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-200 shadow-sm bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#E4B74A]/40 shadow-sm bg-[#446B8D] flex items-center justify-center shrink-0">
             {organizerAvatar && !avatarError ? (
               <img
                 src={organizerAvatar}
@@ -189,7 +189,7 @@ export default function OrganizerDashboardPage() {
                 onError={() => setAvatarError(true)}
               />
             ) : (
-              <span className="text-sm font-bold text-white select-none">
+              <span className="text-sm font-bold text-[#FEFEFE] select-none">
                 {organizerName ? organizerName.charAt(0).toUpperCase() : "O"}
               </span>
             )}
@@ -197,79 +197,79 @@ export default function OrganizerDashboardPage() {
         </div>
       </div>
 
-      {/* Metrics Row (5 white cards) */}
+      {/* Metrics Row (5 cards) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
         {/* Total Events */}
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
           <div className="flex items-center justify-between mb-2">
-            <div className="w-8 h-8 rounded-lg bg-purple-50 text-[#6c35de] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#446B8D]/20 text-[#446B8D] flex items-center justify-center">
               <Calendar className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">{metrics.total}</div>
-          <div className="text-xs font-semibold text-gray-500 mt-0.5">Total Events</div>
+          <div className="text-2xl font-black text-[#FEFEFE]">{metrics.total}</div>
+          <div className="text-xs font-semibold text-[#D4D4D4] mt-0.5">Total Events</div>
         </div>
 
         {/* Draft Events */}
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
           <div className="flex items-center justify-between mb-2">
-            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#446B8D]/20 text-[#FEFEFE] flex items-center justify-center">
               <FileText className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">{metrics.drafts}</div>
-          <div className="text-xs font-semibold text-gray-500 mt-0.5">Draft Events</div>
+          <div className="text-2xl font-black text-[#FEFEFE]">{metrics.drafts}</div>
+          <div className="text-xs font-semibold text-[#D4D4D4] mt-0.5">Draft Events</div>
         </div>
 
         {/* Pending Review */}
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
           <div className="flex items-center justify-between mb-2">
-            <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#E4B74A]/20 text-[#E4B74A] flex items-center justify-center">
               <Clock className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">{metrics.pending}</div>
-          <div className="text-xs font-semibold text-gray-500 mt-0.5">Pending Review</div>
+          <div className="text-2xl font-black text-[#FEFEFE]">{metrics.pending}</div>
+          <div className="text-xs font-semibold text-[#D4D4D4] mt-0.5">Pending Review</div>
         </div>
 
         {/* Published Events */}
-        <div className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm">
+        <div className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm">
           <div className="flex items-center justify-between mb-2">
-            <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#446B8D]/30 text-[#E4B74A] flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#150a33]">{metrics.published}</div>
-          <div className="text-xs font-semibold text-gray-500 mt-0.5">Published Events</div>
+          <div className="text-2xl font-black text-[#FEFEFE]">{metrics.published}</div>
+          <div className="text-xs font-semibold text-[#D4D4D4] mt-0.5">Published Events</div>
         </div>
 
         {/* Total Registrations */}
         <Link
           href="/organizer/registrations"
-          className="p-5 rounded-2xl bg-white border border-gray-150 shadow-sm hover:border-purple-300 transition-colors col-span-2 sm:col-span-1"
+          className="p-5 rounded-2xl bg-[#353434] border border-[#444343] shadow-sm hover:border-[#E4B74A] transition-colors col-span-2 sm:col-span-1"
         >
           <div className="flex items-center justify-between mb-2">
-            <div className="w-8 h-8 rounded-lg bg-purple-50 text-[#6c35de] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#E4B74A]/20 text-[#E4B74A] flex items-center justify-center">
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-black text-[#6c35de]">
+          <div className="text-2xl font-black text-[#E4B74A]">
             {metrics.registrations.toLocaleString()}
           </div>
-          <div className="text-xs font-semibold text-gray-500 mt-0.5">Total Registrations &rarr;</div>
+          <div className="text-xs font-semibold text-[#D4D4D4] mt-0.5">Total Registrations &rarr;</div>
         </Link>
       </div>
 
       {/* Middle Section: Event Planning Progress & Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left (2 cols): Event Planning Progress */}
-        <div className="lg:col-span-2 p-6 rounded-3xl bg-white border border-gray-150 shadow-sm space-y-4">
+        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-[#150a33]">
+            <h3 className="text-base font-bold text-[#FEFEFE]">
               Event Planning Progress
             </h3>
             {latestEvent?.basics?.event_name && (
-              <span className="text-xs font-semibold text-[#6c35de] bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100 max-w-[240px] truncate">
+              <span className="text-xs font-semibold text-[#E4B74A] bg-[#242323] px-2.5 py-1 rounded-full border border-[#444343] max-w-[240px] truncate">
                 {latestEvent.basics.event_name}
               </span>
             )}
@@ -284,7 +284,7 @@ export default function OrganizerDashboardPage() {
                     cx="72"
                     cy="72"
                     r="58"
-                    stroke="#f1f5f9"
+                    stroke="#242323"
                     strokeWidth="11"
                     fill="transparent"
                   />
@@ -292,7 +292,7 @@ export default function OrganizerDashboardPage() {
                     cx="72"
                     cy="72"
                     r="58"
-                    stroke="#6c35de"
+                    stroke="#446B8D"
                     strokeWidth="11"
                     strokeDasharray="364"
                     strokeDashoffset={strokeDashoffset}
@@ -302,8 +302,8 @@ export default function OrganizerDashboardPage() {
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center justify-center text-center">
-                  <span className="text-2xl font-black text-[#150a33]">{overallPercentage}%</span>
-                  <span className="text-[10px] text-gray-500 font-semibold">Overall Progress</span>
+                  <span className="text-2xl font-black text-[#FEFEFE]">{overallPercentage}%</span>
+                  <span className="text-[10px] text-[#D4D4D4] font-semibold">Overall Progress</span>
                 </div>
               </div>
             </div>
@@ -313,12 +313,12 @@ export default function OrganizerDashboardPage() {
               {progress.sections.map((sec) => (
                 <div
                   key={sec.num}
-                  className={`flex items-center gap-2.5 text-xs ${sec.complete ? "text-[#150a33]" : "text-gray-400"}`}
+                  className={`flex items-center gap-2.5 text-xs ${sec.complete ? "text-[#FEFEFE]" : "text-[#888888]"}`}
                 >
                   {sec.complete ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-[#E4B74A] shrink-0" />
                   ) : (
-                    <div className="w-4 h-4 rounded-full border-2 border-gray-300 shrink-0" />
+                    <div className="w-4 h-4 rounded-full border-2 border-[#444343] shrink-0" />
                   )}
                   <span className={sec.complete ? "font-semibold" : ""}>{sec.title}</span>
                 </div>
@@ -327,7 +327,7 @@ export default function OrganizerDashboardPage() {
               <div className="pt-2">
                 <Link
                   href={latestEvent?.id ? `/organizer/create-event?id=${latestEvent.id}` : "/organizer/create-event?mode=continue"}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#6c35de] hover:bg-[#7b41ee] text-xs font-bold text-white shadow-md shadow-purple-900/20 transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#446B8D] hover:bg-[#557FA5] text-xs font-bold text-[#FEFEFE] shadow-md transition-all"
                 >
                   <span>Continue Planning</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -338,64 +338,64 @@ export default function OrganizerDashboardPage() {
         </div>
 
         {/* Right (1 col): Quick Actions (4 square button tiles) */}
-        <div className="p-6 rounded-3xl bg-white border border-gray-150 shadow-sm space-y-4">
-          <h3 className="text-base font-bold text-[#150a33]">
+        <div className="p-6 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-4">
+          <h3 className="text-base font-bold text-[#FEFEFE]">
             Quick Actions
           </h3>
 
           <div className="grid grid-cols-2 gap-3 pt-1">
             <Link
               href="/organizer/create-event"
-              className="p-4 rounded-2xl bg-purple-50/60 hover:bg-purple-100/70 border border-purple-100 flex flex-col items-center justify-center text-center group transition-colors"
+              className="p-4 rounded-2xl bg-[#242323] hover:bg-[#2c2b2b] border border-[#444343] flex flex-col items-center justify-center text-center group transition-colors"
             >
-              <div className="w-8 h-8 rounded-xl bg-purple-100 text-[#6c35de] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-xl bg-[#446B8D]/25 text-[#E4B74A] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
                 <Plus className="w-4 h-4" />
               </div>
-              <span className="text-xs font-bold text-[#150a33]">Create New Event</span>
+              <span className="text-xs font-bold text-[#FEFEFE]">Create New Event</span>
             </Link>
 
             <Link
               href={latestEvent?.id ? `/organizer/create-event?id=${latestEvent.id}` : "/organizer/create-event?mode=continue"}
-              className="p-4 rounded-2xl bg-purple-50/60 hover:bg-purple-100/70 border border-purple-100 flex flex-col items-center justify-center text-center group transition-colors"
+              className="p-4 rounded-2xl bg-[#242323] hover:bg-[#2c2b2b] border border-[#444343] flex flex-col items-center justify-center text-center group transition-colors"
             >
-              <div className="w-8 h-8 rounded-xl bg-purple-100 text-[#6c35de] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-xl bg-[#446B8D]/25 text-[#E4B74A] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
                 <FileText className="w-4 h-4" />
               </div>
-              <span className="text-xs font-bold text-[#150a33]">Continue Draft</span>
+              <span className="text-xs font-bold text-[#FEFEFE]">Continue Draft</span>
             </Link>
 
             <Link
               href="/organizer/event-reports"
-              className="p-4 rounded-2xl bg-purple-50/60 hover:bg-purple-100/70 border border-purple-100 flex flex-col items-center justify-center text-center group transition-colors"
+              className="p-4 rounded-2xl bg-[#242323] hover:bg-[#2c2b2b] border border-[#444343] flex flex-col items-center justify-center text-center group transition-colors"
             >
-              <div className="w-8 h-8 rounded-xl bg-purple-100 text-[#6c35de] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-xl bg-[#446B8D]/25 text-[#E4B74A] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
                 <BarChart3 className="w-4 h-4" />
               </div>
-              <span className="text-xs font-bold text-[#150a33]">Event Intelligence &amp; Report</span>
+              <span className="text-xs font-bold text-[#FEFEFE]">Event Intelligence & Report</span>
             </Link>
 
             <Link
               href="/organizer/my-events"
-              className="p-4 rounded-2xl bg-purple-50/60 hover:bg-purple-100/70 border border-purple-100 flex flex-col items-center justify-center text-center group transition-colors"
+              className="p-4 rounded-2xl bg-[#242323] hover:bg-[#2c2b2b] border border-[#444343] flex flex-col items-center justify-center text-center group transition-colors"
             >
-              <div className="w-8 h-8 rounded-xl bg-purple-100 text-[#6c35de] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-xl bg-[#446B8D]/25 text-[#E4B74A] flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
                 <CalendarDays className="w-4 h-4" />
               </div>
-              <span className="text-xs font-bold text-[#150a33]">View My Events</span>
+              <span className="text-xs font-bold text-[#FEFEFE]">View My Events</span>
             </Link>
           </div>
         </div>
       </div>
 
       {/* Bottom Section: Recent Events Table */}
-      <div className="p-6 rounded-3xl bg-white border border-gray-150 shadow-sm space-y-4">
+      <div className="p-6 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-[#150a33]">
+          <h3 className="text-base font-bold text-[#FEFEFE]">
             Recent Events
           </h3>
           <Link
             href="/organizer/my-events"
-            className="text-xs font-semibold text-[#6c35de] hover:underline flex items-center gap-1"
+            className="text-xs font-semibold text-[#E4B74A] hover:text-[#FEFEFE] flex items-center gap-1 transition-colors"
           >
             <span>View All</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -405,7 +405,7 @@ export default function OrganizerDashboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-gray-100 text-gray-400 font-semibold">
+              <tr className="border-b border-[#444343] text-[#D4D4D4] font-semibold">
                 <th className="pb-3 pl-2">Event Name</th>
                 <th className="pb-3">Category</th>
                 <th className="pb-3">Status</th>
@@ -414,7 +414,7 @@ export default function OrganizerDashboardPage() {
                 <th className="pb-3 pr-2 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 text-[#150a33]">
+            <tbody className="divide-y divide-[#444343] text-[#FEFEFE]">
               {eventsList.length > 0 ? (
                 eventsList.slice(0, 5).map((evt: any) => {
                   const name = evt.basics?.event_name || "Untitled Initiative";
@@ -434,10 +434,10 @@ export default function OrganizerDashboardPage() {
 
                   const statusBadge =
                     displayStatus === "Published"
-                      ? "bg-emerald-50 text-emerald-600 border-emerald-200"
+                      ? "bg-[#446B8D]/25 text-[#FEFEFE] border-[#446B8D]/50"
                       : displayStatus === "Pending Review"
-                      ? "bg-amber-50 text-amber-700 border-amber-200 font-bold"
-                      : "bg-purple-50 text-[#6c35de] border-purple-200";
+                      ? "bg-[#E4B74A]/20 text-[#E4B74A] border-[#E4B74A]/40 font-bold"
+                      : "bg-[#242323] text-[#D4D4D4] border-[#444343]";
 
                   const eventUrl = `/organizer/create-event?id=${evt.id}`;
 
@@ -445,37 +445,37 @@ export default function OrganizerDashboardPage() {
                     <tr
                       key={evt.id}
                       onClick={() => router.push(eventUrl)}
-                      className="hover:bg-purple-50/50 transition-colors cursor-pointer group"
+                      className="hover:bg-[#242323]/60 transition-colors cursor-pointer group"
                       title={`Open "${name}" in Create Event editor`}
                     >
                       <td className="py-3.5 pl-2 flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-purple-100 text-[#6c35de] font-bold flex items-center justify-center shrink-0 group-hover:bg-[#6c35de] group-hover:text-white transition-colors">
+                        <div className="w-9 h-9 rounded-xl bg-[#446B8D]/25 text-[#E4B74A] font-bold flex items-center justify-center shrink-0 group-hover:bg-[#446B8D] group-hover:text-[#FEFEFE] transition-colors">
                           {name.slice(0, 2).toUpperCase()}
                         </div>
                         <div>
                           <Link
                             href={eventUrl}
-                            className="font-bold text-sm text-[#150a33] group-hover:text-[#6c35de] transition-colors hover:underline block"
+                            className="font-bold text-sm text-[#FEFEFE] group-hover:text-[#E4B74A] transition-colors hover:underline block"
                             onClick={(e) => e.stopPropagation()}
                           >
                             {name}
                           </Link>
-                          <div className="text-[10px] text-gray-400">JIS University</div>
+                          <div className="text-[10px] text-[#888888]">JIS University</div>
                         </div>
                       </td>
-                      <td className="py-3.5 text-gray-600 font-medium">{category}</td>
+                      <td className="py-3.5 text-[#D4D4D4] font-medium">{category}</td>
                       <td className="py-3.5">
                         <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${statusBadge}`}>
                           {displayStatus}
                         </span>
                       </td>
-                      <td className="py-3.5 font-semibold text-[#150a33]">{capacity > 0 ? capacity : "—"}</td>
-                      <td className="py-3.5 text-gray-500">{dateStr}</td>
+                      <td className="py-3.5 font-semibold text-[#FEFEFE]">{capacity > 0 ? capacity : "—"}</td>
+                      <td className="py-3.5 text-[#D4D4D4]">{dateStr}</td>
                       <td className="py-3.5 pr-2 text-right">
                         <div className="flex items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
                           <Link
                             href={eventUrl}
-                            className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-[#6c35de] text-[#6c35de] hover:text-white border border-purple-200 text-[11px] font-bold transition-all inline-flex items-center gap-1 shadow-2xs"
+                            className="px-2.5 py-1 rounded-lg bg-[#242323] hover:bg-[#446B8D] text-[#E4B74A] hover:text-[#FEFEFE] border border-[#444343] text-[11px] font-bold transition-all inline-flex items-center gap-1 shadow-2xs"
                             title="Open in Create Event Editor"
                           >
                             <span>Edit</span>
@@ -488,7 +488,7 @@ export default function OrganizerDashboardPage() {
                 })
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-gray-400">
+                  <td colSpan={6} className="py-8 text-center text-[#888888]">
                     No events found in Neon DB yet. Click "Create New Event" to start planning!
                   </td>
                 </tr>

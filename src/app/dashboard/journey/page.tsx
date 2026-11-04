@@ -86,39 +86,39 @@ export default function JourneyPage() {
             isLoading={regenerating}
             className="text-xs"
           >
-            <RefreshCw className="w-3.5 h-3.5 mr-1 text-[#6c35de]" />
+            <RefreshCw className="w-3.5 h-3.5 mr-1 text-[#E4B74A]" />
             Regenerate Roadmap
           </Button>
         }
       />
 
       <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto w-full">
-        {/* Journey Progress Header (Opaque rich dark gradient) */}
-        <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#1c0f38] via-[#150b2b] to-[#0d071b] border border-purple-500/30 relative overflow-hidden shadow-2xl">
+        {/* Journey Progress Header */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-[#353434] border border-[#446B8D]/40 relative overflow-hidden shadow-2xl text-[#FEFEFE]">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-purple-200 mb-2">
-                <Map className="w-3.5 h-3.5 text-purple-300" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#242323] border border-[#444343] text-xs font-bold text-[#E4B74A] mb-2">
+                <Map className="w-3.5 h-3.5 text-[#E4B74A]" />
                 <span>Student Growth Journey</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#FEFEFE] tracking-tight">
                 {journey?.title || "Strategic Campus Impact Roadmap"}
               </h2>
-              <p className="text-sm text-lavender-100 mt-1 max-w-2xl font-medium">
+              <p className="text-sm text-[#D4D4D4] mt-1 max-w-2xl font-medium">
                 Check off milestones as you achieve them. Progress is stored in your private database.
               </p>
             </div>
 
-            <div className="bg-[#0e081f] p-5 rounded-2xl border border-purple-400/25 shrink-0 text-center min-w-[180px] shadow-sm">
-              <div className="text-3xl font-black text-white">
+            <div className="bg-[#242323] p-5 rounded-2xl border border-[#444343] shrink-0 text-center min-w-[180px] shadow-sm">
+              <div className="text-3xl font-black text-[#FEFEFE]">
                 {journey?.progress_pct || 0}%
               </div>
-              <div className="text-xs text-purple-300 font-bold mt-1">
+              <div className="text-xs text-[#E4B74A] font-bold mt-1">
                 {journey?.completed_milestones || 0} of {journey?.total_milestones || 11} Milestones
               </div>
-              <div className="w-full bg-[#1b1238] h-2.5 rounded-full mt-3 overflow-hidden border border-white/5">
+              <div className="w-full bg-[#2C2B2B] h-2.5 rounded-full mt-3 overflow-hidden border border-[#444343]">
                 <div
-                  className="bg-gradient-to-r from-[#6c35de] to-emerald-400 h-full rounded-full transition-all duration-300"
+                  className="bg-[#446B8D] h-full rounded-full transition-all duration-300"
                   style={{ width: `${journey?.progress_pct || 0}%` }}
                 />
               </div>
@@ -131,20 +131,20 @@ export default function JourneyPage() {
           {journey?.phases?.map((phase) => (
             <div
               key={phase.phase_number}
-              className="rounded-3xl p-6 sm:p-8 bg-[#130d28] border border-purple-500/25 space-y-6 shadow-xl"
+              className="rounded-3xl p-6 sm:p-8 bg-[#353434] border border-[#444343] space-y-6 shadow-xl"
             >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#444343] pb-4">
                 <div>
                   <div className="flex items-center gap-2.5">
-                    <span className="text-xs font-mono font-bold text-purple-100 bg-purple-900/60 border border-purple-400/40 px-3 py-1 rounded-lg">
+                    <span className="text-xs font-mono font-bold text-[#FEFEFE] bg-[#446B8D]/30 border border-[#446B8D]/40 px-3 py-1 rounded-lg">
                       Phase 0{phase.phase_number}
                     </span>
-                    <span className="text-xs text-purple-300 font-bold">{phase.time_horizon}</span>
+                    <span className="text-xs text-[#E4B74A] font-bold">{phase.time_horizon}</span>
                   </div>
-                  <h3 className="text-xl font-black text-white mt-2">{phase.phase_name}</h3>
+                  <h3 className="text-xl font-black text-[#FEFEFE] mt-2">{phase.phase_name}</h3>
                 </div>
-                <p className="text-xs text-lavender-200 max-w-md sm:text-right leading-relaxed">
-                  <span className="font-bold text-purple-300">Core Focus: </span>
+                <p className="text-xs text-[#D4D4D4] max-w-md sm:text-right leading-relaxed">
+                  <span className="font-bold text-[#E4B74A]">Core Focus: </span>
                   {phase.focus}
                 </p>
               </div>
@@ -160,7 +160,7 @@ export default function JourneyPage() {
                       className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-start gap-4 ${
                         m.completed
                           ? "bg-emerald-950/40 border-emerald-500/40 shadow-xs"
-                          : "bg-[#0e081f] border-purple-400/20 hover:border-purple-400/50 shadow-xs"
+                          : "bg-[#242323] border border-[#444343] hover:border-[#446B8D] shadow-xs"
                       }`}
                     >
                       <button
@@ -171,7 +171,7 @@ export default function JourneyPage() {
                         {m.completed ? (
                           <CheckCircle2 className="w-5 h-5 text-emerald-400 fill-emerald-500/20" />
                         ) : (
-                          <Circle className="w-5 h-5 text-purple-300 hover:text-white" />
+                          <Circle className="w-5 h-5 text-[#E4B74A] hover:text-[#FEFEFE]" />
                         )}
                       </button>
 
@@ -179,20 +179,20 @@ export default function JourneyPage() {
                         <div className="flex items-center justify-between gap-2">
                           <h4
                             className={`text-sm font-bold transition-all ${
-                              m.completed ? "text-lavender-300 line-through" : "text-white"
+                              m.completed ? "text-[#A8A8A8] line-through" : "text-[#FEFEFE]"
                             }`}
                           >
                             {m.title}
                           </h4>
                           {m.deadline && (
-                            <span className="text-[10px] font-mono font-bold text-purple-300 shrink-0">
+                            <span className="text-[10px] font-mono font-bold text-[#E4B74A] shrink-0">
                               Target: {m.deadline}
                             </span>
                           )}
                         </div>
                         <p
                           className={`text-xs mt-1 leading-relaxed ${
-                            m.completed ? "text-lavender-300" : "text-lavender-200"
+                            m.completed ? "text-[#A8A8A8]" : "text-[#D4D4D4]"
                           }`}
                         >
                           {m.description}
@@ -213,26 +213,26 @@ export default function JourneyPage() {
 
         {/* Final Mission Challenge */}
         {journey?.final_mission_challenge && (
-          <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#1c0f38] via-[#150b2b] to-[#0d071b] border border-purple-500/35 shadow-2xl space-y-5">
+          <div className="rounded-3xl p-6 sm:p-8 bg-[#353434] border border-[#446B8D]/40 shadow-2xl space-y-5 text-[#FEFEFE]">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-purple-200 uppercase tracking-wider flex items-center gap-1.5">
-                <Flag className="w-4 h-4 text-purple-300" /> Capstone UniVibe Challenge
+              <span className="text-xs font-black text-[#E4B74A] uppercase tracking-wider flex items-center gap-1.5">
+                <Flag className="w-4 h-4 text-[#E4B74A]" /> Capstone UniVibe Challenge
               </span>
               <Badge variant="default">Academic Year Milestone</Badge>
             </div>
 
-            <h3 className="text-2xl font-black text-white tracking-tight">
+            <h3 className="text-2xl font-black text-[#FEFEFE] tracking-tight">
               {journey.final_mission_challenge.title}
             </h3>
-            <p className="text-sm text-lavender-100 leading-relaxed max-w-3xl">
+            <p className="text-sm text-[#D4D4D4] leading-relaxed max-w-3xl">
               {journey.final_mission_challenge.vision}
             </p>
 
             <div className="pt-2">
-              <span className="text-xs font-bold text-purple-200 block mb-3">Measurable Outcomes:</span>
+              <span className="text-xs font-bold text-[#E4B74A] block mb-3">Measurable Outcomes:</span>
               <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                 {journey.final_mission_challenge.measurable_outcomes?.map((out, idx) => (
-                  <li key={idx} className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20 text-xs text-lavender-100 flex items-start gap-2.5 font-medium shadow-xs">
+                  <li key={idx} className="p-4 rounded-2xl bg-[#242323] border border-[#444343] text-xs text-[#D4D4D4] flex items-start gap-2.5 font-medium shadow-xs">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span>{out}</span>
                   </li>
@@ -240,7 +240,7 @@ export default function JourneyPage() {
               </ul>
             </div>
 
-            <div className="text-xs text-emerald-300 font-bold pt-3 border-t border-white/10">
+            <div className="text-xs text-emerald-300 font-bold pt-3 border-t border-[#444343]">
               End-of-Year Target: {journey.final_mission_challenge.end_of_year_target}
             </div>
           </div>

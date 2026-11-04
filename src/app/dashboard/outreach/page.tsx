@@ -91,28 +91,28 @@ function OutreachContent() {
   return (
     <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto w-full">
       {/* Grounding & Anti-Fabrication Notice */}
-      <div className="p-4 rounded-2xl bg-[#130d28] border border-purple-500/30 flex items-start gap-3 shadow-sm">
+      <div className="p-4 rounded-2xl bg-[#353434] border border-[#444343] flex items-start gap-3 shadow-sm">
         <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-        <div className="text-xs text-lavender-200 leading-relaxed">
-          <span className="font-bold text-white">Authentic Grounding Guarantee: </span>
+        <div className="text-xs text-[#D4D4D4] leading-relaxed">
+          <span className="font-bold text-[#FEFEFE]">Authentic Grounding Guarantee: </span>
           UniVibe never fabricates student experience or invents fake email addresses. All communications reflect your confirmed profile credentials. Replace bracketed placeholders before sending.
         </div>
       </div>
 
       {/* Controls Card */}
-      <div className="rounded-3xl p-6 sm:p-8 bg-[#130d28] border border-purple-500/25 space-y-5 shadow-xl">
+      <div className="rounded-3xl p-6 sm:p-8 bg-[#353434] border border-[#444343] space-y-5 shadow-xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#E4B74A] mb-2">
               Target Campus Opportunity
             </label>
             <select
               value={selectedOppName}
               onChange={(e) => setSelectedOppName(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl bg-[#0e081f] border border-purple-400/25 focus:border-purple-400 text-white text-sm focus:outline-none font-semibold cursor-pointer"
+              className="w-full px-4 py-3 rounded-2xl bg-[#242323] border border-[#444343] focus:border-[#446B8D] text-[#FEFEFE] text-sm focus:outline-none font-semibold cursor-pointer"
             >
               {availableOpps.map((o) => (
-                <option key={o.id} value={o.opportunity_name} className="bg-[#130d28] text-white">
+                <option key={o.id} value={o.opportunity_name} className="bg-[#2C2B2B] text-[#FEFEFE]">
                   {o.opportunity_name} ({o.category})
                 </option>
               ))}
@@ -120,19 +120,19 @@ function OutreachContent() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-purple-300 mb-2">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#E4B74A] mb-2">
               Communication Tone
             </label>
             <select
               value={tone}
               onChange={(e) => setTone(e.target.value as ToneType)}
-              className="w-full px-4 py-3 rounded-2xl bg-[#0e081f] border border-purple-400/25 focus:border-purple-400 text-white text-sm focus:outline-none font-semibold cursor-pointer"
+              className="w-full px-4 py-3 rounded-2xl bg-[#242323] border border-[#444343] focus:border-[#446B8D] text-[#FEFEFE] text-sm focus:outline-none font-semibold cursor-pointer"
             >
-              <option value="Confident" className="bg-[#130d28] text-white">Confident — Forward-looking, assertive</option>
-              <option value="Friendly" className="bg-[#130d28] text-white">Friendly — Warm, accessible, collaborative</option>
-              <option value="Professional" className="bg-[#130d28] text-white">Professional — Structured, respectful, formal</option>
-              <option value="Enthusiastic" className="bg-[#130d28] text-white">Enthusiastic — Highly engaged, eager</option>
-              <option value="Curious" className="bg-[#130d28] text-white">Curious — Inquisitive, exploratory</option>
+              <option value="Confident" className="bg-[#2C2B2B] text-[#FEFEFE]">Confident — Forward-looking, assertive</option>
+              <option value="Friendly" className="bg-[#2C2B2B] text-[#FEFEFE]">Friendly — Warm, accessible, collaborative</option>
+              <option value="Professional" className="bg-[#2C2B2B] text-[#FEFEFE]">Professional — Structured, respectful, formal</option>
+              <option value="Enthusiastic" className="bg-[#2C2B2B] text-[#FEFEFE]">Enthusiastic — Highly engaged, eager</option>
+              <option value="Curious" className="bg-[#2C2B2B] text-[#FEFEFE]">Curious — Inquisitive, exploratory</option>
             </select>
           </div>
         </div>
@@ -140,9 +140,9 @@ function OutreachContent() {
 
       {/* Generated Outreach Tabs */}
       {outreach && (
-        <div className="rounded-3xl bg-[#130d28] border border-purple-500/25 overflow-hidden shadow-2xl">
+        <div className="rounded-3xl bg-[#353434] border border-[#444343] overflow-hidden shadow-2xl">
           {/* Tabs Header */}
-          <div className="flex border-b border-purple-400/20 bg-[#0e081f] overflow-x-auto">
+          <div className="flex border-b border-[#444343] bg-[#242323] overflow-x-auto">
             {[
               { id: "email", name: "Formal Email", icon: Mail },
               { id: "whatsapp", name: "WhatsApp Message", icon: MessageCircle },
@@ -157,11 +157,11 @@ function OutreachContent() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`flex items-center gap-2 px-6 py-4 text-xs font-bold transition-all border-b-2 whitespace-nowrap cursor-pointer ${
                     active
-                      ? "border-[#6c35de] text-white bg-purple-900/30"
-                      : "border-transparent text-purple-200 hover:text-white hover:bg-white/5"
+                      ? "border-[#446B8D] text-[#FEFEFE] bg-[#446B8D]/25"
+                      : "border-transparent text-[#D4D4D4] hover:text-[#FEFEFE] hover:bg-[#353434]"
                   }`}
                 >
-                  <Icon className="w-4 h-4 text-purple-300" />
+                  <Icon className="w-4 h-4 text-[#E4B74A]" />
                   <span>{tab.name}</span>
                 </button>
               );
@@ -173,10 +173,10 @@ function OutreachContent() {
             {/* TAB 1: Email */}
             {activeTab === "email" && (
               <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/10 gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#444343] gap-3">
                   <div>
-                    <span className="text-xs text-purple-300 font-bold block">Subject:</span>
-                    <span className="text-sm font-black text-white">{outreach.professional_email.subject}</span>
+                    <span className="text-xs text-[#E4B74A] font-bold block">Subject:</span>
+                    <span className="text-sm font-black text-[#FEFEFE]">{outreach.professional_email.subject}</span>
                   </div>
                   <Button
                     size="sm"
@@ -201,7 +201,7 @@ function OutreachContent() {
                   </Button>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-[#0a0616] border border-purple-400/20 font-mono text-xs text-purple-100 whitespace-pre-line leading-relaxed shadow-inner">
+                <div className="p-6 rounded-2xl bg-[#242323] border border-[#444343] font-mono text-xs text-[#FEFEFE] whitespace-pre-line leading-relaxed shadow-inner">
                   {outreach.professional_email.salutation}
                   {"\n\n"}
                   {outreach.professional_email.body}
@@ -214,8 +214,8 @@ function OutreachContent() {
             {/* TAB 2: WhatsApp */}
             {activeTab === "whatsapp" && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                  <span className="text-xs text-purple-300 font-bold">Fast Mobile Outreach</span>
+                <div className="flex items-center justify-between pb-4 border-b border-[#444343]">
+                  <span className="text-xs text-[#E4B74A] font-bold">Fast Mobile Outreach</span>
                   <Button
                     size="sm"
                     variant="primary"
@@ -234,7 +234,7 @@ function OutreachContent() {
                   </Button>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-[#0a0616] border border-purple-400/20 font-mono text-xs text-purple-100 whitespace-pre-line leading-relaxed shadow-inner">
+                <div className="p-6 rounded-2xl bg-[#242323] border border-[#444343] font-mono text-xs text-[#FEFEFE] whitespace-pre-line leading-relaxed shadow-inner">
                   {outreach.whatsapp_message}
                 </div>
               </div>
@@ -243,8 +243,8 @@ function OutreachContent() {
             {/* TAB 3: Social / LinkedIn DM */}
             {activeTab === "social" && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                  <span className="text-xs text-purple-300 font-bold">Short Direct Message (DM)</span>
+                <div className="flex items-center justify-between pb-4 border-b border-[#444343]">
+                  <span className="text-xs text-[#E4B74A] font-bold">Short Direct Message (DM)</span>
                   <Button
                     size="sm"
                     variant="primary"
@@ -263,7 +263,7 @@ function OutreachContent() {
                   </Button>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-[#0a0616] border border-purple-400/20 font-mono text-xs text-purple-100 whitespace-pre-line leading-relaxed shadow-inner">
+                <div className="p-6 rounded-2xl bg-[#242323] border border-[#444343] font-mono text-xs text-[#FEFEFE] whitespace-pre-line leading-relaxed shadow-inner">
                   {outreach.short_dm}
                 </div>
               </div>
@@ -272,8 +272,8 @@ function OutreachContent() {
             {/* TAB 4: Follow-up */}
             {activeTab === "followup" && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                  <span className="text-xs text-purple-300 font-bold">Polite 5-Day Re-Engagement</span>
+                <div className="flex items-center justify-between pb-4 border-b border-[#444343]">
+                  <span className="text-xs text-[#E4B74A] font-bold">Polite 5-Day Re-Engagement</span>
                   <Button
                     size="sm"
                     variant="primary"
@@ -292,22 +292,22 @@ function OutreachContent() {
                   </Button>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-[#0a0616] border border-purple-400/20 font-mono text-xs text-purple-100 whitespace-pre-line leading-relaxed shadow-inner">
+                <div className="p-6 rounded-2xl bg-[#242323] border border-[#444343] font-mono text-xs text-[#FEFEFE] whitespace-pre-line leading-relaxed shadow-inner">
                   {outreach.follow_up_ping}
                 </div>
               </div>
             )}
 
             {/* AI Strategy Tactics */}
-            <div className="pt-6 border-t border-white/10 space-y-3">
-              <span className="text-xs font-bold text-purple-200 flex items-center gap-1.5">
-                <Lightbulb className="w-4 h-4 text-purple-300" />
+            <div className="pt-6 border-t border-[#444343] space-y-3">
+              <span className="text-xs font-bold text-[#E4B74A] flex items-center gap-1.5">
+                <Lightbulb className="w-4 h-4 text-[#E4B74A]" />
                 3 Tactical AI Advice Points for this Opportunity
               </span>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
                 {outreach.success_tips?.map((tip, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20 text-xs text-lavender-200 leading-relaxed shadow-xs">
-                    <span className="text-purple-300 font-black">0{idx + 1}. </span>
+                  <div key={idx} className="p-4 rounded-2xl bg-[#242323] border border-[#444343] text-xs text-[#D4D4D4] leading-relaxed shadow-xs">
+                    <span className="text-[#E4B74A] font-black">0{idx + 1}. </span>
                     {tip}
                   </div>
                 ))}
@@ -327,7 +327,7 @@ export default function OutreachPage() {
         title="Outreach Copilot"
         subtitle="High-conversion student messages grounded in your verified skills and calibrated communication tone."
       />
-      <Suspense fallback={<div className="p-8 text-center text-xs text-purple-300">Loading Outreach Copilot...</div>}>
+      <Suspense fallback={<div className="p-8 text-center text-xs text-[#E4B74A]">Loading Outreach Copilot...</div>}>
         <OutreachContent />
       </Suspense>
     </div>

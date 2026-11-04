@@ -67,31 +67,31 @@ export default function OrganizerSettingsPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-700 text-xs font-bold mb-2">
-          <Building className="w-3.5 h-3.5 text-fuchsia-600" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#242323] border border-[#444343] text-[#E4B74A] text-xs font-bold mb-2">
+          <Building className="w-3.5 h-3.5 text-[#E4B74A]" />
           JIS University &bull; Student Organizer Settings
         </div>
-        <h1 className="text-2xl md:text-3xl font-black text-[#150a33] tracking-tight">
+        <h1 className="text-2xl md:text-3xl font-black text-[#FEFEFE] tracking-tight">
           Student Organizer Profile
         </h1>
-        <p className="text-xs md:text-sm text-[#645c84] mt-1 font-medium">
+        <p className="text-xs md:text-sm text-[#D4D4D4] mt-1 font-medium">
           Manage your JIS University student organization credentials, council roles, and contact records.
         </p>
       </div>
 
-      <form onSubmit={handleSave} className="p-6 md:p-8 rounded-3xl bg-white border border-gray-200 shadow-sm space-y-6">
-        <div className="flex items-center gap-4 pb-6 border-b border-gray-150">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-fuchsia-600 to-[#6c35de] flex items-center justify-center text-xl font-black text-white shadow-md shadow-fuchsia-500/20">
+      <form onSubmit={handleSave} className="p-6 md:p-8 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm space-y-6">
+        <div className="flex items-center gap-4 pb-6 border-b border-[#444343]">
+          <div className="w-16 h-16 rounded-2xl bg-[#446B8D] flex items-center justify-center text-xl font-black text-[#FEFEFE] shadow-md">
             AR
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-black text-[#150a33]">{profile.name}</h2>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200">
-                <GraduationCap className="w-3 h-3 text-fuchsia-600" /> Verified Student Organizer
+              <h2 className="text-lg font-black text-[#FEFEFE]">{profile.name}</h2>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#242323] text-[#E4B74A] border border-[#444343]">
+                <GraduationCap className="w-3 h-3 text-[#E4B74A]" /> Verified Student Organizer
               </span>
             </div>
-            <p className="text-xs text-[#645c84] mt-0.5 font-medium">
+            <p className="text-xs text-[#D4D4D4] mt-0.5 font-medium">
               {profile.role_title} &bull; JIS University
             </p>
           </div>
@@ -99,83 +99,83 @@ export default function OrganizerSettingsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs font-bold text-[#150a33] mb-1.5">
+            <label className="block text-xs font-bold text-[#E4B74A] mb-1.5">
               Full Name (Student Organizer)
             </label>
             <input
               type="text"
               value={profile.name}
               onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#150a33] text-sm focus:outline-none focus:border-fuchsia-500 font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-sm focus:outline-none focus:border-[#446B8D] font-medium"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-[#150a33] mb-1.5">
+            <label className="block text-xs font-bold text-[#E4B74A] mb-1.5">
               Official University Email
             </label>
             <input
               type="email"
               value={profile.email}
               onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#150a33] text-sm focus:outline-none focus:border-fuchsia-500 font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-sm focus:outline-none focus:border-[#446B8D] font-medium"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-[#150a33] mb-1.5">
+            <label className="block text-xs font-bold text-[#E4B74A] mb-1.5">
               Department &amp; University
             </label>
             <input
               type="text"
               value={profile.department}
               onChange={(e) => setProfile({ ...profile, department: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#150a33] text-sm focus:outline-none focus:border-fuchsia-500 font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-sm focus:outline-none focus:border-[#446B8D] font-medium"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-[#150a33] mb-1.5">
+            <label className="block text-xs font-bold text-[#E4B74A] mb-1.5">
               Student Club / Council Body
             </label>
             <input
               type="text"
               value={profile.organization_name}
               onChange={(e) => setProfile({ ...profile, organization_name: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#150a33] text-sm focus:outline-none focus:border-fuchsia-500 font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-sm focus:outline-none focus:border-[#446B8D] font-medium"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-[#150a33] mb-1.5">
+            <label className="block text-xs font-bold text-[#E4B74A] mb-1.5">
               Council Role Title
             </label>
             <input
               type="text"
               value={profile.role_title}
               onChange={(e) => setProfile({ ...profile, role_title: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#150a33] text-sm focus:outline-none focus:border-fuchsia-500 font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-sm focus:outline-none focus:border-[#446B8D] font-medium"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-[#150a33] mb-1.5">
+            <label className="block text-xs font-bold text-[#E4B74A] mb-1.5">
               Contact Phone (WhatsApp)
             </label>
             <input
               type="text"
               value={profile.phone}
               onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-              className="w-full px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 text-[#150a33] text-sm focus:outline-none focus:border-fuchsia-500 font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#242323] border border-[#444343] text-[#FEFEFE] text-sm focus:outline-none focus:border-[#446B8D] font-medium"
             />
           </div>
         </div>
 
-        <div className="pt-4 flex items-center justify-between border-t border-gray-150">
+        <div className="pt-4 flex items-center justify-between border-t border-[#444343]">
           <div>
             {savedSuccess && (
-              <span className="text-xs text-emerald-700 font-bold flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span className="text-xs text-[#E4B74A] font-bold flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#E4B74A]" />
                 Organizer profile updated successfully!
               </span>
             )}
@@ -184,7 +184,7 @@ export default function OrganizerSettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-fuchsia-600 to-[#6c35de] hover:brightness-110 text-white font-bold text-xs shadow-md shadow-fuchsia-500/20 flex items-center gap-2 cursor-pointer disabled:opacity-50 transition-all"
+            className="px-6 py-2.5 rounded-xl bg-[#446B8D] hover:bg-[#557FA5] text-[#FEFEFE] font-bold text-xs shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-50 transition-all"
           >
             {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
             <span>Save Settings</span>

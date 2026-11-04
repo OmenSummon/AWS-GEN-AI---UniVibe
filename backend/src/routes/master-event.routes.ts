@@ -38,7 +38,8 @@ masterEventRouter.post("/", async (req: Request, res: Response) => {
 // 4. Get full event aggregate (all 6 sections joined)
 masterEventRouter.get("/:id", async (req: Request, res: Response) => {
   try {
-    const event = await MasterEventModel.getFullEvent(req.params.id);
+    const id = req.params.id as string;
+    const event = await MasterEventModel.getFullEvent(id);
     if (!event) {
       return res.status(404).json({ error: "Master event not found" });
     }
@@ -51,7 +52,8 @@ masterEventRouter.get("/:id", async (req: Request, res: Response) => {
 // 5. Update or save an individual section into its dedicated table
 masterEventRouter.put("/:id/sections/:section", async (req: Request, res: Response) => {
   try {
-    const { id, section } = req.params;
+    const id = req.params.id as string;
+    const section = req.params.section as string;
     const savedData = await MasterEventModel.saveSection(id, section as any, req.body);
     // Fetch refreshed complete aggregate
     const aggregate = await MasterEventModel.getFullEvent(id);
@@ -64,7 +66,7 @@ masterEventRouter.put("/:id/sections/:section", async (req: Request, res: Respon
 // 6. Update master event status / readiness
 masterEventRouter.put("/:id/status", async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { status, readiness_score } = req.body;
     await MasterEventModel.updateStatus(id, status, readiness_score);
     res.json({ success: true, status, readiness_score });
@@ -76,11 +78,10 @@ masterEventRouter.put("/:id/status", async (req: Request, res: Response) => {
 // 7. Delete master event (cascades to all 6 tables)
 masterEventRouter.delete("/:id", async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     await MasterEventModel.delete(id);
     res.json({ success: true, deleted_id: id });
   } catch (error: any) {
     res.status(500).json({ error: error.message || "Failed to delete master event" });
   }
 });
-

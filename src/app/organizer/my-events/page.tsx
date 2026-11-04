@@ -110,17 +110,17 @@ export default function MyEventsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black text-[#150a33] tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-black text-[#FEFEFE] tracking-tight">
             My Campus Initiatives
           </h1>
-          <p className="text-xs md:text-sm text-[#645c84] mt-1 font-medium">
+          <p className="text-xs md:text-sm text-[#D4D4D4] mt-1 font-medium">
             Manage your lifecycle stages from drafting to university publishing.
           </p>
         </div>
 
         <Link
           href="/organizer/create-event"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-fuchsia-600 to-[#6c35de] hover:brightness-110 text-white text-xs font-bold shadow-md shadow-fuchsia-500/20 cursor-pointer w-fit"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-[#446B8D] hover:bg-[#557FA5] text-[#FEFEFE] text-xs font-bold shadow-md cursor-pointer w-fit transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>New Proposal</span>
@@ -129,14 +129,14 @@ export default function MyEventsPage() {
 
       {/* Delete feedback banner */}
       {deleteNotice && (
-        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs flex items-center justify-between font-medium shadow-xs">
+        <div className="p-4 rounded-2xl bg-[#B71C1C]/15 border border-[#B71C1C]/40 text-[#FEFEFE] text-xs flex items-center justify-between font-medium shadow-xs">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-red-600 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[#B71C1C] shrink-0" />
             <span>{deleteNotice}</span>
           </div>
           <button
             onClick={() => setDeleteNotice(null)}
-            className="text-red-700 hover:text-red-900 text-xs font-bold px-2 py-0.5 rounded cursor-pointer"
+            className="text-[#E4B74A] hover:text-[#FEFEFE] text-xs font-bold px-2 py-0.5 rounded cursor-pointer transition-colors"
           >
             Dismiss
           </button>
@@ -144,7 +144,7 @@ export default function MyEventsPage() {
       )}
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-3xl bg-white border border-gray-200 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-3xl bg-[#353434] border border-[#444343] shadow-sm">
         <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
           {STATUS_FILTERS.map((filter) => (
             <button
@@ -152,8 +152,8 @@ export default function MyEventsPage() {
               onClick={() => setActiveFilter(filter)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer shadow-2xs ${
                 activeFilter === filter
-                  ? "bg-fuchsia-600 text-white shadow-md shadow-fuchsia-500/25"
-                  : "bg-gray-50 border border-gray-200 text-gray-700 hover:text-fuchsia-700 hover:border-fuchsia-200"
+                  ? "bg-[#446B8D] text-[#FEFEFE] shadow-md"
+                  : "bg-[#242323] border border-[#444343] text-[#D4D4D4] hover:text-[#FEFEFE] hover:border-[#446B8D]"
               }`}
             >
               {filter}
@@ -162,30 +162,30 @@ export default function MyEventsPage() {
         </div>
 
         <div className="relative w-full md:w-64">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#888888] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search events..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-gray-50 border border-gray-200 text-xs text-[#150a33] placeholder-gray-400 focus:outline-none focus:border-fuchsia-500 font-medium"
+            className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#242323] border border-[#444343] text-xs text-[#FEFEFE] placeholder-[#888888] focus:outline-none focus:border-[#446B8D] font-medium"
           />
         </div>
       </div>
 
       {/* Events List */}
       {loading ? (
-        <div className="flex items-center justify-center p-12 text-[#645c84] gap-2 font-medium">
-          <Loader2 className="w-5 h-5 animate-spin text-fuchsia-600" />
+        <div className="flex items-center justify-center p-12 text-[#D4D4D4] gap-2 font-medium">
+          <Loader2 className="w-5 h-5 animate-spin text-[#E4B74A]" />
           <span className="text-sm">Loading initiatives...</span>
         </div>
       ) : filteredEvents.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl bg-white border border-gray-200 space-y-3 shadow-xs">
-          <Calendar className="w-10 h-10 text-gray-400 mx-auto" />
-          <p className="text-sm font-bold text-[#150a33]">No initiatives found.</p>
+        <div className="p-12 text-center rounded-3xl bg-[#353434] border border-[#444343] space-y-3 shadow-xs">
+          <Calendar className="w-10 h-10 text-[#888888] mx-auto" />
+          <p className="text-sm font-bold text-[#FEFEFE]">No initiatives found.</p>
           <Link
             href="/organizer/create-event"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-fuchsia-600 hover:text-fuchsia-700"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E4B74A] hover:text-[#FEFEFE] transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Create your first event</span>
@@ -200,39 +200,39 @@ export default function MyEventsPage() {
             return (
               <div
                 key={evt.id}
-                className="p-6 rounded-3xl bg-white border border-gray-200 hover:border-fuchsia-300 transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm"
+                className="p-6 rounded-3xl bg-[#353434] border border-[#444343] hover:border-[#446B8D] transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm"
               >
                 {/* Event Details */}
                 <div className="space-y-2.5 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[11px] font-bold text-fuchsia-700 uppercase tracking-wider bg-fuchsia-50 px-2.5 py-0.5 rounded-full border border-fuchsia-200">
+                    <span className="text-[11px] font-bold text-[#E4B74A] uppercase tracking-wider bg-[#242323] px-2.5 py-0.5 rounded-full border border-[#444343]">
                       {evt.basics?.event_category || "Technical"}
                     </span>
-                    <span className="text-xs text-gray-500 font-mono">
+                    <span className="text-xs text-[#888888] font-mono">
                       ID: {evt.id}
                     </span>
-                    <span className="text-xs text-gray-300">&bull;</span>
-                    <span className="text-xs text-gray-600 font-semibold">
+                    <span className="text-xs text-[#888888]">&bull;</span>
+                    <span className="text-xs text-[#D4D4D4] font-semibold">
                       {evt.timeline?.proposed_event_date || "Date TBD"}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-black text-[#150a33]">
+                  <h3 className="text-xl font-black text-[#FEFEFE]">
                     {eventName}
                   </h3>
 
-                  <p className="text-xs text-gray-600 line-clamp-2 max-w-3xl leading-relaxed font-medium">
+                  <p className="text-xs text-[#D4D4D4] line-clamp-2 max-w-3xl leading-relaxed font-medium">
                     {evt.basics?.event_description}
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 pt-1 font-medium">
+                  <div className="flex flex-wrap items-center gap-4 text-xs text-[#888888] pt-1 font-medium">
                     <span>Capacity: {evt.registration?.max_registration_capacity || 0}</span>
                     <span>&bull;</span>
                     <span>Target: {evt.audience?.expected_participants || 0} attendees</span>
                     {evt.final_report && (
                       <>
                         <span>&bull;</span>
-                        <span className="text-emerald-700 font-bold">
+                        <span className="text-[#E4B74A] font-bold">
                           Readiness: {evt.final_report.event_readiness_assessment?.readiness_score}/100
                         </span>
                       </>
@@ -243,39 +243,39 @@ export default function MyEventsPage() {
                 {/* Status & Actions Column */}
                 <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 shrink-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-600 font-semibold">Status:</span>
+                    <span className="text-xs text-[#D4D4D4] font-semibold">Status:</span>
                     <select
                       value={evt.status}
                       onChange={(e) => handleStatusChange(evt.id, e.target.value as EventLifecycleStatus)}
-                      className="px-3 py-1.5 rounded-xl bg-gray-50 border border-gray-200 text-xs font-bold text-[#150a33] focus:outline-none focus:border-fuchsia-500 cursor-pointer"
+                      className="px-3 py-1.5 rounded-xl bg-[#242323] border border-[#444343] text-xs font-bold text-[#FEFEFE] focus:outline-none focus:border-[#446B8D] cursor-pointer"
                     >
-                      <option value="Draft">Draft</option>
-                      <option value="In Planning">In Planning</option>
-                      <option value="Pending Review">Pending Review</option>
-                      <option value="Approved">Approved</option>
-                      <option value="Published">Published</option>
-                      <option value="Completed">Completed</option>
+                      <option value="Draft" className="bg-[#2C2B2B]">Draft</option>
+                      <option value="In Planning" className="bg-[#2C2B2B]">In Planning</option>
+                      <option value="Pending Review" className="bg-[#2C2B2B]">Pending Review</option>
+                      <option value="Approved" className="bg-[#2C2B2B]">Approved</option>
+                      <option value="Published" className="bg-[#2C2B2B]">Published</option>
+                      <option value="Completed" className="bg-[#2C2B2B]">Completed</option>
                     </select>
                   </div>
 
-                  {/* Two Buttons per Event */}
+                  {/* Buttons per Event */}
                   <div className="flex flex-wrap items-center gap-2">
                     {isPublished ? (
                       <Link
                         href={`/organizer/create-event?id=${evt.id}`}
-                        className="px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-xs font-bold text-emerald-800 flex items-center gap-1.5 transition-all shadow-xs"
+                        className="px-4 py-2 rounded-xl bg-[#446B8D]/20 hover:bg-[#446B8D]/30 border border-[#446B8D]/40 text-xs font-bold text-[#FEFEFE] flex items-center gap-1.5 transition-all shadow-xs"
                         title={`Modify published details for "${eventName}"`}
                       >
-                        <Edit3 className="w-3.5 h-3.5 text-emerald-600" />
+                        <Edit3 className="w-3.5 h-3.5 text-[#E4B74A]" />
                         <span>Modify event</span>
                       </Link>
                     ) : (
                       <Link
                         href={`/organizer/create-event?id=${evt.id}`}
-                        className="px-4 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-xs font-bold text-[#6c35de] flex items-center gap-1.5 transition-all shadow-xs"
+                        className="px-4 py-2 rounded-xl bg-[#242323] hover:bg-[#446B8D] border border-[#444343] text-xs font-bold text-[#E4B74A] hover:text-[#FEFEFE] flex items-center gap-1.5 transition-all shadow-xs"
                         title={`Edit "${eventName}" and load pre-existing details`}
                       >
-                        <Edit3 className="w-3.5 h-3.5 text-[#6c35de]" />
+                        <Edit3 className="w-3.5 h-3.5 text-[#E4B74A]" />
                         <span>Edit event</span>
                       </Link>
                     )}
@@ -284,13 +284,13 @@ export default function MyEventsPage() {
                       type="button"
                       onClick={() => handleDeleteEvent(evt.id, evt.basics?.event_name)}
                       disabled={deletingId === evt.id}
-                      className="px-4 py-2 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-xs font-bold text-red-700 flex items-center gap-1.5 transition-all shadow-xs cursor-pointer disabled:opacity-50"
+                      className="px-4 py-2 rounded-xl bg-[#B71C1C]/15 hover:bg-[#B71C1C]/25 border border-[#B71C1C]/40 text-xs font-bold text-[#B71C1C] hover:text-[#FEFEFE] flex items-center gap-1.5 transition-all shadow-xs cursor-pointer disabled:opacity-50"
                       title={`Permanently delete "${eventName}" from the database`}
                     >
                       {deletingId === evt.id ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-red-600" />
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-[#B71C1C]" />
                       ) : (
-                        <Trash2 className="w-3.5 h-3.5 text-red-600" />
+                        <Trash2 className="w-3.5 h-3.5 text-[#B71C1C]" />
                       )}
                       <span>{deletingId === evt.id ? "Deleting..." : "Delete Event"}</span>
                     </button>
@@ -299,10 +299,10 @@ export default function MyEventsPage() {
                       <Link
                         href="/dashboard/events"
                         target="_blank"
-                        className="p-2 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs text-gray-700 flex items-center gap-1 transition-colors"
+                        className="p-2 rounded-xl bg-[#242323] hover:bg-[#2c2b2b] border border-[#444343] text-xs text-[#D4D4D4] flex items-center gap-1 transition-colors"
                         title="Preview in Student Hub"
                       >
-                        <ExternalLink className="w-3.5 h-3.5 text-gray-500" />
+                        <ExternalLink className="w-3.5 h-3.5 text-[#888888]" />
                       </Link>
                     )}
                   </div>

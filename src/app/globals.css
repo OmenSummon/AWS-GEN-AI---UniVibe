@@ -4,58 +4,67 @@
 
 @layer base {
   :root {
-    /* UniVibe Core Semantic Tokens (Light Shell) */
-    --background: #F8F7FC;
-    --surface: #FFFFFF;
-    --surface-secondary: #F1EEFA;
-    --surface-muted: #F3F4F6;
-    --foreground: #150A33;
-    --foreground-secondary: #475569;
-    --muted-foreground: #645C84;
+    /* Ultimate Truth Palette */
+    /* Background: #2C2B2B | Text: #FEFEFE | Primary: #446B8D | Accent: #E4B74A | Tertiary: #B71C1C */
+    --background: #2C2B2B;
+    --surface: #353434;
+    --surface-secondary: #3D3C3C;
+    --surface-muted: #242323;
+    --foreground: #FEFEFE;
+    --foreground-secondary: #D4D4D4;
+    --muted-foreground: #A8A8A8;
 
-    --primary: #6C35DE;
-    --primary-hover: #7E4EE0;
-    --primary-foreground: #FFFFFF;
+    --primary: #446B8D;
+    --primary-hover: #557FA5;
+    --primary-foreground: #FEFEFE;
 
-    --border: #E2E8F0;
-    --border-subtle: #F1F5F9;
+    --accent: #E4B74A;
+    --accent-hover: #EDC460;
+    --accent-foreground: #2C2B2B;
 
-    --success: #16834A;
-    --success-bg: #E8F8EE;
-    --warning: #A86408;
-    --warning-bg: #FEF7E8;
-    --danger: #C53B48;
-    --danger-bg: #FEECEE;
-    --info: #2563A6;
-    --info-bg: #EEF5FC;
+    --tertiary: #B71C1C;
+    --tertiary-hover: #CD2A2A;
+    --tertiary-foreground: #FEFEFE;
 
-    /* UniVibe Signature Dark Intelligence Card Tokens (Opaque & High-Contrast) */
-    --card-dark-bg: #140E2B;
-    --card-dark-surface: #0D081E;
-    --card-dark-border: rgba(167, 139, 250, 0.28);
-    --card-dark-foreground: #FFFFFF;
-    --card-dark-secondary: #E9E2FE;
-    --card-dark-muted: #DDD6FE;
-    --card-dark-accent: #C4B5FD;
+    --border: #444343;
+    --border-subtle: #383737;
+
+    --success: #34A853;
+    --success-bg: rgba(52, 168, 83, 0.15);
+    --warning: #E4B74A;
+    --warning-bg: rgba(228, 183, 74, 0.15);
+    --danger: #B71C1C;
+    --danger-bg: rgba(183, 28, 28, 0.2);
+    --info: #446B8D;
+    --info-bg: rgba(68, 107, 141, 0.2);
+
+    /* Opaque & High-Contrast Intelligence Card Tokens */
+    --card-dark-bg: #2C2B2B;
+    --card-dark-surface: #353434;
+    --card-dark-border: rgba(68, 107, 141, 0.35);
+    --card-dark-foreground: #FEFEFE;
+    --card-dark-secondary: #D4D4D4;
+    --card-dark-muted: #A8A8A8;
+    --card-dark-accent: #E4B74A;
 
     --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
   .dark {
-    --background: #0B0813;
-    --surface: #140E2B;
-    --surface-secondary: #1E163B;
-    --surface-muted: #241B44;
-    --foreground: #FFFFFF;
-    --foreground-secondary: #DDD6FE;
-    --muted-foreground: #A78BFA;
+    --background: #2C2B2B;
+    --surface: #353434;
+    --surface-secondary: #3D3C3C;
+    --surface-muted: #242323;
+    --foreground: #FEFEFE;
+    --foreground-secondary: #D4D4D4;
+    --muted-foreground: #A8A8A8;
 
-    --primary: #8B5CF6;
-    --primary-hover: #9D74FF;
-    --primary-foreground: #FFFFFF;
+    --primary: #446B8D;
+    --primary-hover: #557FA5;
+    --primary-foreground: #FEFEFE;
 
-    --border: #2D2254;
-    --border-subtle: #1F173D;
+    --border: #444343;
+    --border-subtle: #383737;
   }
 }
 
@@ -66,19 +75,19 @@ body {
   overflow-x: hidden;
 }
 
-/* Glassmorphism & Surface Helpers (Opaque backdrops for 100% legibility) */
+/* Glassmorphism & Surface Helpers grounded in #2C2B2B and #446B8D */
 .glass-panel {
-  background: rgba(20, 14, 43, 0.95);
+  background: rgba(53, 52, 52, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(167, 139, 250, 0.25);
+  border: 1px solid rgba(68, 107, 141, 0.35);
 }
 
 .glass-panel-subtle {
-  background: rgba(13, 8, 30, 0.92);
+  background: rgba(44, 43, 43, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(254, 254, 254, 0.12);
 }
 
 .glass-card-hover {
@@ -87,8 +96,8 @@ body {
 
 .glass-card-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(167, 139, 250, 0.45);
-  box-shadow: 0 14px 32px -10px rgba(108, 53, 222, 0.3);
+  border-color: rgba(228, 183, 74, 0.6);
+  box-shadow: 0 14px 32px -10px rgba(68, 107, 141, 0.4);
 }
 
 /* Custom scrollbars */
@@ -98,14 +107,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0813;
+  background: #222121;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #272047;
+  background: #446B8D;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7C3AED;
+  background: #557FA5;
 }

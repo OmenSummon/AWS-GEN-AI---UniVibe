@@ -169,68 +169,68 @@ export default function EventsHubPage() {
       />
 
       <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto w-full">
-        {/* Welcome & Stat Banner (Opaque rich dark gradient) */}
-        <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#1c0f38] via-[#150b2b] to-[#0d071b] border border-purple-500/30 relative overflow-hidden shadow-2xl">
+        {/* Welcome & Stat Banner */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-[#353434] border border-[#446B8D]/40 relative overflow-hidden shadow-2xl text-[#FEFEFE]">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-purple-200 mb-2">
-                <Sparkles className="w-3.5 h-3.5 text-purple-300" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#242323] border border-[#444343] text-xs font-bold text-[#E4B74A] mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-[#E4B74A]" />
                 <span>Campus Event Registration Hub</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-black text-[#FEFEFE] tracking-tight">
                 Discover. Register. Experience.
               </h1>
-              <p className="text-sm text-lavender-100 mt-1 max-w-2xl font-medium">
+              <p className="text-sm text-[#D4D4D4] mt-1 max-w-2xl font-medium">
                 Explore exciting campus opportunities, participate in hackathons &amp; workshops, meet new people, and make your university journey unforgettable.
               </p>
             </div>
 
             {/* Quick Counts */}
             <div className="flex items-center gap-3 shrink-0">
-              <div className="p-4 rounded-2xl bg-[#0e081f] border border-purple-400/20 text-center min-w-[120px] shadow-sm">
-                <div className="text-3xl font-black text-white">{totalCount}</div>
-                <div className="text-[11px] text-purple-300 font-bold mt-0.5">Available Events</div>
+              <div className="p-4 rounded-2xl bg-[#242323] border border-[#444343] text-center min-w-[120px] shadow-sm">
+                <div className="text-3xl font-black text-[#FEFEFE]">{totalCount}</div>
+                <div className="text-[11px] text-[#E4B74A] font-bold mt-0.5">Available Events</div>
               </div>
-              <div className="p-4 rounded-2xl bg-[#0e081f] border border-emerald-500/30 text-center min-w-[120px] shadow-sm">
+              <div className="p-4 rounded-2xl bg-[#242323] border border-emerald-500/30 text-center min-w-[120px] shadow-sm">
                 <div className="text-3xl font-black text-emerald-300">{registeredCount}</div>
-                <div className="text-[11px] text-purple-300 font-bold mt-0.5">My Passes</div>
+                <div className="text-[11px] text-[#E4B74A] font-bold mt-0.5">My Passes</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Featured Event Spotlight (Only on general browse view) */}
+        {/* Featured Event Spotlight */}
         {!isMyRegistrationsView && featuredEvent && (
-          <div className="rounded-3xl bg-[#130d28] border border-purple-500/30 overflow-hidden shadow-2xl relative">
+          <div className="rounded-3xl bg-[#353434] border border-[#444343] overflow-hidden shadow-2xl relative text-[#FEFEFE]">
             <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
               <div className="lg:col-span-7 p-6 sm:p-8 space-y-4">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-[#6c35de] text-white text-xs font-bold tracking-wide flex items-center gap-1 shadow-md shadow-purple-900/30">
-                    <Sparkles className="w-3.5 h-3.5 fill-white" /> Featured Event
+                  <span className="px-3 py-1 rounded-full bg-[#E4B74A] text-[#2C2B2B] text-xs font-black tracking-wide flex items-center gap-1 shadow-md">
+                    <Sparkles className="w-3.5 h-3.5 fill-[#2C2B2B]" /> Featured Event
                   </span>
                   <Badge variant="verified">{featuredEvent.category}</Badge>
-                  <span className="text-xs text-emerald-300 font-bold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/40">
+                  <span className="text-xs text-[#2C2B2B] font-extrabold bg-[#E4B74A] px-3 py-1 rounded-full">
                     {featuredEvent.participation_fee === 0 ? "FREE ENTRY" : `₹${featuredEvent.participation_fee}`}
                   </span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-black text-[#FEFEFE] tracking-tight">
                   {featuredEvent.name}
                 </h2>
-                <p className="text-xs sm:text-sm text-lavender-100 leading-relaxed max-w-xl font-medium">
+                <p className="text-xs sm:text-sm text-[#D4D4D4] leading-relaxed max-w-xl font-medium">
                   {featuredEvent.description}
                 </p>
 
                 <div className="flex flex-wrap items-center gap-4 text-xs pt-2">
-                  <div className="flex items-center gap-1.5 text-purple-200 font-semibold">
-                    <Calendar className="w-4 h-4 text-purple-300" />
+                  <div className="flex items-center gap-1.5 text-[#D4D4D4] font-semibold">
+                    <Calendar className="w-4 h-4 text-[#446B8D]" />
                     <span>{new Date(featuredEvent.start_datetime).toLocaleDateString()}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-purple-200 font-semibold">
-                    <MapPin className="w-4 h-4 text-purple-300" />
+                  <div className="flex items-center gap-1.5 text-[#D4D4D4] font-semibold">
+                    <MapPin className="w-4 h-4 text-[#446B8D]" />
                     <span className="truncate max-w-[180px]">{featuredEvent.venue}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 font-mono text-amber-300 font-bold">
+                  <div className="flex items-center gap-1.5 font-mono text-[#E4B74A] font-bold">
                     <Clock className="w-4 h-4" />
                     <span>Closes {new Date(featuredEvent.registration_deadline).toLocaleDateString()}</span>
                   </div>
@@ -273,13 +273,13 @@ export default function EventsHubPage() {
                 </div>
               </div>
 
-              <div className="lg:col-span-5 h-64 lg:h-full relative overflow-hidden bg-[#07050d]">
+              <div className="lg:col-span-5 h-64 lg:h-full relative overflow-hidden bg-[#242323]">
                 <img
                   src={featuredEvent.poster_url}
                   alt={featuredEvent.name}
                   className="w-full h-full object-cover min-h-[260px]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#130d28] lg:from-[#130d28]/90 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#353434] lg:from-[#353434]/90 via-transparent to-transparent" />
               </div>
             </div>
           </div>
@@ -288,15 +288,15 @@ export default function EventsHubPage() {
         {/* Search & Sub-Filter Bar */}
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            {/* Search Input (Crisp high-contrast light field) */}
+            {/* Search Input */}
             <div className="relative w-full sm:w-96">
-              <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-4 h-4 text-[#A8A8A8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search events by name, location, or keyword..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white border border-gray-300 focus:border-[#6c35de] text-sm text-[#150a33] focus:outline-none placeholder:text-gray-400 font-medium shadow-2xs transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-[#242323] border border-[#444343] focus:border-[#446B8D] text-sm text-[#FEFEFE] focus:outline-none placeholder:text-[#A8A8A8] font-medium shadow-2xs transition-colors"
               />
             </div>
 
@@ -310,13 +310,13 @@ export default function EventsHubPage() {
                     onClick={() => setSelectedSubFilter(tab)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer shadow-2xs ${
                       isActive
-                        ? "bg-[#6c35de] text-white shadow-md shadow-purple-900/20"
-                        : "bg-white border border-gray-200 text-[#150a33] hover:border-purple-300 hover:text-[#6c35de]"
+                        ? "bg-[#446B8D] text-[#FEFEFE] shadow-md shadow-[#2C2B2B]"
+                        : "bg-[#353434] border border-[#444343] text-[#D4D4D4] hover:border-[#446B8D]/50 hover:text-[#FEFEFE]"
                     }`}
                   >
                     {tab}
                     {tab === "My Registrations" && registeredCount > 0 && (
-                      <span className="ml-1.5 text-[10px] bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-0.5 rounded-full font-black">
+                      <span className="ml-1.5 text-[10px] bg-[#E4B74A] text-[#2C2B2B] px-2 py-0.5 rounded-full font-black">
                         {registeredCount}
                       </span>
                     )}
@@ -338,11 +338,11 @@ export default function EventsHubPage() {
                     onClick={() => setSelectedCategory(cat.name)}
                     className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs ${
                       isActive
-                        ? "bg-[#6c35de] text-white shadow-md shadow-purple-900/20"
-                        : "bg-white border border-gray-200 text-gray-700 hover:text-[#6c35de] hover:border-purple-300"
+                        ? "bg-[#446B8D] text-[#FEFEFE] shadow-md shadow-[#2C2B2B]"
+                        : "bg-[#353434] border border-[#444343] text-[#D4D4D4] hover:text-[#FEFEFE] hover:border-[#446B8D]/50"
                     }`}
                   >
-                    <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? "text-white" : "text-[#6c35de]"}`} />
+                    <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? "text-[#FEFEFE]" : "text-[#E4B74A]"}`} />
                     <span>{cat.label}</span>
                   </button>
                 );
@@ -356,11 +356,11 @@ export default function EventsHubPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-black text-[#150a33] flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                <h3 className="text-xl font-black text-[#FEFEFE] flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                   My Registered Events
                 </h3>
-                <p className="text-xs text-[#645c84] mt-0.5 font-medium">
+                <p className="text-xs text-[#D4D4D4] mt-0.5 font-medium">
                   Manage your event passes, check status, download vouchers, or cancel registrations.
                 </p>
               </div>
@@ -375,20 +375,20 @@ export default function EventsHubPage() {
         ) : (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-black text-[#150a33] flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-[#6c35de]" />
+              <h3 className="text-xl font-black text-[#FEFEFE] flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-[#446B8D]" />
                 {selectedCategory === "All" ? "Campus Event Catalog" : `${selectedCategory} Events`}
               </h3>
-              <span className="text-xs font-bold text-[#645c84]">
+              <span className="text-xs font-bold text-[#D4D4D4]">
                 Showing {events.length} event{events.length === 1 ? "" : "s"}
               </span>
             </div>
 
             {events.length === 0 ? (
-              <div className="p-12 text-center rounded-3xl bg-white border border-gray-200 space-y-3 shadow-xs">
-                <Calendar className="w-10 h-10 text-gray-400 mx-auto" />
-                <h4 className="text-base font-bold text-[#150a33]">No events match your criteria</h4>
-                <p className="text-xs text-[#645c84] max-w-sm mx-auto font-medium">
+              <div className="p-12 text-center rounded-3xl bg-[#353434] border border-[#444343] space-y-3 shadow-xs">
+                <Calendar className="w-10 h-10 text-[#A8A8A8] mx-auto" />
+                <h4 className="text-base font-bold text-[#FEFEFE]">No events match your criteria</h4>
+                <p className="text-xs text-[#D4D4D4] max-w-sm mx-auto font-medium">
                   Try clearing your search query or selecting a different category.
                 </p>
                 <Button
